@@ -16,13 +16,15 @@ public class ProspectorsPick extends Item {
         setUnlocalizedName("prospectorsPick");
         setCreativeTab(SimplyHammer.tabGeneral);
         setTextureName("simplyhammer:prospectorsPick");
+        setMaxDamage(6);
+        setMaxStackSize(1);
     }
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if(!world.isRemote){
         int radius = 21;
-
+        stack.damageItem(1,player);
         ItemStack itemStack;
         for(int length = 0; length < radius; length++)
             for(int i = 0; i < radius; i++){

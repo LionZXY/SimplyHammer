@@ -60,8 +60,8 @@ public class RecipeRepair implements IRecipe {
     }
 
     int getDamage(ItemStack itemStack, int multi) {
-        if ((itemStack.getItemDamage() - (itemStack.getMaxDamage() / 5) * multi) > 0)
-            return (itemStack.getItemDamage() - (itemStack.getMaxDamage() / 5) * multi);
+        if ((itemStack.getItemDamage() - (itemStack.getMaxDamage() / 10) * multi) > 0)
+            return (itemStack.getItemDamage() - (itemStack.getMaxDamage() / 10) * multi);
         else
             return 0;
     }
