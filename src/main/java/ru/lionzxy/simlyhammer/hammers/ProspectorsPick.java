@@ -7,30 +7,33 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.config.Config;
 
 /**
  * Created by nikit on 31.08.2015.
  */
 public class ProspectorsPick extends Item {
+    int radiusPP;
     public ProspectorsPick() {
         setUnlocalizedName("prospectorsPick");
         setCreativeTab(SimplyHammer.tabGeneral);
         setTextureName("simplyhammer:prospectorsPick");
-        setMaxDamage(6);
+        setMaxDamage(Config.config.get("prospectorsPick", "MaxDamage", 6).getInt());
+        radiusPP = Config.config.get("prospectorsPick","Radius",21).getInt();
         setMaxStackSize(1);
     }
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if(!world.isRemote){
-        int radius = 21;
+        int radius = radiusPP;
         stack.damageItem(1,player);
         ItemStack itemStack;
         for(int length = 0; length < radius; length++)
             for(int i = 0; i < radius; i++){
                 itemStack = checkRadius(world,i,side,x,y,z,length);
                 if(itemStack != null){
-                    player.addChatComponentMessage(new ChatComponentText("Found Ore " + itemStack.getDisplayName()));
+                    player.addChatComponentMessage(new ChatComponentText("Found " + itemStack.getDisplayName()));
                     return true;
                 }
             }

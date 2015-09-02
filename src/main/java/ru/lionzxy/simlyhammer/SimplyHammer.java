@@ -5,6 +5,7 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
+import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
 
 import java.util.ArrayList;
@@ -19,9 +20,11 @@ public class SimplyHammer {
     public static List<Item> hammers = new ArrayList<Item>();
     @Mod.EventHandler
     public void PostInit(FMLPostInitializationEvent event){
+        Config.createConfig();
         tabGeneral = new HammerTab("tabGeneral");
         AddHammers.addAllHammers();
         GameRegistry.addRecipe(new RecipeRepair());
         AddHammers.addOreDictModHammers();
+        Config.config.save();
     }
 }

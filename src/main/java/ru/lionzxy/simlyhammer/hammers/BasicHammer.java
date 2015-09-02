@@ -1,6 +1,7 @@
 package ru.lionzxy.simlyhammer.hammers;
 
 import com.google.common.collect.Multimap;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -25,6 +26,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
+import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 
 import java.util.List;
@@ -36,6 +38,7 @@ public class BasicHammer extends Item {
     int breakRadius = 1, breakDepth = 0, oreDictId = 0;
     private Item repairMaterial;
     ToolMaterial toolMaterial;
+    boolean isRepair;
 
     public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, Item repairMaterial) {
         toolMaterial = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant);
@@ -48,15 +51,19 @@ public class BasicHammer extends Item {
         this.setMaxStackSize(1);
     }
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, int oreDictId) {
+    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair) {
         toolMaterial = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant);
         this.setTextureName("simplyhammer:" + name);
         this.setUnlocalizedName(name);
         this.breakRadius = breakRadius;
         this.setCreativeTab(SimplyHammer.tabGeneral);
         this.setMaxDamage(toolMaterial.getMaxUses());
-        this.oreDictId = oreDictId;
+        if (repairMaterial1.indexOf(':') != -1)
+            repairMaterial = GameRegistry.findItem(repairMaterial1.substring(0, repairMaterial1.indexOf(':')), repairMaterial1.substring(repairMaterial1.indexOf(':')));
+        else
+            oreDictId = OreDictionary.getOreID(repairMaterial1);
         this.setMaxStackSize(1);
+        this.isRepair = isRepair;
     }
 
     public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant) {
@@ -70,6 +77,8 @@ public class BasicHammer extends Item {
     }
 
     public boolean checkMaterial(ItemStack itemStack) {
+        if (!isRepair)
+            return false;
         if (repairMaterial != null)
             return itemStack.getItem() == repairMaterial;
         if (oreDictId != 0) {
@@ -351,13 +360,17 @@ public class BasicHammer extends Item {
     }
 
     @SideOnly(Side.CLIENT)
-    public void addInformation(ItemStack itemStack, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
-        list.add("RightClick for place torch");
-        list.add("=================================");
-        list.add("Uses left: " + (toolMaterial.getMaxUses() - itemStack.getItemDamage()) + " Blocks");
-        list.add("Harvest Level: " + toolMaterial.getHarvestLevel());
-        list.add("Repair material: " + getRepairMaterial().getDisplayName());
-        list.add("Efficiency: " + toolMaterial.getEfficiencyOnProperMaterial());
+    public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            list.add("RightClick for place torch");
+            list.add("=================================");
+            list.add("Uses left: " + (toolMaterial.getMaxUses() - itemStack.getItemDamage()) + " Blocks");
+            list.add("Harvest Level: " + toolMaterial.getHarvestLevel());
+            if (isRepair)
+                list.add("Repair material: " + getRepairMaterial().getDisplayName());
+            else list.add("No Repairable");
+            list.add("Efficiency: " + toolMaterial.getEfficiencyOnProperMaterial());
+        } else list.add("Shift for more information");
     }
 
 
