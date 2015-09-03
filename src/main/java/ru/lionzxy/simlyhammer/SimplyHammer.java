@@ -27,9 +27,8 @@ public class SimplyHammer {
         tabGeneral = new HammerTab("tabGeneral");
         AddHammers.addAllHammers();
         GameRegistry.addRecipe(new RecipeRepair());
-        Config.config.save();
         FMLCommonHandler.instance().bus().register(new AchievementSH());
         AchievementSH.addAchivement();
-
+        Config.config.save();
     }
 }
