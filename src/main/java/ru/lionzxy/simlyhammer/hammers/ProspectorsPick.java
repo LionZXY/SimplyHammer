@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-import ru.lionzxy.simlyhammer.AchievementSH;
+import ru.lionzxy.simlyhammer.utils.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 

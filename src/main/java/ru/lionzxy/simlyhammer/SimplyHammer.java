@@ -8,6 +8,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
+import ru.lionzxy.simlyhammer.utils.AchievementSH;
+import ru.lionzxy.simlyhammer.utils.AddHammers;
+import ru.lionzxy.simlyhammer.utils.HammerTab;
 
 import java.util.ArrayList;
 import java.util.List;

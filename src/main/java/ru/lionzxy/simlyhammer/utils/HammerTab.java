@@ -1,4 +1,4 @@
-package ru.lionzxy.simlyhammer;
+package ru.lionzxy.simlyhammer.utils;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
