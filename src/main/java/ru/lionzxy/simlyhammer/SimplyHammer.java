@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-@Mod(modid = "simplyhammer", name = "Simply Hammer", version = "0.4")
+@Mod(modid = "simplyhammer", name = "Simply Hammer", version = "0.5")
 public class SimplyHammer {
     public static CreativeTabs tabGeneral;
     public static List<net.minecraft.stats.Achievement> achievements = new ArrayList<net.minecraft.stats.Achievement>();

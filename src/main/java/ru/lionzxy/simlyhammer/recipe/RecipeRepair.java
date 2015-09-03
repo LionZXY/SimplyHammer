@@ -39,7 +39,8 @@ public class RecipeRepair implements IRecipe {
             if (hammer != null)
                 if (hammer.hasTagCompound())
                     if (!hammer.getTagCompound().getBoolean("Diamond"))
-                        hammer.getTagCompound().setBoolean("Diamond", true);
+                        if (((BasicHammer) hammer.getItem()).MDiamond)
+                            hammer.getTagCompound().setBoolean("Diamond", true);
 
         if (hammer != null)
             if (findItem(ic, ((BasicHammer) hammer.getItem())))

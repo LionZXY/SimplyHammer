@@ -38,10 +38,10 @@ public class BasicHammer extends Item {
     int breakRadius = 1, breakDepth = 0, oreDictId = 0;
     private Item repairMaterial;
     ToolMaterial toolMaterial;
-    public boolean isRepair, isAchiv;
+    public boolean isRepair, isAchiv, MDiamond;
 
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv) {
+    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond) {
         toolMaterial = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant);
         this.setTextureName("simplyhammer:" + name);
         this.setUnlocalizedName(name);
@@ -54,6 +54,8 @@ public class BasicHammer extends Item {
             oreDictId = OreDictionary.getOreID(repairMaterial1);
         this.setMaxStackSize(1);
         this.isRepair = isRepair;
+        this.isAchiv = isAchiv;
+        this.MDiamond = MDiamond;
     }
 
     public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant) {
