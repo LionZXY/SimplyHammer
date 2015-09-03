@@ -5,6 +5,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 
@@ -25,11 +26,25 @@ public class RecipeRepair implements IRecipe {
     //Нужный тебе метод. Выдает output крафта.
     @Override
     public ItemStack getCraftingResult(InventoryCrafting ic) {
+        ItemStack hammer = null;
         for (int i = 0; i < ic.getSizeInventory(); i++)
             if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof BasicHammer)
-                if (findItem(ic, ((BasicHammer) ic.getStackInSlot(i).getItem())))
-                    return new ItemStack(ic.getStackInSlot(i).getItem(), 1, getDamage(ic.getStackInSlot(i), findItems(ic, ((BasicHammer) ic.getStackInSlot(i).getItem()))));
-        return null;
+                hammer = ic.getStackInSlot(i).copy();
+        if (hammer != null && !hammer.hasTagCompound()) {
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.setBoolean("Diamond", false);
+            hammer.setTagCompound(tag);
+        }
+        if (findItem(ic, Items.diamond))
+            if (hammer != null)
+                if (hammer.hasTagCompound())
+                    if (!hammer.getTagCompound().getBoolean("Diamond"))
+                        hammer.getTagCompound().setBoolean("Diamond", true);
+
+        if (hammer != null)
+            if (findItem(ic, ((BasicHammer) hammer.getItem())))
+                hammer.setItemDamage(getDamage(hammer, findItems(ic, ((BasicHammer) hammer.getItem()))));
+        return hammer;
     }
 
     //Советую ставить на 9
@@ -69,4 +84,5 @@ public class RecipeRepair implements IRecipe {
         else
             return 0;
     }
+
 }

@@ -14,12 +14,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.EnumHelper;
@@ -358,12 +357,18 @@ public class BasicHammer extends Item {
         if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             list.add("RightClick for place torch");
             list.add("=================================");
-            list.add("Uses left: " + (toolMaterial.getMaxUses() - itemStack.getItemDamage()) + " Blocks");
+            list.add("Uses left: " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + " Blocks");
             list.add("Harvest Level: " + toolMaterial.getHarvestLevel());
             if (isRepair)
                 list.add("Repair material: " + getRepairMaterial().getDisplayName());
             else list.add("No Repairable");
             list.add("Efficiency: " + toolMaterial.getEfficiencyOnProperMaterial());
+            list.add("");
+            if (itemStack.hasTagCompound()) {
+                list.add("Modificators:");
+                if (itemStack.getTagCompound().getBoolean("Diamond"))
+                    list.add(EnumChatFormatting.AQUA + "Diamond");
+            }
         } else list.add(Config.config.get("tooltip", "ShiftDialog", "Shift for more information").getString());
     }
 
@@ -407,5 +412,14 @@ public class BasicHammer extends Item {
     }
 
     static Material[] materials = new Material[]{Material.rock, Material.iron, Material.ice, Material.glass, Material.piston, Material.anvil};
+
+    public int getMaxDamage(ItemStack stack) {
+        /**
+         * Returns the maximum damage an item can take.
+         */
+        if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Diamond"))
+            return getMaxDamage() + 500;
+        return getMaxDamage();
+    }
 
 }
