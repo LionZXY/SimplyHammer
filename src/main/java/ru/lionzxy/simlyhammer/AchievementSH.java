@@ -7,6 +7,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 
 /**
  * Created by nikit on 03.09.2015.
@@ -29,19 +31,25 @@ public class AchievementSH {
             thisItem = new ItemStack(SimplyHammer.hammers.get(i));
             SimplyHammer.achievements.add(new Achievement("achievement.craft." + thisItem.getItem().getUnlocalizedName(),
                     "craft." + thisItem.getItem().getUnlocalizedName(),
-                    0, 0, thisItem.getItem(), null).registerStat());
+                    0, 0, thisItem.getItem(), null));
         }
-        firstDig = new Achievement("achievement.firstBreak",
-                "firstBreak",
-                0, 0, SimplyHammer.hammers.get(0), (Achievement) null).registerStat();
+        for (int i = 0; i < SimplyHammer.achievements.size(); i++)
+            if (((BasicHammer) SimplyHammer.hammers.get(i)).isAchiv)
+                SimplyHammer.achievements.get(i).registerStat();
+        if (Config.config.get("general", "AchievementFirstBreak", true).getBoolean())
+            firstDig = new Achievement("achievement.firstBreak",
+                    "firstBreak",
+                    0, 0, SimplyHammer.hammers.get(0), (Achievement) null).registerStat();
 
-        placeBlock = new Achievement("achievement.placeBlock",
-                "placeBlock",
-                0, 0, Blocks.cobblestone, (Achievement) null).registerStat();
+        if (Config.config.get("general", "AchievementPlaceBlock", true).getBoolean())
+            placeBlock = new Achievement("achievement.placeBlock",
+                    "placeBlock",
+                    0, 0, Blocks.cobblestone, (Achievement) null).registerStat();
 
-        firstResearch = new Achievement("achievement.firstResearch",
-                "firstResearch",
-                0, 0, SimplyHammer.hammers.get(SimplyHammer.hammers.size() - 1), (Achievement) null).registerStat();
+        if (Config.config.get("prospectorsPick", "Achievement", true).getBoolean())
+            firstResearch = new Achievement("achievement.firstResearch",
+                    "firstResearch",
+                    0, 0, SimplyHammer.hammers.get(SimplyHammer.hammers.size() - 1), (Achievement) null).registerStat();
 
 
     }

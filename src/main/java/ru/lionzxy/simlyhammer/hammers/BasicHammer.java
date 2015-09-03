@@ -41,20 +41,10 @@ public class BasicHammer extends Item {
     int breakRadius = 1, breakDepth = 0, oreDictId = 0;
     private Item repairMaterial;
     ToolMaterial toolMaterial;
-    boolean isRepair;
+    public boolean isRepair, isAchiv;
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, Item repairMaterial) {
-        toolMaterial = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant);
-        this.setTextureName("simplyhammer:" + name);
-        this.setUnlocalizedName(name);
-        this.breakRadius = breakRadius;
-        this.setCreativeTab(SimplyHammer.tabGeneral);
-        this.setMaxDamage(toolMaterial.getMaxUses());
-        this.repairMaterial = repairMaterial;
-        this.setMaxStackSize(1);
-    }
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair) {
+    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv) {
         toolMaterial = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant);
         this.setTextureName("simplyhammer:" + name);
         this.setUnlocalizedName(name);
@@ -115,7 +105,8 @@ public class BasicHammer extends Item {
     }
 
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
-        player.addStat(AchievementSH.firstDig,1);
+        if (isAchiv)
+            player.addStat(AchievementSH.firstDig, 1);
         MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
         if (mop == null)
             return false;
@@ -159,7 +150,8 @@ public class BasicHammer extends Item {
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if (world.isRemote)
             return true;
-        player.addStat(AchievementSH.placeBlock,1);
+        if (isAchiv)
+            player.addStat(AchievementSH.placeBlock, 1);
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
@@ -374,7 +366,7 @@ public class BasicHammer extends Item {
                 list.add("Repair material: " + getRepairMaterial().getDisplayName());
             else list.add("No Repairable");
             list.add("Efficiency: " + toolMaterial.getEfficiencyOnProperMaterial());
-        } else list.add(Config.config.get("tooltip","ShiftDialog","Shift for more information").getString());
+        } else list.add(Config.config.get("tooltip", "ShiftDialog", "Shift for more information").getString());
     }
 
 

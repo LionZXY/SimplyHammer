@@ -18,9 +18,10 @@ public class RecipeRepair implements IRecipe {
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)
             if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof BasicHammer)
-                    return true;
+                return true;
         return false;
     }
+
     //Нужный тебе метод. Выдает output крафта.
     @Override
     public ItemStack getCraftingResult(InventoryCrafting ic) {
@@ -30,6 +31,7 @@ public class RecipeRepair implements IRecipe {
                     return new ItemStack(ic.getStackInSlot(i).getItem(), 1, getDamage(ic.getStackInSlot(i), findItems(ic, ((BasicHammer) ic.getStackInSlot(i).getItem()))));
         return null;
     }
+
     //Советую ставить на 9
     @Override
     public int getRecipeSize() {
@@ -41,6 +43,7 @@ public class RecipeRepair implements IRecipe {
     public ItemStack getRecipeOutput() {
         return new ItemStack(Items.iron_pickaxe);
     }
+
     //Не важно
     int findItems(InventoryCrafting ic, BasicHammer item) {
         int itemsFound = 0;
@@ -50,6 +53,7 @@ public class RecipeRepair implements IRecipe {
 
         return itemsFound;
     }
+
     //Не важно
     public boolean findItem(InventoryCrafting ic, Item item) {
         for (int i = 0; i < ic.getSizeInventory(); i++)

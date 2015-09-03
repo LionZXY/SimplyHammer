@@ -12,11 +12,12 @@ public class Config {
 
     public static Configuration config;
     public static boolean pick;
-    public static void createConfig(){
+
+    public static void createConfig() {
         File configFile = new File(Loader.instance().getConfigDir(), "SimplyHammer.cfg");
-        config = new Configuration(configFile,"0.5");
+        config = new Configuration(configFile, "0.5");
         config.getCategory("general");
-        pick = config.get("general","Prospector's Pick",true).getBoolean();
+        pick = config.get("general", "Prospector's Pick", true).getBoolean();
         config.save();
         config.load();
     }
