@@ -6,6 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
+import ru.lionzxy.simlyhammer.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 
@@ -26,6 +27,7 @@ public class ProspectorsPick extends Item {
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if(!world.isRemote){
+            player.addStat(AchievementSH.firstResearch,1);
         int radius = radiusPP;
         stack.damageItem(1,player);
         ItemStack itemStack;

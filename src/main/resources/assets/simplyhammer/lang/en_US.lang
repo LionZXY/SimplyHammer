@@ -7,3 +7,27 @@ item.tungstenHammer.name=Tungsten Hammer
 item.HSLAHammer.name=HSLA Hammer
 item.prospectorsPick.name=Prospector's Pick
 itemGroup.tabGeneral=Simply Hammer
+
+achievement.craft.item.ironHammer=Craft Iron Hammer!
+achievement.craft.item.stoneHammer=Craft Stone Hammer!
+achievement.craft.item.bronzeHammer=Craft Bronze Hammer!
+achievement.craft.item.copperHammer=Craft Copper Hammer!
+achievement.craft.item.steelHammer=Craft Steel Hammer!
+achievement.craft.item.tungstenHammer=Craft Tungsten Hammer!
+achievement.craft.item.HSLAHammer=Craft HSLA Hammer!
+achievement.craft.item.prospectorsPick=Craft Prospector's Pick!
+achievement.firstResearch=First Research with Prospector's Pick!
+achievement.placeBlock=First place block with use Hammer!
+achievement.firstBreak=First break block with Hammer!
+
+achievement.craft.item.ironHammer.desc=Craft Iron Hammer from Simply Hammer!
+achievement.craft.item.stoneHammer.desc=Craft Stone Hammer from Simply Hammer!
+achievement.craft.item.bronzeHammer.desc=Craft Bronze Hammer from Simply Hammer!
+achievement.craft.item.copperHammer.desc=Craft Copper Hammer from Simply Hammer!
+achievement.craft.item.steelHammer.desc=Craft Steel Hammer from Simply Hammer!
+achievement.craft.item.tungstenHammer.desc=Craft Tungsten Hammer from Simply Hammer!
+achievement.craft.item.HSLAHammer.desc=Craft HSLA Hammer from Simply Hammer!
+achievement.craft.item.prospectorsPick.desc=Craft Prospector's Pick from Simply Hammer!
+achievement.firstResearch.desc=First Research with Prospector's Pick!
+achievement.placeBlock.desc=First place block with use Hammer!
+achievement.firstBreak.desc=First break block with Hammer!

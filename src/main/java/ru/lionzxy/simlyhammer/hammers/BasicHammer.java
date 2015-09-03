@@ -27,8 +27,11 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.config.Config;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -112,6 +115,7 @@ public class BasicHammer extends Item {
     }
 
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
+        player.addStat(AchievementSH.firstDig,1);
         MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
         if (mop == null)
             return false;
@@ -155,7 +159,7 @@ public class BasicHammer extends Item {
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if (world.isRemote)
             return true;
-
+        player.addStat(AchievementSH.placeBlock,1);
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
@@ -370,7 +374,7 @@ public class BasicHammer extends Item {
                 list.add("Repair material: " + getRepairMaterial().getDisplayName());
             else list.add("No Repairable");
             list.add("Efficiency: " + toolMaterial.getEfficiencyOnProperMaterial());
-        } else list.add("Shift for more information");
+        } else list.add(Config.config.get("tooltip","ShiftDialog","Shift for more information").getString());
     }
 
 
