@@ -368,7 +368,7 @@ public class BasicHammer extends ItemTool {
             else list.add(StatCollector.translateToLocal("information.noRepairable"));
             list.add(StatCollector.translateToLocal("information.efficiency") + " " + toolMaterial.getEfficiencyOnProperMaterial());
             list.add("");
-            if (itemStack.hasTagCompound()) {
+            if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
                 list.add(StatCollector.translateToLocal("information.modification"));
                 if (itemStack.getTagCompound().getBoolean("Diamond"))
                     list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
