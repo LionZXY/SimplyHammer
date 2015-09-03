@@ -16,10 +16,14 @@ import ru.lionzxy.simlyhammer.hammers.BasicHammer;
  * Created by nikit on 03.09.2015.
  */
 public class AchievementSH {
-    public static Achievement firstDig, placeBlock, firstResearch;
+    public static Achievement firstDig, placeBlock, firstResearch, firstUpgrade;
 
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
+        if(event.crafting.getItem() instanceof BasicHammer)
+            if(event.crafting.hasTagCompound())
+                if(event.crafting.getTagCompound().getBoolean("Modif"))
+                    event.player.addStat(firstUpgrade,2);
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
             if (event.crafting.getItem() == SimplyHammer.hammers.get(i)) {
                 event.player.addStat(SimplyHammer.achievements.get(i), 1);
@@ -52,6 +56,11 @@ public class AchievementSH {
             firstResearch = new Achievement("achievement.firstResearch",
                     "firstResearch",
                     0, 0, SimplyHammer.hammers.get(SimplyHammer.hammers.size() - 1), (Achievement) null).registerStat();
+
+        if (Config.config.get("general", "AchievementModification", true).getBoolean())
+            placeBlock = new Achievement("achievement.Modification",
+                    "Modification",
+                    0, 0, Items.diamond, (Achievement) null).registerStat();
 
 
     }

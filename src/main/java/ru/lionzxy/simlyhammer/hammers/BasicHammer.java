@@ -34,7 +34,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-public class BasicHammer extends Item {
+public class BasicHammer extends ItemTool {
     int breakRadius = 1, breakDepth = 0, oreDictId = 0;
     private Item repairMaterial;
     ToolMaterial toolMaterial;
@@ -42,7 +42,8 @@ public class BasicHammer extends Item {
 
 
     public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond) {
-        toolMaterial = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant);
+        super(1F,EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant),null);
+        toolMaterial = this.func_150913_i();
         this.setTextureName("simplyhammer:" + name);
         this.setUnlocalizedName(name);
         this.breakRadius = breakRadius;
@@ -59,7 +60,8 @@ public class BasicHammer extends Item {
     }
 
     public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant) {
-        toolMaterial = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant);
+        super(1F,EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant),null);
+        this.toolMaterial = this.func_150913_i();
         this.setTextureName("simplyhammer:" + name);
         this.setUnlocalizedName(name);
         this.breakRadius = breakRadius;
@@ -357,21 +359,21 @@ public class BasicHammer extends Item {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
         if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            list.add("RightClick for place torch");
-            list.add("=================================");
-            list.add("Uses left: " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + " Blocks");
-            list.add("Harvest Level: " + toolMaterial.getHarvestLevel());
+            list.add(StatCollector.translateToLocal("information.placeBlock"));
+            list.add(StatCollector.translateToLocal("information.line"));
+            list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
+            list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + toolMaterial.getHarvestLevel());
             if (isRepair)
-                list.add("Repair material: " + getRepairMaterial().getDisplayName());
-            else list.add("No Repairable");
-            list.add("Efficiency: " + toolMaterial.getEfficiencyOnProperMaterial());
+                list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + getRepairMaterial().getDisplayName());
+            else list.add(StatCollector.translateToLocal("information.noRepairable"));
+            list.add(StatCollector.translateToLocal("information.efficiency") + " " + toolMaterial.getEfficiencyOnProperMaterial());
             list.add("");
             if (itemStack.hasTagCompound()) {
-                list.add("Modificators:");
+                list.add(StatCollector.translateToLocal("information.modification"));
                 if (itemStack.getTagCompound().getBoolean("Diamond"))
-                    list.add(EnumChatFormatting.AQUA + "Diamond");
+                    list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
             }
-        } else list.add(Config.config.get("tooltip", "ShiftDialog", "Shift for more information").getString());
+        } else list.add(StatCollector.translateToLocal("information.ShiftDialog"));
     }
 
 

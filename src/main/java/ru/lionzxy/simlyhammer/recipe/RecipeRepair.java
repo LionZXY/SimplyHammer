@@ -32,6 +32,7 @@ public class RecipeRepair implements IRecipe {
                 hammer = ic.getStackInSlot(i).copy();
         if (hammer != null && !hammer.hasTagCompound()) {
             NBTTagCompound tag = new NBTTagCompound();
+            tag.setBoolean("Modif", false);
             tag.setBoolean("Diamond", false);
             hammer.setTagCompound(tag);
         }
@@ -39,8 +40,10 @@ public class RecipeRepair implements IRecipe {
             if (hammer != null)
                 if (hammer.hasTagCompound())
                     if (!hammer.getTagCompound().getBoolean("Diamond"))
-                        if (((BasicHammer) hammer.getItem()).MDiamond)
+                        if (((BasicHammer) hammer.getItem()).MDiamond) {
                             hammer.getTagCompound().setBoolean("Diamond", true);
+                            hammer.getTagCompound().setBoolean("Modif", true);
+                        }
 
         if (hammer != null)
             if (findItem(ic, ((BasicHammer) hammer.getItem())))
@@ -60,7 +63,6 @@ public class RecipeRepair implements IRecipe {
         return new ItemStack(Items.iron_pickaxe);
     }
 
-    //Не важно
     int findItems(InventoryCrafting ic, BasicHammer item) {
         int itemsFound = 0;
         for (int i = 0; i < ic.getSizeInventory(); i++)
@@ -70,7 +72,6 @@ public class RecipeRepair implements IRecipe {
         return itemsFound;
     }
 
-    //Не важно
     public boolean findItem(InventoryCrafting ic, Item item) {
         for (int i = 0; i < ic.getSizeInventory(); i++)
             if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() == item)

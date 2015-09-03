@@ -19,6 +19,7 @@ achievement.craft.item.prospectorsPick=Craft Prospector's Pick!
 achievement.firstResearch=First Research with Prospector's Pick!
 achievement.placeBlock=First place block with use Hammer!
 achievement.firstBreak=First break block with Hammer!
+achievement.Modification=First Modification!
 
 achievement.craft.item.ironHammer.desc=Craft Iron Hammer from Simply Hammer!
 achievement.craft.item.stoneHammer.desc=Craft Stone Hammer from Simply Hammer!
@@ -31,3 +32,18 @@ achievement.craft.item.prospectorsPick.desc=Craft Prospector's Pick from Simply 
 achievement.firstResearch.desc=First Research with Prospector's Pick!
 achievement.placeBlock.desc=First place block with use Hammer!
 achievement.firstBreak.desc=First break block with Hammer!
+achievement.Modification.desc=First Modification from Simply Hammer!
+
+prospectorPick.Found=Found
+prospectorPick.NotFoundOre=Not Found Ore...
+information.ShiftDialog=Shift for more information
+information.placeBlock=RightClick for place block
+information.line==================================
+information.usesLeft=Uses left:
+information.blocks= Blocks
+information.harvestLevel=Harvest Level:
+information.repairMaterial=Repair material:
+information.noRepairable=No Repairable
+information.efficiency=Efficiency:
+information.modification=Modifications:
+modification.Diamond=Diamond

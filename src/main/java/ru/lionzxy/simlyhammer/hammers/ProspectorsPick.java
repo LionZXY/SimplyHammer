@@ -4,6 +4,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.utils.AchievementSH;
@@ -37,11 +38,11 @@ public class ProspectorsPick extends Item {
                 for (int i = 0; i < radius; i++) {
                     itemStack = checkRadius(world, i, side, x, y, z, length);
                     if (itemStack != null) {
-                        player.addChatComponentMessage(new ChatComponentText("Found " + itemStack.getDisplayName()));
+                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("prospectorPick.Found") + itemStack.getDisplayName()));
                         return true;
                     }
                 }
-            player.addChatComponentMessage(new ChatComponentText("Ore not found..."));
+            player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("prospectorPick.NotFoundOre")));
         }
         return false;
     }
