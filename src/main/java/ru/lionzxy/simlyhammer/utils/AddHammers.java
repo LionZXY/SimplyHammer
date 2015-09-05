@@ -65,7 +65,10 @@ public class AddHammers {
                         Config.config.get(name, "RepairMaterial", repairMaterial).getString(),
                         Config.config.get(name, "Repairable", true).getBoolean(),
                         Config.config.get(name, "GetAchievement", true).getBoolean(),
-                        Config.config.get(name, "DiamondModif", true).getBoolean()));
+                        Config.config.get(name, "DiamondModif", true).getBoolean(),
+                        Config.config.get(name, "AxeModif", true).getBoolean(),
+                        Config.config.get(name, "ShovelModif", true).getBoolean(),
+                        Config.config.get(name, "TorchModif", true).getBoolean()));
                 int thisPos = SimplyHammer.hammers.size() - 1;
                 GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
 
@@ -90,7 +93,10 @@ public class AddHammers {
                         Config.config.get(name, "RepairMaterial", repairMaterial).getString(),
                         Config.config.get(name, "Repairable", true).getBoolean(),
                         Config.config.get(name, "GetAchievement", true).getBoolean(),
-                        Config.config.get(name, "DiamondModif", true).getBoolean()));
+                        Config.config.get(name, "DiamondModif", true).getBoolean(),
+                        Config.config.get(name, "AxeModif", true).getBoolean(),
+                        Config.config.get(name, "ShovelModif", true).getBoolean(),
+                        Config.config.get(name, "TorchModif", true).getBoolean()));
                 int thisPos = SimplyHammer.hammers.size() - 1;
                 GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
                 addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", materialOreDict);

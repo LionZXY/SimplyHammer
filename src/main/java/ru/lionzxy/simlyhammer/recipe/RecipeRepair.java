@@ -1,12 +1,16 @@
 package ru.lionzxy.simlyhammer.recipe;
 
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 
 /**
@@ -34,16 +38,37 @@ public class RecipeRepair implements IRecipe {
             NBTTagCompound tag = new NBTTagCompound();
             tag.setBoolean("Modif", false);
             tag.setBoolean("Diamond", false);
+            tag.setInteger("Shovel", 0);
+            tag.setInteger("ShovelSpeed", 0);
+            tag.setInteger("Axe", 0);
+            tag.setDouble("AxeSpeed", 0);
+            tag.setBoolean("Torch", false);
             hammer.setTagCompound(tag);
         }
-        if (findItem(ic, Items.diamond))
-            if (hammer != null)
-                if (hammer.hasTagCompound())
-                    if (!hammer.getTagCompound().getBoolean("Diamond"))
-                        if (((BasicHammer) hammer.getItem()).MDiamond) {
-                            hammer.getTagCompound().setBoolean("Diamond", true);
-                            hammer.getTagCompound().setBoolean("Modif", true);
-                        }
+        if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "DiamondModif", true).getBoolean() && !hammer.getTagCompound().getBoolean("Diamond") && ((BasicHammer) hammer.getItem()).MDiamond) {
+            hammer.getTagCompound().setBoolean("Diamond", true);
+            hammer.getTagCompound().setBoolean("Modif", true);
+        }
+        if (findAxe(ic) != null && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "AxeModif", true).getBoolean() && ((BasicHammer) hammer.getItem()).MAxe) {
+            ItemStack itemStack = findAxe(ic);
+            hammer.getTagCompound().setInteger("Axe", ((ItemAxe) itemStack.getItem()).func_150913_i().getHarvestLevel());
+            hammer.getTagCompound().setDouble("AxeSpeed", ((ItemAxe) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
+            hammer.getTagCompound().setBoolean("Modif", true);
+        }
+        if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "ShovelModif", true).getBoolean() && ((BasicHammer) hammer.getItem()).MShovel) {
+            ItemStack itemStack = findShovel(ic);
+            hammer.getTagCompound().setInteger("Shovel", ((ItemSpade) itemStack.getItem()).func_150913_i().getHarvestLevel());
+            hammer.getTagCompound().setDouble("ShovelSpeed", ((ItemSpade) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
+            hammer.getTagCompound().setBoolean("Modif", true);
+        }
+        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "TorchModif", true).getBoolean() && ((BasicHammer) hammer.getItem()).MTorch) {
+            if (!hammer.getTagCompound().getBoolean("Torch"))
+                hammer.getTagCompound().setBoolean("Torch", true);
+            else
+                hammer.getTagCompound().setBoolean("Torch", false);
+            hammer.getTagCompound().setBoolean("Modif", true);
+        }
+
 
         if (hammer != null)
             if (findItem(ic, ((BasicHammer) hammer.getItem())))
@@ -71,6 +96,23 @@ public class RecipeRepair implements IRecipe {
 
         return itemsFound;
     }
+
+    public ItemStack findShovel(InventoryCrafting ic) {
+        for (int i = 0; i < ic.getSizeInventory(); i++)
+            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof ItemSpade)
+                return ic.getStackInSlot(i);
+
+        return null;
+    }
+
+    public ItemStack findAxe(InventoryCrafting ic) {
+        for (int i = 0; i < ic.getSizeInventory(); i++)
+            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof ItemAxe)
+                return ic.getStackInSlot(i);
+
+        return null;
+    }
+
 
     public boolean findItem(InventoryCrafting ic, Item item) {
         for (int i = 0; i < ic.getSizeInventory(); i++)

@@ -2,6 +2,7 @@ package ru.lionzxy.simlyhammer.utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -20,8 +21,7 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
-        if(event.crafting.getItem() instanceof BasicHammer)
-            if(event.crafting.hasTagCompound())
+        if(event.crafting.getItem() instanceof BasicHammer)if(event.crafting.hasTagCompound())
                 if(event.crafting.getTagCompound().getBoolean("Modif"))
                     event.player.addStat(firstUpgrade,2);
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
@@ -30,6 +30,12 @@ public class AchievementSH {
                 return;
             }
     }
+    @SubscribeEvent
+    public void onClick(PlayerEvent.ItemPickupEvent event){
+
+        System.out.println(event.pickedUp.getEntityItem().getUnlocalizedName());
+    }
+
 
     public static void addAchivement() {
         ItemStack thisItem;

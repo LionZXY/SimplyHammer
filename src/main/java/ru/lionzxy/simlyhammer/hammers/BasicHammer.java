@@ -12,10 +12,9 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.*;
@@ -27,7 +26,6 @@ import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.utils.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
-import ru.lionzxy.simlyhammer.config.Config;
 
 import java.util.List;
 
@@ -38,11 +36,12 @@ public class BasicHammer extends ItemTool {
     int breakRadius = 1, breakDepth = 0, oreDictId = 0;
     private Item repairMaterial;
     ToolMaterial toolMaterial;
-    public boolean isRepair, isAchiv, MDiamond;
+    public boolean isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch;
 
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond) {
-        super(1F,EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant),null);
+    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,
+                       String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
+        super(1F, EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant), null);
         toolMaterial = this.func_150913_i();
         this.setTextureName("simplyhammer:" + name);
         this.setUnlocalizedName(name);
@@ -57,10 +56,13 @@ public class BasicHammer extends ItemTool {
         this.isRepair = isRepair;
         this.isAchiv = isAchiv;
         this.MDiamond = MDiamond;
+        this.MAxe = MAxe;
+        this.MShovel = MShovel;
+        this.MTorch = MTorch;
     }
 
     public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant) {
-        super(1F,EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant),null);
+        super(1F, EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant), null);
         this.toolMaterial = this.func_150913_i();
         this.setTextureName("simplyhammer:" + name);
         this.setUnlocalizedName(name);
@@ -87,19 +89,30 @@ public class BasicHammer extends ItemTool {
 
     @Override
     public float getDigSpeed(ItemStack stack, Block block, int meta) {
-        if (isEffective(block, meta))
+        if (block.getHarvestTool(meta) == null)
+            return 0.5F;
+        if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
+            return -1F;
+        if (block.getHarvestTool(meta).equals("pickaxe"))
             return toolMaterial.getEfficiencyOnProperMaterial();
+        if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0)
+            return (float) stack.getTagCompound().getDouble("AxeSpeed");
+        if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0)
+            return (float) stack.getTagCompound().getDouble("ShovelSpeed");
 
-        return 0.3F;
+        return 0.5F;
     }
 
     @Override
     public boolean func_150897_b(Block block) {
-        return isEffective(block.getMaterial());
+        return true;
+        //return isEffective(block.getMaterial());
     }
 
-    public boolean isEffective(Block block, int meta) {
-        if (this.getHarvestType().equals(block.getHarvestTool(meta)))
+    public boolean isEffective(ItemStack stack, Block block, int meta) {
+        if (block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("pickaxe") ||
+                (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0) ||
+                (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0))
             return true;
 
         else return isEffective(block.getMaterial());
@@ -156,6 +169,12 @@ public class BasicHammer extends ItemTool {
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
+        if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Torch"))
+            for (int i = 0; i < player.inventory.getSizeInventory(); i++)
+                if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == Item.getItemFromBlock(Blocks.torch)){
+                    itemSlot = i;
+                    break;}
+
         ItemStack nearbyStack = null;
 
         if (hotbarSlot < 8) {
@@ -247,9 +266,11 @@ public class BasicHammer extends ItemTool {
         int meta = world.getBlockMetadata(x, y, z);
 
         // only effective materials
-        if (!isEffective(block, meta))
+        if (!isEffective(player.getCurrentEquippedItem(), block, meta))
             return;
 
+        if (!this.giveDamage(player.getCurrentEquippedItem()))
+            return;
         Block refBlock = world.getBlock(refX, refY, refZ);
         float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
         float strength = ForgeHooks.blockStrength(block, player, world, x, y, z);
@@ -275,7 +296,6 @@ public class BasicHammer extends ItemTool {
         }
 
         // callback to the tool the player uses. Called on both sides. This damages the tool n stuff.
-        player.getCurrentEquippedItem().damageItem(1, player);
 
         // server sided handling
         if (!world.isRemote) {
@@ -367,11 +387,17 @@ public class BasicHammer extends ItemTool {
                 list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + getRepairMaterial().getDisplayName());
             else list.add(StatCollector.translateToLocal("information.noRepairable"));
             list.add(StatCollector.translateToLocal("information.efficiency") + " " + toolMaterial.getEfficiencyOnProperMaterial());
-            list.add("");
             if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
+                list.add("");
                 list.add(StatCollector.translateToLocal("information.modification"));
+                if (itemStack.getTagCompound().getBoolean("Torch"))
+                    list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
                 if (itemStack.getTagCompound().getBoolean("Diamond"))
                     list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
+                if (itemStack.getTagCompound().getInteger("Axe") != 0)
+                    list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
+                if (itemStack.getTagCompound().getInteger("Shovel") != 0)
+                    list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
             }
         } else list.add(StatCollector.translateToLocal("information.ShiftDialog"));
     }
@@ -392,16 +418,18 @@ public class BasicHammer extends ItemTool {
     @Override
     public int getHarvestLevel(ItemStack stack, String toolClass) {
         // invalid query or wrong toolclass
-        if (toolClass == null || !this.getHarvestType().equals(toolClass))
+        if (toolClass == null)
             return -1;
-
+        if (toolClass.equals("axe") && stack.hasTagCompound() && stack.getTagCompound().getInteger("Axe") != 0)
+            return stack.getTagCompound().getInteger("Axe");
+        if (toolClass.equals("shovel") && stack.hasTagCompound() && stack.getTagCompound().getInteger("Shovel") != 0)
+            return stack.getTagCompound().getInteger("Shovel");
+        if (!toolClass.equals("pickaxe"))
+            return -1;
         // tadaaaa
         return toolMaterial.getHarvestLevel();
     }
 
-    protected String getHarvestType() {
-        return "pickaxe";
-    }
 
     public boolean isEffective(Material material) {
         for (Material m : getEffectiveMaterials())
@@ -424,6 +452,13 @@ public class BasicHammer extends ItemTool {
         if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Diamond"))
             return getMaxDamage() + 500;
         return getMaxDamage();
+    }
+
+    boolean giveDamage(ItemStack stack) {
+        if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
+            return false;
+        stack.setItemDamage(stack.getItemDamage() + 1);
+        return true;
     }
 
 }
