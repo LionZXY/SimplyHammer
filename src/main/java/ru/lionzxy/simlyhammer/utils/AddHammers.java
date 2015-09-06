@@ -40,7 +40,7 @@ public class AddHammers {
         addHammer("copperHammer", 1, 2, 6F, 512, "blockCopper", "ingotCopper");
         addHammer("steelHammer", 1, 2, 4F, 5000, "blockSteel", "ingotSteel");
         addHammer("tungstenHammer", 1, 3, 6F, 1100, "blockTungsten", "ingotTungsten");
-        addHammer("HSLAHammer", 1, 3, 6F, 10240, "RotaryCraft", "rotarycraft_item_borecraft", "ingotHSLA");
+        addHammer("HSLAHammer", 1, 3, 6F, 10240, "RotaryCraft", "rotarycraft_block_deco", "ingotHSLA");
         if (Config.pick) {
             GameRegistry.registerItem(geologHammer, "prospectorsPick");
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(geologHammer),
@@ -108,7 +108,7 @@ public class AddHammers {
         }
     }
 
-    static void addCraft(Item craftItem, String name, String craftRodt, String material) {
+    static public void addCraft(Item craftItem, String name, String craftRodt, String material) {
         String craftRod = Config.config.get(name, "CraftRod", craftRodt).getString();
         String craftMaterial = Config.config.get(name, "CraftMaterial", material).getString();
         if (!isOreDict(craftRod))

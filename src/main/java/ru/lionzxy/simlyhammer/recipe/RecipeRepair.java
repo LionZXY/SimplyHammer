@@ -45,23 +45,23 @@ public class RecipeRepair implements IRecipe {
             tag.setBoolean("Torch", false);
             hammer.setTagCompound(tag);
         }
-        if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "DiamondModif", true).getBoolean() && !hammer.getTagCompound().getBoolean("Diamond") && ((BasicHammer) hammer.getItem()).MDiamond) {
+        if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.MDiamond && !hammer.getTagCompound().getBoolean("Diamond") && ((BasicHammer) hammer.getItem()).MDiamond) {
             hammer.getTagCompound().setBoolean("Diamond", true);
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findAxe(ic) != null && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "AxeModif", true).getBoolean() && ((BasicHammer) hammer.getItem()).MAxe) {
+        if (findAxe(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MAxe && ((BasicHammer) hammer.getItem()).MAxe) {
             ItemStack itemStack = findAxe(ic);
             hammer.getTagCompound().setInteger("Axe", ((ItemAxe) itemStack.getItem()).func_150913_i().getHarvestLevel());
             hammer.getTagCompound().setDouble("AxeSpeed", ((ItemAxe) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "ShovelModif", true).getBoolean() && ((BasicHammer) hammer.getItem()).MShovel) {
+        if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MShovel && ((BasicHammer) hammer.getItem()).MShovel) {
             ItemStack itemStack = findShovel(ic);
             hammer.getTagCompound().setInteger("Shovel", ((ItemSpade) itemStack.getItem()).func_150913_i().getHarvestLevel());
             hammer.getTagCompound().setDouble("ShovelSpeed", ((ItemSpade) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() && Config.config.get("general", "TorchModif", true).getBoolean() && ((BasicHammer) hammer.getItem()).MTorch) {
+        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() &&Config.MTorch && ((BasicHammer) hammer.getItem()).MTorch) {
             if (!hammer.getTagCompound().getBoolean("Torch"))
                 hammer.getTagCompound().setBoolean("Torch", true);
             else
@@ -70,7 +70,7 @@ public class RecipeRepair implements IRecipe {
         }
 
 
-        if (hammer != null)
+        if (hammer != null && Config.repair)
             if (findItem(ic, ((BasicHammer) hammer.getItem())))
                 hammer.setItemDamage(getDamage(hammer, findItems(ic, ((BasicHammer) hammer.getItem()))));
         return hammer;

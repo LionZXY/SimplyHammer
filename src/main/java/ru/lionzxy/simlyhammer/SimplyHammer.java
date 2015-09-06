@@ -12,6 +12,7 @@ import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
 import ru.lionzxy.simlyhammer.utils.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
+import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
 
 import java.util.ArrayList;
@@ -31,6 +32,7 @@ public class SimplyHammer {
         Config.createConfig();
         tabGeneral = new HammerTab("tabGeneral");
         AddHammers.addAllHammers();
+        CustomHammers.addCustomHammers();
         GameRegistry.addRecipe(new RecipeRepair());
         FMLCommonHandler.instance().bus().register(new AchievementSH());
         AchievementSH.addAchivement();

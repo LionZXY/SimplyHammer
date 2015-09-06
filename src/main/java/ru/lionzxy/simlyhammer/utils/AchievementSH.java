@@ -68,6 +68,7 @@ public class AchievementSH {
                     "Modification",
                     0, 0, Items.diamond, (Achievement) null).registerStat();
 
+        Config.config.save();
 
     }
 

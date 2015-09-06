@@ -37,13 +37,14 @@ public class BasicHammer extends ItemTool {
     private Item repairMaterial;
     ToolMaterial toolMaterial;
     public boolean isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch;
+    String localizeName;
 
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,
+    public BasicHammer(String name,String localizeName, String texturename, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,
                        String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
         super(1F, EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant), null);
         toolMaterial = this.func_150913_i();
-        this.setTextureName("simplyhammer:" + name);
+        this.setTextureName(texturename);
         this.setUnlocalizedName(name);
         this.breakRadius = breakRadius;
         this.setCreativeTab(SimplyHammer.tabGeneral);
@@ -59,6 +60,20 @@ public class BasicHammer extends ItemTool {
         this.MAxe = MAxe;
         this.MShovel = MShovel;
         this.MTorch = MTorch;
+        this.localizeName = localizeName;
+    }
+
+    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,
+                       String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
+        this(name,null, "simplyhammer:" + name, breakRadius, harvestLevel, speed, damage, Enchant, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch);
+
+    }
+
+    public String getItemStackDisplayName(ItemStack p_77653_1_) {
+        if (localizeName == null)
+            return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(p_77653_1_) + ".name")).trim();
+        else
+            return localizeName;
     }
 
     public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant) {
@@ -171,9 +186,10 @@ public class BasicHammer extends ItemTool {
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
         if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Torch"))
             for (int i = 0; i < player.inventory.getSizeInventory(); i++)
-                if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == Item.getItemFromBlock(Blocks.torch)){
+                if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == Item.getItemFromBlock(Blocks.torch)) {
                     itemSlot = i;
-                    break;}
+                    break;
+                }
 
         ItemStack nearbyStack = null;
 
