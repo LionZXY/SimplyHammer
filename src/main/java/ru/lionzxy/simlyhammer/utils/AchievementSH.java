@@ -23,17 +23,12 @@ public class AchievementSH {
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
         if(event.crafting.getItem() instanceof BasicHammer)if(event.crafting.hasTagCompound())
                 if(event.crafting.getTagCompound().getBoolean("Modif"))
-                    event.player.addStat(firstUpgrade,2);
+                    event.player.addStat(firstUpgrade,1);
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
             if (event.crafting.getItem() == SimplyHammer.hammers.get(i)) {
                 event.player.addStat(SimplyHammer.achievements.get(i), 1);
                 return;
             }
-    }
-    @SubscribeEvent
-    public void onClick(PlayerEvent.ItemPickupEvent event){
-
-        System.out.println(event.pickedUp.getEntityItem().getUnlocalizedName());
     }
 
 

@@ -11,13 +11,14 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.hammers.BoundHammer;
 import ru.lionzxy.simlyhammer.hammers.ProspectorsPick;
 
 /**
  * Created by nikit on 30.08.2015.
  */
 public class AddHammers {
-    static Item geologHammer = new ProspectorsPick();
+    public static Item geologHammer = new ProspectorsPick(),BMHammer;
 
     static public void addAllHammers() {
         addVanilaHammers();
@@ -41,6 +42,8 @@ public class AddHammers {
         addHammer("steelHammer", 1, 2, 4F, 5000, "blockSteel", "ingotSteel");
         addHammer("tungstenHammer", 1, 3, 6F, 1100, "blockTungsten", "ingotTungsten");
         addHammer("HSLAHammer", 1, 3, 6F, 10240, "RotaryCraft", "rotarycraft_block_deco", "ingotHSLA");
+        if(Loader.isModLoaded("AWWayofTime"))
+        addBMHammer("boundHammer", 1, 3, 6F, 1100);
         if (Config.pick) {
             GameRegistry.registerItem(geologHammer, "prospectorsPick");
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(geologHammer),
@@ -79,6 +82,24 @@ public class AddHammers {
             int thisPos = SimplyHammer.hammers.size() - 1;
             GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
         }
+    }
+
+    static void addBMHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
+            if (Config.config.get("general", name, true).getBoolean()) {
+                BMHammer = new BoundHammer(name,
+                        Config.config.get(name, "BreakRadius", breakRadius).getInt(),
+                        Config.config.get(name, "HarvestLevel", harvestLevel).getInt(),
+                        (float) Config.config.get(name, "Speed", (double) speed).getDouble(),
+                        Config.config.get(name, "Durability", damage).getInt(),
+                        Config.config.get(name, "AttackDamage", (int) (speed * 1000) / damage).getInt(), "ingotIron",
+                        Config.config.get(name, "Repairable", false).getBoolean(),
+                        Config.config.get(name, "GetAchievement", true).getBoolean(),
+                        Config.config.get(name, "DiamondModif", true).getBoolean(),
+                        Config.config.get(name, "AxeModif", true).getBoolean(),
+                        Config.config.get(name, "ShovelModif", true).getBoolean(),
+                        Config.config.get(name, "TorchModif", true).getBoolean());
+                GameRegistry.registerItem(BMHammer, name);
+            }
     }
 
     static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String materialOreDict, String repairMaterial) {

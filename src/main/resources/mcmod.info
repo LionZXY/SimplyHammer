@@ -3,7 +3,7 @@
   "modid": "simplyhammer",
   "name": "Simply Hammer",
   "description": "Mod add hammer",
-  "version": "${version}",
+  "version": "0.7",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",

@@ -8,6 +8,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -35,7 +36,7 @@ import java.util.List;
 public class BasicHammer extends ItemTool {
     int breakRadius = 1, breakDepth = 0, oreDictId = 0;
     private Item repairMaterial;
-    ToolMaterial toolMaterial;
+    public ToolMaterial toolMaterial;
     public boolean isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch;
     String localizeName;
 
@@ -285,7 +286,7 @@ public class BasicHammer extends ItemTool {
         if (!isEffective(player.getCurrentEquippedItem(), block, meta))
             return;
 
-        if (!this.giveDamage(player.getCurrentEquippedItem()))
+        if (!this.giveDamage(player.getCurrentEquippedItem(),playerEntity))
             return;
         Block refBlock = world.getBlock(refX, refY, refZ);
         float refStrength = ForgeHooks.blockStrength(refBlock, player, world, refX, refY, refZ);
@@ -470,10 +471,19 @@ public class BasicHammer extends ItemTool {
         return getMaxDamage();
     }
 
-    boolean giveDamage(ItemStack stack) {
+    boolean giveDamage(ItemStack stack, EntityPlayer player) {
         if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
             return false;
         stack.setItemDamage(stack.getItemDamage() + 1);
+        return true;
+    }
+    @Override
+    public boolean onBlockDestroyed(ItemStack p_150894_1_, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_)
+    {
+        if ((double)p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D && toolMaterial.getMaxUses() != -1)
+        {
+            p_150894_1_.damageItem(1, p_150894_7_);
+        }
         return true;
     }
 
