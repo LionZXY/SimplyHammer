@@ -1,8 +1,8 @@
 package ru.lionzxy.simlyhammer.hammers;
 
 import WayofTime.alchemicalWizardry.AlchemicalWizardry;
-import api.api.items.interfaces.IBindable;
-import api.api.soulNetwork.SoulNetworkHandler;
+import WayofTime.alchemicalWizardry.api.items.interfaces.IBindable;
+import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import WayofTime.alchemicalWizardry.common.ItemType;
 import WayofTime.alchemicalWizardry.common.items.EnergyItems;
 import WayofTime.alchemicalWizardry.common.spell.complex.effect.SpellHelper;
@@ -19,10 +19,12 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,14 +40,14 @@ public class BoundHammer extends BasicHammer implements IBindable {
     int energyUsed = 5;
 
     public BoundHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
-        super(name, breakRadius, harvestLevel, speed, damage, Enchant, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch);
+        super(name, breakRadius, harvestLevel, speed, damage, Enchant, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch,true);
     }
 
     @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
-        this.itemIcon = iconRegister.registerIcon("AlchemicalWizardry:BoundPickaxe_activated");
-        this.activeIcon = iconRegister.registerIcon("AlchemicalWizardry:BoundPickaxe_activated");
+        this.itemIcon = iconRegister.registerIcon("simplyhammer:bloodHammer");
+        this.activeIcon = iconRegister.registerIcon("simplyhammer:bloodHammer");
         this.passiveIcon = iconRegister.registerIcon("AlchemicalWizardry:SheathedItem");
     }
 
@@ -65,17 +67,37 @@ public class BoundHammer extends BasicHammer implements IBindable {
     }
 
     @Override
-    public void addInformation(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, List par3List, boolean par4) {
-        super.addInformation(par1ItemStack, par2EntityPlayer, par3List, par4);
-        if (!(par1ItemStack.getTagCompound() == null)) {
-            if (par1ItemStack.getTagCompound().getBoolean("isActive")) {
-                par3List.add(StatCollector.translateToLocal("tooltip.sigil.state.activated"));
+    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
+        if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            if (itemStack.hasTagCompound()) {
+                list.add(StatCollector.translateToLocal("information.placeBlock"));
+                list.add(StatCollector.translateToLocal("information.line"));
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
+                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + itemStack.getTagCompound().getInteger("HammerHarvestLevel"));
+                list.add(StatCollector.translateToLocal("information.efficiency") + " " + itemStack.getTagCompound().getDouble("HammerSpeed"));
+                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
+                    list.add("");
+                    list.add(StatCollector.translateToLocal("information.modification"));
+                    if (itemStack.getTagCompound().getBoolean("Torch"))
+                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
+                    if (itemStack.getTagCompound().getBoolean("Diamond"))
+                        list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
+                    if (itemStack.getTagCompound().getInteger("Axe") != 0)
+                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
+                    if (itemStack.getTagCompound().getInteger("Shovel") != 0)
+                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
+                }
+            } else list.add(StatCollector.translateToLocal("information.NotHaveTagCompound"));
+        } else list.add(StatCollector.translateToLocal("information.ShiftDialog"));
+        if (!(itemStack.getTagCompound() == null)) {
+            if (itemStack.getTagCompound().getBoolean("isActive")) {
+                list.add(StatCollector.translateToLocal("tooltip.sigil.state.activated"));
             } else {
-                par3List.add(StatCollector.translateToLocal("tooltip.sigil.state.deactivated"));
+                list.add(StatCollector.translateToLocal("tooltip.sigil.state.deactivated"));
             }
 
-            if (!par1ItemStack.getTagCompound().getString("ownerName").equals("")) {
-                par3List.add(StatCollector.translateToLocal("tooltip.owner.currentowner") + " " + par1ItemStack.getTagCompound().getString("ownerName"));
+            if (!itemStack.getTagCompound().getString("ownerName").equals("")) {
+                list.add(StatCollector.translateToLocal("tooltip.owner.currentowner") + " " + itemStack.getTagCompound().getString("ownerName"));
             }
         }
     }
@@ -105,9 +127,6 @@ public class BoundHammer extends BasicHammer implements IBindable {
             return par1ItemStack;
         }
 
-        if (AlchemicalWizardry.disableBoundToolsRightClick) {
-            return par1ItemStack;
-        }
 
         if (par3EntityPlayer.isPotionActive(AlchemicalWizardry.customPotionInhibit)) {
             return par1ItemStack;
@@ -166,7 +185,7 @@ public class BoundHammer extends BasicHammer implements IBindable {
             par1ItemStack.setTagCompound(new NBTTagCompound());
         }
 
-        itemTag.setBoolean("isActive", true);
+        itemTag.setBoolean("isActive", newActivated);
     }
 
     public boolean getActivated(ItemStack par1ItemStack) {
@@ -235,8 +254,6 @@ public class BoundHammer extends BasicHammer implements IBindable {
     public float getDigSpeed(ItemStack stack, Block block, int meta) {
         if (block.getHarvestTool(meta) == null)
             return 0.5F;
-        if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
-            return -1F;
         if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("pickaxe"))
             return (float) stack.getTagCompound().getDouble("HammerSpeed");
         if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0)

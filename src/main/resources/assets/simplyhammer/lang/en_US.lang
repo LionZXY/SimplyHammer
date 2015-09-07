@@ -3,7 +3,12 @@ item.stoneHammer.name=Stone Hammer
 item.bronzeHammer.name=Bronze Hammer
 item.copperHammer.name=Copper Hammer
 item.steelHammer.name=Steel Hammer
+item.boundHammer.name=Bound Hammer
+item.unstableHammer.name=Unstable Hammer
 item.tungstenHammer.name=Tungsten Hammer
+item.manaSteelHammer.name=ManaSteel Hammer
+item.terraSteelHammer.name=TerraSteel Hammer
+item.thaumiumHammer.name=Thaumium Hammer
 item.HSLAHammer.name=HSLA Hammer
 item.prospectorsPick.name=Prospector's Pick
 itemGroup.tabGeneral=Simply Hammer
@@ -36,6 +41,7 @@ achievement.Modification.desc=First Modification from Simply Hammer!
 
 prospectorPick.Found=Found
 prospectorPick.NotFoundOre=Not Found Ore...
+
 information.ShiftDialog=Shift for more information
 information.placeBlock=RightClick for place block
 information.line==================================
@@ -44,8 +50,11 @@ information.blocks= Blocks
 information.harvestLevel=Harvest Level:
 information.repairMaterial=Repair material:
 information.noRepairable=No Repairable
+information.infinity=Infinity
 information.efficiency=Efficiency:
 information.modification=Modifications:
+information.NotHaveTagCompound=Item not have NBT tag. Place item in craft window!
+
 modification.Diamond=Diamond
 modification.Axe=Axe:
 modification.AxeSpeed=, Speed:

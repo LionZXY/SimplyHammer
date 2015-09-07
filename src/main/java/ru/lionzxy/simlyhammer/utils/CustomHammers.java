@@ -30,7 +30,8 @@ public class CustomHammers {
                 Config.config.get("hamm"+numb, "DiamondModif", true).getBoolean(),
                 Config.config.get("hamm"+numb, "AxeModif", true).getBoolean(),
                 Config.config.get("hamm"+numb, "ShovelModif", true).getBoolean(),
-                Config.config.get("hamm"+numb, "TorchModif", true).getBoolean()));
+                Config.config.get("hamm"+numb, "TorchModif", true).getBoolean(),
+                Config.config.get(name, "Infinity", false).getBoolean()));
         int thisPos = SimplyHammer.hammers.size() - 1;
         GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
         AddHammers.addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", "blockIron");

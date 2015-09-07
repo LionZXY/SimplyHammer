@@ -17,6 +17,7 @@ import ru.lionzxy.simlyhammer.utils.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
+import scala.collection.parallel.ParIterableLike;
 
 import java.util.ArrayList;
 import java.util.List;
