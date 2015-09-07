@@ -14,11 +14,14 @@ import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.hammers.BoundHammer;
 import ru.lionzxy.simlyhammer.hammers.ProspectorsPick;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by nikit on 30.08.2015.
  */
 public class AddHammers {
-    public static Item geologHammer = new ProspectorsPick(),BMHammer;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer;
 
     static public void addAllHammers() {
         addVanilaHammers();
@@ -33,22 +36,22 @@ public class AddHammers {
         GOLD(0, 32, 12.0F, 0.0F, 22);
         BasicHammer(String name,int breakRadius, int harvestLevel,float speed, int damage)*/
     static void addVanilaHammers() {
-        addHammer("stoneHammer", 1, 1, 1F, 131, "stone", "cobblestone",false);
-        addHammer("ironHammer", 1, 2, 6F, 2250, "blockIron", "ingotIron",false);
+        addHammer("stoneHammer", 1, 1, 1F, 131, "stone", "cobblestone", false);
+        addHammer("ironHammer", 1, 2, 6F, 2250, "blockIron", "ingotIron", false);
     }
 
     static public void addOreDictModHammers() {
-        addHammer("bronzeHammer", 1, 2, 6F, 2250, "blockBronze", "ingotBronze",false);
-        addHammer("copperHammer", 1, 2, 6F, 512, "blockCopper", "ingotCopper",false);
-        addHammer("steelHammer", 1, 2, 4F, 5120, "blockSteel", "ingotSteel",false);
-        addHammer("tungstenHammer", 1, 3, 6F, 1100, "blockTungsten", "ingotTungsten",false);
-        addHammer("HSLAHammer", 1, 3, 6F, 10240, "RotaryCraft", "rotarycraft_block_deco", "ingotHSLA",false);
-        addHammer("unstableHammer", 1, 10, 10F, 10240, "blockUnstable", "ingotUnstable",true);
-        addHammer("manaSteelHammer", 1, 3, 6F, 5120, "Botania", "storage", "ingotManasteel",false);
-        addHammer("terraSteelHammer", 1, 3, 6F, 20480, "Botania", "storage:1", "ingotTerrasteel",false);
-        addHammer("thaumiumHammer", 1, 3, 6F, 10240, "Thaumcraft", "blockCosmeticSolid:4", "ingotThaumium",false);
-        if(Loader.isModLoaded("AWWayofTime"))
-        addBMHammer("boundHammer", 1, 3, 6F, 1100);
+        addHammer("bronzeHammer", 1, 2, 6F, 2250, "blockBronze", "ingotBronze", false);
+        addHammer("copperHammer", 1, 2, 6F, 512, "blockCopper", "ingotCopper", false);
+        addHammer("steelHammer", 1, 2, 4F, 5120, "blockSteel", "ingotSteel", false);
+        addHammer("tungstenHammer", 1, 3, 6F, 1100, "blockTungsten", "ingotTungsten", false);
+        addHammer("HSLAHammer", 1, 3, 6F, 10240, "RotaryCraft", "rotarycraft_block_deco", "ingotHSLA", false);
+        addHammer("unstableHammer", 1, 10, 10F, 10240, "blockUnstable", "ingotUnstable", true);
+        addHammer("manaSteelHammer", 1, 3, 6F, 5120, "Botania", "storage", "ingotManasteel", false);
+        addHammer("terraSteelHammer", 1, 3, 6F, 20480, "Botania", "storage:1", "ingotTerrasteel", false);
+        addHammer("thaumiumHammer", 1, 3, 6F, 10240, "Thaumcraft", "blockCosmeticSolid:4", "ingotThaumium", false);
+        if (Loader.isModLoaded("AWWayofTime"))
+            addBMHammer("boundHammer", 1, 3, 6F, 1100);
         if (Config.pick) {
             GameRegistry.registerItem(geologHammer, "prospectorsPick");
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(geologHammer),
@@ -61,7 +64,7 @@ public class AddHammers {
     }
 
 
-    static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String modName, String nameid, String repairMaterial,boolean infinity) {
+    static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String modName, String nameid, String repairMaterial, boolean infinity) {
         //if (!name.equalsIgnoreCase("HSLAHammer") || (name.equalsIgnoreCase("HSLAHammer") && Loader.isModLoaded("RotaryCraft"))) {
         if (Config.config.get("general", name, true).getBoolean()) {
             SimplyHammer.hammers.add(new BasicHammer(name,
@@ -77,12 +80,11 @@ public class AddHammers {
                     Config.config.get(name, "AxeModif", true).getBoolean(),
                     Config.config.get(name, "ShovelModif", true).getBoolean(),
                     Config.config.get(name, "TorchModif", true).getBoolean(),
-                        Config.config.get(name, "Infinity", infinity).getBoolean()));
-                int thisPos = SimplyHammer.hammers.size() - 1;
+                    Config.config.get(name, "Infinity", infinity).getBoolean()));
+            int thisPos = SimplyHammer.hammers.size() - 1;
             GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
-
-                addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", modName + ":" + nameid);
-            }
+            if(Loader.isModLoaded(modName))addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", modName + ":" + nameid);
+        }
         /*} else {
             SimplyHammer.hammers.add(new BasicHammer(name, breakRadius, harvestLevel, speed, damage, (int) (speed * 1000) / damage));
             int thisPos = SimplyHammer.hammers.size() - 1;
@@ -91,24 +93,24 @@ public class AddHammers {
     }
 
     static void addBMHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
-            if (Config.config.get("general", name, true).getBoolean()) {
-                BMHammer = new BoundHammer(name,
-                        Config.config.get(name, "BreakRadius", breakRadius).getInt(),
-                        Config.config.get(name, "HarvestLevel", harvestLevel).getInt(),
-                        (float) Config.config.get(name, "Speed", (double) speed).getDouble(),
-                        Config.config.get(name, "Durability", damage).getInt(),
-                        Config.config.get(name, "AttackDamage", (int) (speed * 1000) / damage).getInt(), "ingotIron",
-                        Config.config.get(name, "Repairable", false).getBoolean(),
-                        Config.config.get(name, "GetAchievement", true).getBoolean(),
-                        Config.config.get(name, "DiamondModif", true).getBoolean(),
-                        Config.config.get(name, "AxeModif", true).getBoolean(),
-                        Config.config.get(name, "ShovelModif", true).getBoolean(),
-                        Config.config.get(name, "TorchModif", true).getBoolean());
-                GameRegistry.registerItem(BMHammer, name);
-            }
+        if (Config.config.get("general", name, true).getBoolean()) {
+            BMHammer = new BoundHammer(name,
+                    Config.config.get(name, "BreakRadius", breakRadius).getInt(),
+                    Config.config.get(name, "HarvestLevel", harvestLevel).getInt(),
+                    (float) Config.config.get(name, "Speed", (double) speed).getDouble(),
+                    Config.config.get(name, "Durability", damage).getInt(),
+                    Config.config.get(name, "AttackDamage", (int) (speed * 1000) / damage).getInt(), "ingotIron",
+                    Config.config.get(name, "Repairable", false).getBoolean(),
+                    Config.config.get(name, "GetAchievement", true).getBoolean(),
+                    Config.config.get(name, "DiamondModif", true).getBoolean(),
+                    Config.config.get(name, "AxeModif", true).getBoolean(),
+                    Config.config.get(name, "ShovelModif", true).getBoolean(),
+                    Config.config.get(name, "TorchModif", true).getBoolean());
+            GameRegistry.registerItem(BMHammer, name);
+        }
     }
 
-    static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String materialOreDict, String repairMaterial,boolean infinity) {
+    static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String materialOreDict, String repairMaterial, boolean infinity) {
         if (checkToNotNull(materialOreDict) && checkToNotNull(repairMaterial)) {
             if (Config.config.get("general", name, true).getBoolean()) {
                 SimplyHammer.hammers.add(new BasicHammer(name,
@@ -178,7 +180,14 @@ public class AddHammers {
     }
 
     static Item getItemCraft(String item) {
-        return GameRegistry.findItem(item.substring(0, item.indexOf(':')), item.substring(item.indexOf(':') + 1));
+        String fromSplit[] = item.split(":");
+        if(fromSplit.length == 3){
+            Item exitItem = GameRegistry.findItem(fromSplit[0], fromSplit[1]);
+            List<ItemStack> items = new ArrayList<ItemStack>();
+            exitItem.getSubItems(exitItem, exitItem.getCreativeTab(), items);
+            return items.get(Integer.parseInt(fromSplit[2])).getItem();
+        }
+        return GameRegistry.findItem(fromSplit[0], fromSplit[1]);
     }
 
 }
