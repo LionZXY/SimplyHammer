@@ -23,6 +23,7 @@ public class CustomHammers {
                 Config.config.get("hamm"+numb, "HarvestLevel", 3).getInt(),
                 (float) Config.config.get("hamm"+numb, "Speed", (double) 1F).getDouble(),
                 Config.config.get("hamm"+numb, "Durability", 2000).getInt(),
+                Config.config.get("hamm"+numb, "Enchant", (int) 10).getInt(),
                 Config.config.get("hamm"+numb, "AttackDamage", (int) (1F * 1000) / 2000).getInt(),
                 Config.config.get("hamm"+numb, "RepairMaterial", "ingotIron").getString(),
                 Config.config.get("hamm"+numb, "Repairable", true).getBoolean(),
@@ -31,7 +32,7 @@ public class CustomHammers {
                 Config.config.get("hamm"+numb, "AxeModif", true).getBoolean(),
                 Config.config.get("hamm"+numb, "ShovelModif", true).getBoolean(),
                 Config.config.get("hamm"+numb, "TorchModif", true).getBoolean(),
-                Config.config.get(name, "Infinity", false).getBoolean()));
+                Config.config.get("hamm"+numb, "Infinity", false).getBoolean()));
         int thisPos = SimplyHammer.hammers.size() - 1;
         GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
         AddHammers.addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", "blockIron");

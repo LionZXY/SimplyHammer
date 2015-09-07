@@ -11,7 +11,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 
 /**
  * Created by nikit on 30.08.2015.
@@ -22,7 +22,7 @@ public class RecipeRepair implements IRecipe {
     @Override
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)
-            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof BasicHammer)
+            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof IModifiHammer)
                 return true;
         return false;
     }
@@ -32,7 +32,7 @@ public class RecipeRepair implements IRecipe {
     public ItemStack getCraftingResult(InventoryCrafting ic) {
         ItemStack hammer = null;
         for (int i = 0; i < ic.getSizeInventory(); i++)
-            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof BasicHammer)
+            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof IModifiHammer)
                 hammer = ic.getStackInSlot(i).copy();
         if (hammer != null && !hammer.hasTagCompound()) {
             NBTTagCompound tag = new NBTTagCompound();
@@ -45,23 +45,23 @@ public class RecipeRepair implements IRecipe {
             tag.setBoolean("Torch", false);
             hammer.setTagCompound(tag);
         }
-        if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.MDiamond && !hammer.getTagCompound().getBoolean("Diamond") && ((BasicHammer) hammer.getItem()).MDiamond) {
+        if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.MDiamond && !hammer.getTagCompound().getBoolean("Diamond") && ((IModifiHammer) hammer.getItem()).getMDiamond()) {
             hammer.getTagCompound().setBoolean("Diamond", true);
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findAxe(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MAxe && ((BasicHammer) hammer.getItem()).MAxe) {
+        if (findAxe(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MAxe && ((IModifiHammer) hammer.getItem()).getMAxe()) {
             ItemStack itemStack = findAxe(ic);
             hammer.getTagCompound().setInteger("Axe", ((ItemAxe) itemStack.getItem()).func_150913_i().getHarvestLevel());
             hammer.getTagCompound().setDouble("AxeSpeed", ((ItemAxe) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MShovel && ((BasicHammer) hammer.getItem()).MShovel) {
+        if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MShovel && ((IModifiHammer) hammer.getItem()).getMShovel()) {
             ItemStack itemStack = findShovel(ic);
             hammer.getTagCompound().setInteger("Shovel", ((ItemSpade) itemStack.getItem()).func_150913_i().getHarvestLevel());
             hammer.getTagCompound().setDouble("ShovelSpeed", ((ItemSpade) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() &&Config.MTorch && ((BasicHammer) hammer.getItem()).MTorch) {
+        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() && Config.MTorch && ((IModifiHammer) hammer.getItem()).getMTorch()) {
             if (!hammer.getTagCompound().getBoolean("Torch"))
                 hammer.getTagCompound().setBoolean("Torch", true);
             else
@@ -70,9 +70,9 @@ public class RecipeRepair implements IRecipe {
         }
 
 
-        if (hammer != null && Config.repair)
+        if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).isIsRepair())
             if (findItem(ic, hammer.getItem()))
-                hammer.setItemDamage(getDamage(hammer, findItems(ic, ((BasicHammer) hammer.getItem()))));
+                hammer.setItemDamage(getDamage(hammer, findItems(ic, ((IModifiHammer) hammer.getItem()))));
         return hammer;
     }
 
@@ -88,7 +88,7 @@ public class RecipeRepair implements IRecipe {
         return new ItemStack(Items.iron_pickaxe);
     }
 
-    int findItems(InventoryCrafting ic, BasicHammer item) {
+    int findItems(InventoryCrafting ic, IModifiHammer item) {
         int itemsFound = 0;
         for (int i = 0; i < ic.getSizeInventory(); i++)
             if (ic.getStackInSlot(i) != null && item.checkMaterial(ic.getStackInSlot(i)))

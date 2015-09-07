@@ -25,6 +25,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.utils.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 
@@ -33,21 +34,21 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-public class BasicHammer extends ItemTool {
+public class BasicHammer extends ItemTool implements IModifiHammer {
     int breakRadius = 1, breakDepth = 0, oreDictId = 0;
     private Item repairMaterial;
     public ToolMaterial toolMaterial;
     public boolean isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, infinity;
     String localizeName;
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,
+    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,int Attack,
                        String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch, boolean infinity) {
-        this(name, null, "simplyhammer:" + name, breakRadius, harvestLevel, speed, damage, Enchant, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, infinity);
+        this(name, null, "simplyhammer:" + name, breakRadius, harvestLevel, speed, damage, Enchant, Attack, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, infinity);
     }
 
-    public BasicHammer(String name, String localizeName, String texturename, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,
+    public BasicHammer(String name, String localizeName, String texturename, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, int Attack,
                        String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch, boolean infinity) {
-        super(1F, EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant), null);
+        super(1F, EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, Attack, Enchant), null);
         toolMaterial = this.func_150913_i();
         this.setTextureName(texturename);
         this.setUnlocalizedName(name);
@@ -426,6 +427,36 @@ public class BasicHammer extends ItemTool {
         if (oreDictId != 0)
             return OreDictionary.getOres(OreDictionary.getOreName(oreDictId)).get(0);
         return new ItemStack(Items.stick);
+    }
+
+    @Override
+    public boolean getMAxe() {
+        return MAxe;
+    }
+
+    @Override
+    public boolean getMShovel() {
+        return MShovel;
+    }
+
+    @Override
+    public boolean isIsRepair() {
+        return isRepair;
+    }
+
+    @Override
+    public boolean isIsAchiv() {
+        return isAchiv;
+    }
+
+    @Override
+    public boolean getMDiamond() {
+        return MDiamond;
+    }
+
+    @Override
+    public boolean getMTorch() {
+        return MTorch;
     }
 
     @Override

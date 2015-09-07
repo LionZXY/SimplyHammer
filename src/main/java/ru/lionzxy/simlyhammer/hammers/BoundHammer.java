@@ -39,8 +39,8 @@ public class BoundHammer extends BasicHammer implements IBindable {
     private IIcon passiveIcon;
     int energyUsed = 5;
 
-    public BoundHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
-        super(name, breakRadius, harvestLevel, speed, damage, Enchant, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, true);
+    public BoundHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,int Attack, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
+        super(name, breakRadius, harvestLevel, speed, damage, Enchant, Attack, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, true);
     }
 
     @Override

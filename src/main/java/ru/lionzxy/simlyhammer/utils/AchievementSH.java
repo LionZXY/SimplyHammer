@@ -2,16 +2,13 @@ package ru.lionzxy.simlyhammer.utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.stats.Achievement;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 
 /**
  * Created by nikit on 03.09.2015.
@@ -21,7 +18,7 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
-        if(event.crafting.getItem() instanceof BasicHammer)if(event.crafting.hasTagCompound())
+        if(event.crafting.getItem() instanceof IModifiHammer)if(event.crafting.hasTagCompound())
                 if(event.crafting.getTagCompound().getBoolean("Modif"))
                     event.player.addStat(firstUpgrade,1);
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
@@ -41,7 +38,7 @@ public class AchievementSH {
                     0, 0, thisItem.getItem(), null));
         }
         for (int i = 0; i < SimplyHammer.achievements.size(); i++)
-            if (((BasicHammer) SimplyHammer.hammers.get(i)).isAchiv)
+            if (((IModifiHammer) SimplyHammer.hammers.get(i)).isIsAchiv())
                 SimplyHammer.achievements.get(i).registerStat();
         if (Config.config.get("general", "AchievementFirstBreak", true).getBoolean())
             firstDig = new Achievement("achievement.firstBreak",
