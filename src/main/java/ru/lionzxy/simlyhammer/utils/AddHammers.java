@@ -40,12 +40,12 @@ public class AddHammers {
     static public void addOreDictModHammers() {
         addHammer("bronzeHammer", 1, 2, 6F, 2250, "blockBronze", "ingotBronze",false);
         addHammer("copperHammer", 1, 2, 6F, 512, "blockCopper", "ingotCopper",false);
-        addHammer("steelHammer", 1, 2, 4F, 5000, "blockSteel", "ingotSteel",false);
+        addHammer("steelHammer", 1, 2, 4F, 5120, "blockSteel", "ingotSteel",false);
         addHammer("tungstenHammer", 1, 3, 6F, 1100, "blockTungsten", "ingotTungsten",false);
         addHammer("HSLAHammer", 1, 3, 6F, 10240, "RotaryCraft", "rotarycraft_block_deco", "ingotHSLA",false);
-        addHammer("unstableHammer", 1, 6, 8F, 10240, "blockUnstable", "ingotUnstable",true);
-        addHammer("manaSteelHammer", 1, 3, 6F, 10240, "Botania", "storage", "ingotManasteel",false);
-        addHammer("terraSteelHammer", 1, 3, 6F, 10240, "Botania", "storage:1", "ingotTerrasteel",false);
+        addHammer("unstableHammer", 1, 10, 10F, 10240, "blockUnstable", "ingotUnstable",true);
+        addHammer("manaSteelHammer", 1, 3, 6F, 5120, "Botania", "storage", "ingotManasteel",false);
+        addHammer("terraSteelHammer", 1, 3, 6F, 20480, "Botania", "storage:1", "ingotTerrasteel",false);
         addHammer("thaumiumHammer", 1, 3, 6F, 10240, "Thaumcraft", "blockCosmeticSolid:4", "ingotThaumium",false);
         if(Loader.isModLoaded("AWWayofTime"))
         addBMHammer("boundHammer", 1, 3, 6F, 1100);

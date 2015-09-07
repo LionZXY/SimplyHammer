@@ -24,9 +24,9 @@ public class BindingRecipe extends WayofTime.alchemicalWizardry.api.bindingRegis
             tag.setDouble("HammerSpeed", ((BasicHammer) testStack.getItem()).toolMaterial.getEfficiencyOnProperMaterial());
             System.out.println(((BasicHammer) testStack.getItem()).toolMaterial.getHarvestLevel());
             tag.setInteger("HammerHarvestLevel", ((BasicHammer) testStack.getItem()).toolMaterial.getHarvestLevel());
-            output.setTagCompound(testStack.getTagCompound());}
-            this.outputItem = output;
-            return !(testStack == null) && testStack.getItem() instanceof BasicHammer;
+            output.setTagCompound(testStack.getTagCompound());
+            this.outputItem = output;}else return false;
+            return testStack.getItem() instanceof BasicHammer;
         }
         return false;
     }

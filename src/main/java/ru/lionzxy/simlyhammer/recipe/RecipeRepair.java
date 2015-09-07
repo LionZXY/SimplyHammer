@@ -71,7 +71,7 @@ public class RecipeRepair implements IRecipe {
 
 
         if (hammer != null && Config.repair)
-            if (findItem(ic, ((BasicHammer) hammer.getItem())))
+            if (findItem(ic, hammer.getItem()))
                 hammer.setItemDamage(getDamage(hammer, findItems(ic, ((BasicHammer) hammer.getItem()))));
         return hammer;
     }

@@ -96,8 +96,8 @@ public class BasicHammer extends ItemTool {
         if (oreDictId != 0) {
             int[] oreIds = OreDictionary.getOreIDs(itemStack);
 
-            for (int i = 0; i < oreIds.length; i++)
-                if (oreDictId == oreIds[i])
+            for (int oreId : oreIds)
+                if (oreDictId == oreId)
                     return true;
         }
         return false;
@@ -126,12 +126,7 @@ public class BasicHammer extends ItemTool {
     }
 
     public boolean isEffective(ItemStack stack, Block block, int meta) {
-        if (block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("pickaxe") ||
-                (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0) ||
-                (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0))
-            return true;
-
-        else return isEffective(block.getMaterial());
+        return block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("pickaxe") || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0) || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0) || isEffective(block.getMaterial());
     }
 
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
@@ -141,7 +136,6 @@ public class BasicHammer extends ItemTool {
         if (mop == null)
             return false;
         int sideHit = mop.sideHit;
-        World world = player.worldObj;
         int xRange = breakRadius;
         int yRange = breakRadius;
         int zRange = breakDepth;
@@ -192,7 +186,7 @@ public class BasicHammer extends ItemTool {
                     break;
                 }
 
-        ItemStack nearbyStack = null;
+        ItemStack nearbyStack;
 
         if (hotbarSlot < 8) {
             nearbyStack = player.inventory.getStackInSlot(itemSlot);

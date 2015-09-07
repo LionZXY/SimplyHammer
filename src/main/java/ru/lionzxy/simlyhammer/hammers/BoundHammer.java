@@ -40,7 +40,7 @@ public class BoundHammer extends BasicHammer implements IBindable {
     int energyUsed = 5;
 
     public BoundHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
-        super(name, breakRadius, harvestLevel, speed, damage, Enchant, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch,true);
+        super(name, breakRadius, harvestLevel, speed, damage, Enchant, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, true);
     }
 
     @Override
@@ -72,7 +72,8 @@ public class BoundHammer extends BasicHammer implements IBindable {
             if (itemStack.hasTagCompound()) {
                 list.add(StatCollector.translateToLocal("information.placeBlock"));
                 list.add(StatCollector.translateToLocal("information.line"));
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
+                if (!itemStack.getTagCompound().getString("ownerName").equals("") && itemStack.getTagCompound() != null)
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + SoulNetworkHandler.getCurrentEssence(itemStack.getTagCompound().getString("ownerName")) + " "+StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick"));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + itemStack.getTagCompound().getInteger("HammerHarvestLevel"));
                 list.add(StatCollector.translateToLocal("information.efficiency") + " " + itemStack.getTagCompound().getDouble("HammerSpeed"));
                 if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
@@ -229,7 +230,7 @@ public class BoundHammer extends BasicHammer implements IBindable {
 
         if (par2World.getWorldTime() % 200 == par1ItemStack.getTagCompound().getInteger("worldTimeDelay") && par1ItemStack.getTagCompound().getBoolean("isActive")) {
             if (!par3EntityPlayer.capabilities.isCreativeMode) {
-                if (!SoulNetworkHandler.syphonAndDamageFromNetwork(par1ItemStack, par3EntityPlayer, 20)) {
+                if (!EnergyItems.syphonBatteries(par1ItemStack, par3EntityPlayer, 20)) {
                     this.setActivated(par1ItemStack, false);
                 }
             }
@@ -240,9 +241,8 @@ public class BoundHammer extends BasicHammer implements IBindable {
 
     @Override
     boolean giveDamage(ItemStack stack, EntityPlayer player) {
-        if (player instanceof EntityPlayer) {
-            SoulNetworkHandler.syphonAndDamageFromNetwork(stack, (EntityPlayer) player, getEnergyUsed());
-        }
+
+        SoulNetworkHandler.syphonAndDamageFromNetwork(stack, (EntityPlayer) player, getEnergyUsed());
         return true;
     }
 
