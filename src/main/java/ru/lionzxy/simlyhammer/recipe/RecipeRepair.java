@@ -18,7 +18,6 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
  */
 public class RecipeRepair implements IRecipe {
 
-    //Проверка на совпадает ли рецепт.
     @Override
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)
@@ -27,7 +26,6 @@ public class RecipeRepair implements IRecipe {
         return false;
     }
 
-    //Нужный тебе метод. Выдает output крафта.
     @Override
     public ItemStack getCraftingResult(InventoryCrafting ic) {
         ItemStack hammer = null;
@@ -45,23 +43,23 @@ public class RecipeRepair implements IRecipe {
             tag.setBoolean("Torch", false);
             hammer.setTagCompound(tag);
         }
-        if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.MDiamond && !hammer.getTagCompound().getBoolean("Diamond") && ((IModifiHammer) hammer.getItem()).getMDiamond()) {
+        if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.MDiamond && !hammer.getTagCompound().getBoolean("Diamond") && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMDiamond()) {
             hammer.getTagCompound().setBoolean("Diamond", true);
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findAxe(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MAxe && ((IModifiHammer) hammer.getItem()).getMAxe()) {
+        if (findAxe(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MAxe && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMAxe()) {
             ItemStack itemStack = findAxe(ic);
             hammer.getTagCompound().setInteger("Axe", ((ItemAxe) itemStack.getItem()).func_150913_i().getHarvestLevel());
             hammer.getTagCompound().setDouble("AxeSpeed", ((ItemAxe) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MShovel && ((IModifiHammer) hammer.getItem()).getMShovel()) {
+        if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MShovel && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMShovel()) {
             ItemStack itemStack = findShovel(ic);
             hammer.getTagCompound().setInteger("Shovel", ((ItemSpade) itemStack.getItem()).func_150913_i().getHarvestLevel());
             hammer.getTagCompound().setDouble("ShovelSpeed", ((ItemSpade) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() && Config.MTorch && ((IModifiHammer) hammer.getItem()).getMTorch()) {
+        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() && Config.MTorch && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTorch()) {
             if (!hammer.getTagCompound().getBoolean("Torch"))
                 hammer.getTagCompound().setBoolean("Torch", true);
             else
@@ -70,19 +68,17 @@ public class RecipeRepair implements IRecipe {
         }
 
 
-        if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).isIsRepair())
+        if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).getHammerSettings().isRepair())
             if (findItem(ic, hammer.getItem()))
                 hammer.setItemDamage(getDamage(hammer, findItems(ic, ((IModifiHammer) hammer.getItem()))));
         return hammer;
     }
 
-    //Советую ставить на 9
     @Override
     public int getRecipeSize() {
         return 9;
     }
 
-    //Не советую оставлять null. Будет крашить с другими модами
     @Override
     public ItemStack getRecipeOutput() {
         return new ItemStack(Items.iron_pickaxe);

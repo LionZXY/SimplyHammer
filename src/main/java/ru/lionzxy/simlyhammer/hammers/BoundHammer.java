@@ -25,6 +25,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.libs.HammerSettings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +40,9 @@ public class BoundHammer extends BasicHammer implements IBindable {
     private IIcon passiveIcon;
     int energyUsed = 5;
 
-    public BoundHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,int Attack, String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
-        super(name, breakRadius, harvestLevel, speed, damage, Enchant, Attack, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, true);
+    public BoundHammer(HammerSettings hammerSettings) {
+        super(hammerSettings);
+        this.hammerSettings.setInfinity();
     }
 
     @Override
@@ -73,7 +75,7 @@ public class BoundHammer extends BasicHammer implements IBindable {
                 list.add(StatCollector.translateToLocal("information.placeBlock"));
                 list.add(StatCollector.translateToLocal("information.line"));
                 if (!itemStack.getTagCompound().getString("ownerName").equals("") && itemStack.getTagCompound() != null)
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + SoulNetworkHandler.getCurrentEssence(itemStack.getTagCompound().getString("ownerName")) + " "+StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick"));
+                    list.add(StatCollector.translateToLocal("information.usesLeft") + " " + SoulNetworkHandler.getCurrentEssence(itemStack.getTagCompound().getString("ownerName")) + " " + StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick"));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + itemStack.getTagCompound().getInteger("HammerHarvestLevel"));
                 list.add(StatCollector.translateToLocal("information.efficiency") + " " + itemStack.getTagCompound().getDouble("HammerSpeed"));
                 if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {

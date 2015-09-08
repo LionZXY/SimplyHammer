@@ -18,9 +18,9 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
-        if(event.crafting.getItem() instanceof IModifiHammer)if(event.crafting.hasTagCompound())
-                if(event.crafting.getTagCompound().getBoolean("Modif"))
-                    event.player.addStat(firstUpgrade,1);
+        if (event.crafting.getItem() instanceof IModifiHammer) if (event.crafting.hasTagCompound())
+            if (event.crafting.getTagCompound().getBoolean("Modif"))
+                event.player.addStat(firstUpgrade, 1);
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
             if (event.crafting.getItem() == SimplyHammer.hammers.get(i)) {
                 event.player.addStat(SimplyHammer.achievements.get(i), 1);
@@ -38,7 +38,7 @@ public class AchievementSH {
                     0, 0, thisItem.getItem(), null));
         }
         for (int i = 0; i < SimplyHammer.achievements.size(); i++)
-            if (((IModifiHammer) SimplyHammer.hammers.get(i)).isIsAchiv())
+            if (((IModifiHammer) SimplyHammer.hammers.get(i)).getHammerSettings().isAchive())
                 SimplyHammer.achievements.get(i).registerStat();
         if (Config.config.get("general", "AchievementFirstBreak", true).getBoolean())
             firstDig = new Achievement("achievement.firstBreak",

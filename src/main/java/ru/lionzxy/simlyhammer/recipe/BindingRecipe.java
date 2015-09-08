@@ -18,14 +18,13 @@ public class BindingRecipe extends WayofTime.alchemicalWizardry.api.bindingRegis
     public boolean doesRequiredItemMatch(ItemStack testStack) {
         if (!(testStack == null) && testStack.getItem() instanceof BasicHammer) {
             ItemStack output = new ItemStack(AddHammers.BMHammer);
-            if(testStack.hasTagCompound()){
-            NBTTagCompound tag = testStack.getTagCompound();
-            System.out.println(((BasicHammer) testStack.getItem()).toolMaterial.getEfficiencyOnProperMaterial());
-            tag.setDouble("HammerSpeed", ((BasicHammer) testStack.getItem()).toolMaterial.getEfficiencyOnProperMaterial());
-            System.out.println(((BasicHammer) testStack.getItem()).toolMaterial.getHarvestLevel());
-            tag.setInteger("HammerHarvestLevel", ((BasicHammer) testStack.getItem()).toolMaterial.getHarvestLevel());
-            output.setTagCompound(testStack.getTagCompound());
-            this.outputItem = output;}else return false;
+            if (testStack.hasTagCompound()) {
+                NBTTagCompound tag = testStack.getTagCompound();
+                tag.setDouble("HammerSpeed", ((BasicHammer) testStack.getItem()).getHammerSettings().getEffiency());
+                tag.setInteger("HammerHarvestLevel", ((BasicHammer) testStack.getItem()).getHammerSettings().getHarvestLevel());
+                output.setTagCompound(testStack.getTagCompound());
+                this.outputItem = output;
+            } else return false;
             return testStack.getItem() instanceof BasicHammer;
         }
         return false;
@@ -35,8 +34,8 @@ public class BindingRecipe extends WayofTime.alchemicalWizardry.api.bindingRegis
     public ItemStack getResult(ItemStack inputItem) {
         ItemStack output = new ItemStack(AddHammers.BMHammer);
         NBTTagCompound tag = inputItem.getTagCompound();
-        tag.setDouble("HammerSpeed", ((BasicHammer) inputItem.getItem()).toolMaterial.getEfficiencyOnProperMaterial());
-        tag.setInteger("HammerHarvestLevel", ((BasicHammer) inputItem.getItem()).toolMaterial.getHarvestLevel());
+        tag.setDouble("HammerSpeed", ((BasicHammer) inputItem.getItem()).getHammerSettings().getEffiency());
+        tag.setInteger("HammerHarvestLevel", ((BasicHammer) inputItem.getItem()).getHammerSettings().getHarvestLevel());
         output.setTagCompound(inputItem.getTagCompound());
         return output;
     }

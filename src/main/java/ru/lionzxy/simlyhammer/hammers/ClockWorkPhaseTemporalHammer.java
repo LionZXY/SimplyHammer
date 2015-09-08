@@ -11,9 +11,9 @@ public class ClockWorkPhaseTemporalHammer extends ItemTemporalClockworkPickaxe {
     public ClockWorkPhaseTemporalHammer(ToolMaterial mat) {
         super(mat);
     }
+
     @Override
-    public Item getItemChangeTo()
-    {
+    public Item getItemChangeTo() {
         return AddHammers.CWPHammer;
     }
 }

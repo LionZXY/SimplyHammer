@@ -16,6 +16,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.libs.HammerSettings;
 
 /**
  * Created by nikit on 07.09.2015.
@@ -25,13 +26,6 @@ public interface IModifiHammer {
 
     boolean checkMaterial(ItemStack itemStack);
 
-    ItemStack getRepairMaterial();
-
-    boolean getMAxe();
-    boolean getMShovel();
-    boolean isIsRepair();
-    boolean isIsAchiv();
-    boolean getMDiamond();
-    boolean getMTorch();
+    HammerSettings getHammerSettings();
 
 }

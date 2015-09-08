@@ -29,7 +29,7 @@ public class ProspectorsPick extends Item {
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if (!world.isRemote) {
-            if(Config.config.get("prospectorsPick", "Achievement", true).getBoolean())
+            if (Config.config.get("prospectorsPick", "Achievement", true).getBoolean())
                 player.addStat(AchievementSH.firstResearch, 1);
             int radius = radiusPP;
             stack.damageItem(1, player);

@@ -26,6 +26,8 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.utils.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 
@@ -35,73 +37,31 @@ import java.util.List;
  * Created by nikit on 30.08.2015.
  */
 public class BasicHammer extends ItemTool implements IModifiHammer {
-    int breakRadius = 1, breakDepth = 0, oreDictId = 0;
-    private Item repairMaterial;
-    public ToolMaterial toolMaterial;
-    public boolean isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, infinity;
-    String localizeName;
+    HammerSettings hammerSettings;
 
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,int Attack,
-                       String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch, boolean infinity) {
-        this(name, null, "simplyhammer:" + name, breakRadius, harvestLevel, speed, damage, Enchant, Attack, repairMaterial1, isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch, infinity);
+    public BasicHammer(HammerSettings hammerSettings) {
+        this(hammerSettings, "simplyhammer:" + hammerSettings.getUnlocalizeName());
     }
 
-    public BasicHammer(String name, String localizeName, String texturename, int breakRadius, int harvestLevel, float speed, int damage, int Enchant, int Attack,
-                       String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch, boolean infinity) {
-        super(1F, EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, Attack, Enchant), null);
-        toolMaterial = this.func_150913_i();
-        this.setTextureName(texturename);
-        this.setUnlocalizedName(name);
-        this.breakRadius = breakRadius;
+    public BasicHammer(HammerSettings hammerSettings, String texturename) {
+        super(1F, hammerSettings.getMaterial(), null);
         this.setCreativeTab(SimplyHammer.tabGeneral);
-        this.setMaxDamage(toolMaterial.getMaxUses());
-        if (repairMaterial1.indexOf(':') != -1)
-            repairMaterial = GameRegistry.findItem(repairMaterial1.substring(0, repairMaterial1.indexOf(':')), repairMaterial1.substring(repairMaterial1.indexOf(':')));
-        else
-            oreDictId = OreDictionary.getOreID(repairMaterial1);
         this.setMaxStackSize(1);
-        this.isRepair = isRepair;
-        this.isAchiv = isAchiv;
-        this.MDiamond = MDiamond;
-        this.MAxe = MAxe;
-        this.MShovel = MShovel;
-        this.MTorch = MTorch;
-        this.localizeName = localizeName;
-        this.infinity = infinity;
+        this.setUnlocalizedName(hammerSettings.getUnlocalizeName());
     }
 
 
     public String getItemStackDisplayName(ItemStack p_77653_1_) {
-        if (localizeName == null)
-            return ("" + StatCollector.translateToLocal(this.getUnlocalizedNameInefficiently(p_77653_1_) + ".name")).trim();
-        else
-            return localizeName;
-    }
-
-    public BasicHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant) {
-        super(1F, EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, speed * harvestLevel, Enchant), null);
-        this.toolMaterial = this.func_150913_i();
-        this.setTextureName("simplyhammer:" + name);
-        this.setUnlocalizedName(name);
-        this.breakRadius = breakRadius;
-        this.setCreativeTab(SimplyHammer.tabGeneral);
-        this.setMaxDamage(toolMaterial.getMaxUses());
-        this.setMaxStackSize(1);
+        return hammerSettings.getLocalizeName();
     }
 
     public boolean checkMaterial(ItemStack itemStack) {
-        if (!isRepair)
-            return false;
-        if (repairMaterial != null)
-            return itemStack.getItem() == repairMaterial;
-        if (oreDictId != 0) {
-            int[] oreIds = OreDictionary.getOreIDs(itemStack);
+        return hammerSettings.checkMaterial(itemStack);
+    }
 
-            for (int oreId : oreIds)
-                if (oreDictId == oreId)
-                    return true;
-        }
-        return false;
+    @Override
+    public HammerSettings getHammerSettings() {
+        return hammerSettings;
     }
 
     @Override
@@ -111,7 +71,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
         if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
             return -1F;
         if (block.getHarvestTool(meta).equals("pickaxe"))
-            return toolMaterial.getEfficiencyOnProperMaterial();
+            return hammerSettings.getEffiency();
         if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0)
             return (float) stack.getTagCompound().getDouble("AxeSpeed");
         if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0)
@@ -131,8 +91,9 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
     }
 
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
-        if (isAchiv)
+        if (hammerSettings.isAchive())
             player.addStat(AchievementSH.firstDig, 1);
+
         MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
         if (mop == null)
             return false;
@@ -175,7 +136,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if (world.isRemote)
             return true;
-        if (isAchiv)
+        if (hammerSettings.isAchive())
             player.addStat(AchievementSH.placeBlock, 1);
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
@@ -233,19 +194,17 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
 
                     int dmg = nearbyStack.getItemDamage();
                     int count = nearbyStack.stackSize;
-                    /*if (item == TinkerTools.openBlocksDevNull)
-                    {
+                    if (item == HammerUtils.openBlocksDevNull) {
                         //Openblocks uses current inventory slot, so we have to do this...
-                        player.inventory.currentItem=itemSlot;
+                        player.inventory.currentItem = itemSlot;
                         item.onItemUse(nearbyStack, player, world, x, y, z, side, clickX, clickY, clickZ);
-                        player.inventory.currentItem=hotbarSlot;
+                        player.inventory.currentItem = hotbarSlot;
                         player.swingItem();
-                    }
-                    else*/
-                    used = item.onItemUse(nearbyStack, player, world, x, y, z, side, clickX, clickY, clickZ);
+                    } else
+                        used = item.onItemUse(nearbyStack, player, world, x, y, z, side, clickX, clickY, clickZ);
 
                     // handle creative mode
-                    if (player.capabilities.isCreativeMode || infinity) {
+                    if (player.capabilities.isCreativeMode || hammerSettings.isInfinity()) {
                         // fun fact: vanilla minecraft does it exactly the same way
                         nearbyStack.setItemDamage(dmg);
                         nearbyStack.stackSize = count;
@@ -260,7 +219,6 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
         return used;
     }
 
-    //Нагло слямзил у Tinkers Construct
     protected void breakExtraBlock(World world, int x, int y, int z, int sidehit, EntityPlayer playerEntity, int refX, int refY, int refZ) {
         // prevent calling that stuff for air blocks, could lead to unexpected behaviour since it fires events
         if (world.isAirBlock(x, y, z))
@@ -384,7 +342,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
 
     public Multimap getAttributeModifiers(ItemStack stack) {
         Multimap multimap = super.getAttributeModifiers(stack);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double) toolMaterial.getDamageVsEntity(), 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double) hammerSettings.getDamageVsEntity(), 0));
         return multimap;
     }
 
@@ -394,13 +352,13 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
             list.add(StatCollector.translateToLocal("information.placeBlock"));
             list.add(StatCollector.translateToLocal("information.line"));
             list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
-            list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + toolMaterial.getHarvestLevel());
-            if (isRepair && repairMaterial != null)
-                list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + getRepairMaterial().getDisplayName());
-            else if(infinity)
+            list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
+            if (hammerSettings.isRepair())
+                list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
+            else if (hammerSettings.isInfinity())
                 list.add(StatCollector.translateToLocal("information.infinity"));
-                else list.add(StatCollector.translateToLocal("information.noRepairable"));
-            list.add(StatCollector.translateToLocal("information.efficiency") + " " + toolMaterial.getEfficiencyOnProperMaterial());
+            else list.add(StatCollector.translateToLocal("information.noRepairable"));
+            list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
             if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
                 list.add("");
                 list.add(StatCollector.translateToLocal("information.modification"));
@@ -418,46 +376,9 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
 
 
     public int getItemEnchantability() {
-        return toolMaterial.getEnchantability();
+        return hammerSettings.getEnchant();
     }
 
-    public ItemStack getRepairMaterial() {
-        if (repairMaterial != null)
-            return new ItemStack(repairMaterial);
-        if (oreDictId != 0)
-            return OreDictionary.getOres(OreDictionary.getOreName(oreDictId)).get(0);
-        return new ItemStack(Items.stick);
-    }
-
-    @Override
-    public boolean getMAxe() {
-        return MAxe;
-    }
-
-    @Override
-    public boolean getMShovel() {
-        return MShovel;
-    }
-
-    @Override
-    public boolean isIsRepair() {
-        return isRepair;
-    }
-
-    @Override
-    public boolean isIsAchiv() {
-        return isAchiv;
-    }
-
-    @Override
-    public boolean getMDiamond() {
-        return MDiamond;
-    }
-
-    @Override
-    public boolean getMTorch() {
-        return MTorch;
-    }
 
     @Override
     public int getHarvestLevel(ItemStack stack, String toolClass) {
@@ -471,7 +392,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
         if (!toolClass.equals("pickaxe"))
             return -1;
         // tadaaaa
-        return toolMaterial.getHarvestLevel();
+        return hammerSettings.getHarvestLevel();
     }
 
 
@@ -501,21 +422,21 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
     boolean giveDamage(ItemStack stack, EntityPlayer player) {
         if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
             return false;
-        if (!infinity)
+        if (!hammerSettings.isInfinity())
             stack.setItemDamage(stack.getItemDamage() + 1);
         return true;
     }
 
     @Override
     public boolean onBlockDestroyed(ItemStack p_150894_1_, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_) {
-        if ((double) p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D && toolMaterial.getMaxUses() != -1 && !infinity) {
+        if ((double) p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D && hammerSettings.getDurability() != -1 && !hammerSettings.isInfinity()) {
             p_150894_1_.damageItem(1, p_150894_7_);
         }
         return true;
     }
 
     public boolean hitEntity(ItemStack p_77644_1_, EntityLivingBase p_77644_2_, EntityLivingBase p_77644_3_) {
-        if (!infinity)
+        if (!hammerSettings.isInfinity())
             p_77644_1_.damageItem(2, p_77644_3_);
         return true;
     }

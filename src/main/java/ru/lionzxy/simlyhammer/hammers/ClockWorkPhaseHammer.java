@@ -5,6 +5,10 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import lumaceon.mods.clockworkphase.init.ModItems;
 import lumaceon.mods.clockworkphase.item.construct.clockwork.tool.ItemClockworkPickaxe;
+import lumaceon.mods.clockworkphase.lib.MechanicTweaker;
+import lumaceon.mods.clockworkphase.lib.NBTTags;
+import lumaceon.mods.clockworkphase.util.NBTHelper;
+import lumaceon.mods.clockworkphase.util.TimeSandParser;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -18,47 +22,42 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.oredict.OreDictionary;
+import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.utils.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
+
+import java.util.List;
 
 /**
  * Created by nikit on 07.09.2015.
  */
-public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModifiHammer{
+public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModifiHammer {
 
-    int breakRadius = 1, breakDepth = 0;
-    public ToolMaterial toolMaterial;
-    public boolean isRepair, isAchiv, MDiamond, MAxe, MShovel, MTorch;
+    HammerSettings hammerSettings;
 
 
-    public ClockWorkPhaseHammer (String name, int breakRadius, int harvestLevel, float speed, int damage, int Enchant,int Attack,
-                                 String repairMaterial1, boolean isRepair, boolean isAchiv, boolean MDiamond, boolean MAxe, boolean MShovel, boolean MTorch) {
-        super(EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, Attack, Enchant));
-        toolMaterial = this.func_150913_i();
-        this.setTextureName("simplyhammer:clockworkHammer");
-        this.setUnlocalizedName(name);
-        this.breakRadius = breakRadius;
+    public ClockWorkPhaseHammer(HammerSettings hammerSettings) {
+        super(hammerSettings.getMaterial());
+        this.setTextureName("simplyhammer:" + hammerSettings.getUnlocalizeName());
+        this.setUnlocalizedName(hammerSettings.getUnlocalizeName());
         this.setCreativeTab(SimplyHammer.tabGeneral);
         this.setMaxStackSize(1);
-        this.isRepair = isRepair;
-        this.isAchiv = isAchiv;
-        this.MDiamond = MDiamond;
-        this.MAxe = MAxe;
-        this.MShovel = MShovel;
-        this.MTorch = MTorch;
     }
 
 
-    public String getUnlocalizedName()
-    {
+    public String getUnlocalizedName() {
         return "item." + "clockworkHammer";
     }
 
@@ -66,19 +65,18 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
      * Returns the unlocalized name of this item. This version accepts an ItemStack so different stacks can have
      * different names based on their damage or NBT.
      */
-    public String getUnlocalizedName(ItemStack p_77667_1_)
-    {
+    public String getUnlocalizedName(ItemStack p_77667_1_) {
         return "item." + "clockworkHammer";
     }
+
     @Override
-    public Item getItemChangeTo()
-    {
+    public Item getItemChangeTo() {
         return AddHammers.CWPTemporalHammer;
     }
 
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
-        super.onBlockStartBreak(itemstack,X,Y,Z,player);
-        if (isAchiv)
+        super.onBlockStartBreak(itemstack, X, Y, Z, player);
+        if (hammerSettings.isAchive())
             player.addStat(AchievementSH.firstDig, 1);
         MovingObjectPosition mop = BasicHammer.raytraceFromEntity(player.worldObj, player, false, 4.5d);
         if (mop == null)
@@ -116,13 +114,14 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
                 }
         return super.onBlockStartBreak(itemstack, X, Y, Z, player);
     }
+
     //Right-click
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         super.onItemUse(stack, player, world, x, y, z, side, clickX, clickY, clickZ);
         if (world.isRemote)
             return true;
-        if (isAchiv)
+        if (hammerSettings.isAchive())
             player.addStat(AchievementSH.placeBlock, 1);
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
@@ -180,16 +179,14 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
 
                     int dmg = nearbyStack.getItemDamage();
                     int count = nearbyStack.stackSize;
-                    /*if (item == TinkerTools.openBlocksDevNull)
-                    {
+                    if (item == HammerUtils.openBlocksDevNull) {
                         //Openblocks uses current inventory slot, so we have to do this...
-                        player.inventory.currentItem=itemSlot;
+                        player.inventory.currentItem = itemSlot;
                         item.onItemUse(nearbyStack, player, world, x, y, z, side, clickX, clickY, clickZ);
-                        player.inventory.currentItem=hotbarSlot;
+                        player.inventory.currentItem = hotbarSlot;
                         player.swingItem();
-                    }
-                    else*/
-                    used = item.onItemUse(nearbyStack, player, world, x, y, z, side, clickX, clickY, clickZ);
+                    } else
+                        used = item.onItemUse(nearbyStack, player, world, x, y, z, side, clickX, clickY, clickZ);
 
                     // handle creative mode
                     if (player.capabilities.isCreativeMode) {
@@ -265,7 +262,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
 
             if (block.removedByPlayer(world, player, x, y, z, true)) // boolean is if block can be harvested, checked above
             {
-                super.onBlockDestroyed(player.getCurrentEquippedItem(),world,block,x,y,z,playerEntity);
+                super.onBlockDestroyed(player.getCurrentEquippedItem(), world, block, x, y, z, playerEntity);
                 block.onBlockDestroyedByPlayer(world, x, y, z, meta);
                 block.harvestBlock(world, player, x, y, z, meta);
                 block.dropXpOnBlockBreak(world, x, y, z, event.getExpToDrop());
@@ -299,14 +296,15 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
             Minecraft.getMinecraft().getNetHandler().addToSendQueue(new C07PacketPlayerDigging(2, x, y, z, Minecraft.getMinecraft().objectMouseOver.sideHit));
         }
     }
+
     boolean giveDamage(ItemStack stack, EntityPlayer player) {
         if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
             return false;
-            stack.setItemDamage(stack.getItemDamage() + 1);
+        stack.setItemDamage(stack.getItemDamage() + 1);
         return true;
     }
+
     public boolean isEffective(ItemStack stack, Block block, int meta) {
-        System.out.println(stack.getTagCompound().getInteger("Shovel"));
         return block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("pickaxe") || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0) || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0) || isEffective(block.getMaterial());
     }
 
@@ -317,7 +315,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
         if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
             return -1F;
         if (block.getHarvestTool(meta).equals("pickaxe"))
-            return super.getDigSpeed(stack,block,meta);
+            return super.getDigSpeed(stack, block, meta);
         if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0)
             return (float) stack.getTagCompound().getDouble("AxeSpeed");
         if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0)
@@ -338,7 +336,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
         if (!toolClass.equals("pickaxe"))
             return -1;
         // tadaaaa
-        return super.getHarvestLevel(stack,toolClass);
+        return super.getHarvestLevel(stack, toolClass);
     }
 
     @Override
@@ -347,39 +345,10 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
     }
 
     @Override
-    public ItemStack getRepairMaterial() {
-        return null;
+    public HammerSettings getHammerSettings() {
+        return hammerSettings;
     }
 
-    @Override
-    public boolean getMAxe() {
-        return MAxe;
-    }
-
-    @Override
-    public boolean getMShovel() {
-        return MShovel;
-    }
-
-    @Override
-    public boolean isIsRepair() {
-        return isRepair;
-    }
-
-    @Override
-    public boolean isIsAchiv() {
-        return isAchiv;
-    }
-
-    @Override
-    public boolean getMDiamond() {
-        return MDiamond;
-    }
-
-    @Override
-    public boolean getMTorch() {
-        return MTorch;
-    }
     protected Material[] getEffectiveMaterials() {
         return materials;
     }
@@ -396,9 +365,75 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
 
     @Override
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister registry)
-    {
+    public void registerIcons(IIconRegister registry) {
         this.itemIcon = registry.registerIcon("simplyhammer:clockworkHammer");
     }
 
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack is, EntityPlayer player, List list, boolean flag) {
+        list.add("Tension: " + "\u00a7e" + NBTHelper.getInt(is, NBTTags.TENSION_ENERGY) + "/" + "\u00a7e" + NBTHelper.getInt(is, NBTTags.MAX_TENSION));
+        int timeSand = getTimeSand(is);
+        if (timeSand > 0) {
+            list.add(TimeSandParser.getStringForRenderingFromTimeSand(timeSand));
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT)) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) || Keyboard.isKeyDown(Keyboard.KEY_RCONTROL)) {
+                int tension = NBTHelper.getInt(is, NBTTags.TENSION_ENERGY);
+                int quality = NBTHelper.getInt(is, NBTTags.QUALITY);
+                int speed = NBTHelper.getInt(is, NBTTags.SPEED);
+                float efficiency = (float) speed / (float) quality;
+                int tensionCost = (int) Math.round(MechanicTweaker.TENSION_PER_BLOCK_BREAK * Math.pow(efficiency, 2));
+                list.add(StatCollector.translateToLocal("information.placeBlock"));
+                list.add(StatCollector.translateToLocal("information.line"));
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (tension / tensionCost) + StatCollector.translateToLocal("information.blocks"));
+                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + this.getHarvestLevel(is, "pickaxe"));
+                list.add(StatCollector.translateToLocal("information.efficiency") + " " + this.getDigSpeed(is, Blocks.stone, 0));
+                if (is.hasTagCompound() && is.getTagCompound().getBoolean("Modif")) {
+                    list.add("");
+                    list.add(StatCollector.translateToLocal("information.modification"));
+                    if (is.getTagCompound().getBoolean("Torch"))
+                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
+                    if (is.getTagCompound().getBoolean("Diamond"))
+                        list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
+                    if (is.getTagCompound().getInteger("Axe") != 0)
+                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + is.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + is.getTagCompound().getDouble("AxeSpeed"));
+                    if (is.getTagCompound().getInteger("Shovel") != 0)
+                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + is.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + is.getTagCompound().getDouble("ShovelSpeed"));
+
+                }
+            } else {
+                int quality = NBTHelper.getInt(is, NBTTags.QUALITY);
+                int speed = NBTHelper.getInt(is, NBTTags.SPEED);
+                int memory = NBTHelper.getInt(is, NBTTags.MEMORY);
+                int memoryWebPower = (int) (memory * Math.pow(player.experienceLevel + 1.0F, 2.0F));
+                int chance = MechanicTweaker.TIME_SAND_CHANCE_FACTOR;
+                if (memoryWebPower > 0) {
+                    chance = MechanicTweaker.TIME_SAND_CHANCE_FACTOR / memoryWebPower;
+                    if (chance < 1) {
+                        chance = 1;
+                    }
+                }
+
+                list.add("");
+                list.add("Clockwork Quality: " + "\u00A7e" + quality);
+                list.add("Clockwork Speed: " + "\u00A7e" + speed);
+                list.add("Memory: " + "\u00A7e" + memory);
+                if (memory > 0) {
+                    if (chance < 1000000) {
+                        list.add("Chance of Extracting Time Sand: 1 in " + chance);
+                    } else {
+                        list.add("Chance of Extracting Time Sand: 1 in an eternity.");
+                    }
+                }
+
+                list.add("");
+
+                list.add(StatCollector.translateToLocal("information.LCONTROL"));
+            }
+        } else {
+            list.add(StatCollector.translateToLocal("information.ShiftDialog"));
+            list.add(StatCollector.translateToLocal("information.LCONTROL"));
+        }
+    }
 }

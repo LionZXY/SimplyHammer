@@ -11,6 +11,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.recipe.BindingRecipe;
 import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
 import ru.lionzxy.simlyhammer.utils.AchievementSH;
@@ -34,6 +36,7 @@ public class SimplyHammer {
     @Mod.EventHandler
     public void PostInit(FMLPostInitializationEvent event) {
         Config.createConfig();
+        HammerUtils.init();
         tabGeneral = new HammerTab("tabGeneral");
         AddHammers.addAllHammers();
         CustomHammers.addCustomHammers();

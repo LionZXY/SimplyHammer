@@ -57,7 +57,8 @@ achievement.Modification.desc=First Modification from Simply Hammer!
 prospectorPick.Found=Found
 prospectorPick.NotFoundOre=Not Found Ore...
 
-information.ShiftDialog=Shift for more information
+information.ShiftDialog=-Hold Shift for details-
+information.LCONTROL=-Hold Shift and Ctrl for details-
 information.placeBlock=RightClick for place block
 information.line==================================
 information.usesLeft=Uses left:
