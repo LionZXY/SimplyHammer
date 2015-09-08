@@ -209,5 +209,14 @@
       <JAVADOC />
       <SOURCES />
     </library>
+    <library name="industrialcraft-2-2.2.771-experimental-dev">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/industrialcraft-2-2.2.771-experimental-dev.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/libs/industrialcraft-2-2.2.771-experimental-dev.jar!/" />
+      </SOURCES>
+    </library>
   </component>
 </project>

@@ -45,6 +45,8 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
 
     public BasicHammer(HammerSettings hammerSettings, String texturename) {
         super(1F, hammerSettings.getMaterial(), null);
+        this.hammerSettings=hammerSettings;
+        this.setTextureName(texturename);
         this.setCreativeTab(SimplyHammer.tabGeneral);
         this.setMaxStackSize(1);
         this.setUnlocalizedName(hammerSettings.getUnlocalizeName());

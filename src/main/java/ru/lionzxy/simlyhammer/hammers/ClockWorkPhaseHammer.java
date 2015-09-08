@@ -50,6 +50,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
 
     public ClockWorkPhaseHammer(HammerSettings hammerSettings) {
         super(hammerSettings.getMaterial());
+        this.hammerSettings=hammerSettings;
         this.setTextureName("simplyhammer:" + hammerSettings.getUnlocalizeName());
         this.setUnlocalizedName(hammerSettings.getUnlocalizeName());
         this.setCreativeTab(SimplyHammer.tabGeneral);

@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
@@ -43,6 +44,7 @@ public class SimplyHammer {
         GameRegistry.addRecipe(new RecipeRepair());
         if (Loader.isModLoaded("AWWayofTime"))
             new BindingRecipe(null, null);
+        MinecraftForge.EVENT_BUS.register(new AchievementSH());
         FMLCommonHandler.instance().bus().register(new AchievementSH());
         AchievementSH.addAchivement();
         Config.config.save();

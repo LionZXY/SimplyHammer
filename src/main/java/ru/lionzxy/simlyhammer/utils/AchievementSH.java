@@ -2,12 +2,14 @@ package ru.lionzxy.simlyhammer.utils;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.hammers.Aronil98Hammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 
 /**
@@ -16,6 +18,12 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 public class AchievementSH {
     public static Achievement firstDig, placeBlock, firstResearch, firstUpgrade;
 
+    @SubscribeEvent
+    public void onBreak(net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed event){
+        if(event.entityPlayer.getCurrentEquippedItem().getItem() instanceof Aronil98Hammer)
+            if(!Aronil98Hammer.isPlayerAutor(event.entityPlayer))
+                event.newSpeed = 0.0F;
+    }
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
         if (event.crafting.getItem() instanceof IModifiHammer) if (event.crafting.hasTagCompound())

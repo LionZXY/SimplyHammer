@@ -42,6 +42,7 @@ public class BoundHammer extends BasicHammer implements IBindable {
 
     public BoundHammer(HammerSettings hammerSettings) {
         super(hammerSettings);
+        this.hammerSettings = hammerSettings;
         this.hammerSettings.setInfinity();
     }
 

@@ -9,7 +9,9 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.hammers.Aronil98Hammer;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 /**
  * Created by nikit on 08.09.2015.
@@ -27,14 +29,16 @@ public class HammerSettings {
                 Config.config.get(name, "HarvestLevel", harvestLevel).getInt(),
                 Config.config.get(name, "Durability", damage).getInt(),
                 (float) Config.config.get(name, "Speed", (double) speed).getDouble(),
-                Config.config.get(name, "AttackDamage", harvestLevel * speed).getInt(),
+                Config.config.get(name, "AttackDamage", (int) (harvestLevel * speed)).getInt(),
                 Config.config.get(name, "Enchant", (int) (speed * 10000) / damage).getInt());
         this.breakRadius = Config.config.get(name, "BreakRadius", breakRadius).getInt();
-        repairMaterial = Config.config.get(name, "RepairMaterial", rm).getString();
-        if (repairMaterial.indexOf(':') != -1)
-            repairItem = HammerUtils.getItemFromString(repairMaterial);
-        else
-            oreDictId = OreDictionary.getOreID(repairMaterial);
+        if (rm != null) {
+            repairMaterial = Config.config.get(name, "RepairMaterial", rm).getString();
+            if (repairMaterial.indexOf(':') != -1)
+                repairItem = HammerUtils.getItemFromString(repairMaterial);
+            else
+                oreDictId = OreDictionary.getOreID(repairMaterial);
+        }
         this.repair = Config.config.get(name, "Repairable", true).getBoolean();
         this.isAchive = Config.config.get(name, "GetAchievement", true).getBoolean();
         this.mDiamond = Config.config.get(name, "DiamondModif", true).getBoolean();
@@ -42,6 +46,13 @@ public class HammerSettings {
         this.mShovel = Config.config.get(name, "ShovelModif", true).getBoolean();
         this.mTorch = Config.config.get(name, "TorchModif", true).getBoolean();
         this.infinity = Config.config.get(name, "Infinity", infinity).getBoolean();
+    }
+
+    public HammerSettings registerHammer(boolean inlist) {
+        Item hammer = new BasicHammer(this);
+        if(inlist)SimplyHammer.hammers.add(hammer);
+        GameRegistry.registerItem(hammer, getUnlocalizeName());
+        return this;
     }
 
     public boolean checkMaterial(ItemStack itemStack) {
@@ -93,7 +104,7 @@ public class HammerSettings {
     }
 
     public Item.ToolMaterial getMaterial() {
-        return this.getMaterial();
+        return this.material;
     }
 
     public boolean isAchive() {
@@ -135,6 +146,18 @@ public class HammerSettings {
 
     public void setLocalizeName(String localizeName) {
         this.localizeName = Config.config.get(this.getMaterial().name(), "LocalizeName", localizeName).getString();
+    }
+
+    public HammerSettings(String name,int harvestLevel, float speed, int damage) {
+        material = EnumHelper.addToolMaterial(name,harvestLevel,damage,speed,40,40);
+        this.breakRadius = 2;
+        this.repair = false;
+        this.isAchive = true;
+        this.mDiamond = true;
+        this.mAxe = true;
+        this.mShovel = true;
+        this.mTorch = true;
+        this.infinity = true;
     }
 
 }

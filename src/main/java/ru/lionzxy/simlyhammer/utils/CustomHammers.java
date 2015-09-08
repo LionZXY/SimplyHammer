@@ -19,10 +19,9 @@ public class CustomHammers {
 
     static void addCustomHammer(int numb) {
         String name = Config.config.get("hamm" + numb, "Name", "hamm" + numb).getString();
-        SimplyHammer.hammers.add(new BasicHammer(new HammerSettings("hamm" + numb, 1, 3, 1F, 2000, "ingotIron", false)));
+        SimplyHammer.hammers.add(new BasicHammer(new HammerSettings("hamm" + numb, 1, 3, 1F, 2000, "ingotIron", false).registerHammer(false)));
         int thisPos = SimplyHammer.hammers.size() - 1;
         ((IModifiHammer) SimplyHammer.hammers.get(thisPos)).getHammerSettings().setLocalizeName("Simply Hammer #" + numb);
-        GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
         AddHammers.addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", "blockIron");
     }
 }
