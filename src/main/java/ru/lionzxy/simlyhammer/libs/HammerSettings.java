@@ -21,7 +21,7 @@ public class HammerSettings {
     private String localizeName;
     private ItemStack repairItem;
     private int breakRadius, oreDictId;
-    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity;
+    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash;
 
     public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity) {
         String repairMaterial;
@@ -46,11 +46,12 @@ public class HammerSettings {
         this.mShovel = Config.config.get(name, "ShovelModif", true).getBoolean();
         this.mTorch = Config.config.get(name, "TorchModif", true).getBoolean();
         this.infinity = Config.config.get(name, "Infinity", infinity).getBoolean();
+        this.mTrash = Config.config.get(name, "TrashModif", true).getBoolean();
     }
 
     public HammerSettings registerHammer(boolean inlist) {
         Item hammer = new BasicHammer(this);
-        if(inlist)SimplyHammer.hammers.add(hammer);
+        if (inlist) SimplyHammer.hammers.add(hammer);
         GameRegistry.registerItem(hammer, getUnlocalizeName());
         return this;
     }
@@ -123,6 +124,9 @@ public class HammerSettings {
         return mTorch;
     }
 
+    public boolean getMTrash() {
+        return mTrash;
+    }
 
     public boolean getMDiamond() {
         return mDiamond;
@@ -148,8 +152,8 @@ public class HammerSettings {
         this.localizeName = Config.config.get(this.getMaterial().name(), "LocalizeName", localizeName).getString();
     }
 
-    public HammerSettings(String name,int harvestLevel, float speed, int damage) {
-        material = EnumHelper.addToolMaterial(name,harvestLevel,damage,speed,40,40);
+    public HammerSettings(String name, int harvestLevel, float speed, int damage) {
+        material = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, 40, 40);
         this.breakRadius = 2;
         this.repair = false;
         this.isAchive = true;

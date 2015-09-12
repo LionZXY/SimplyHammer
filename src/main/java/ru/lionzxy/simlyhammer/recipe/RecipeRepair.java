@@ -10,8 +10,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.items.AddItems;
+import ru.lionzxy.simlyhammer.items.TrashItem;
 
 /**
  * Created by nikit on 30.08.2015.
@@ -41,6 +44,7 @@ public class RecipeRepair implements IRecipe {
             tag.setInteger("Axe", 0);
             tag.setDouble("AxeSpeed", 0);
             tag.setBoolean("Torch", false);
+            tag.setBoolean("Trash", false);
             hammer.setTagCompound(tag);
         }
         if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.MDiamond && !hammer.getTagCompound().getBoolean("Diamond") && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMDiamond()) {
@@ -66,7 +70,17 @@ public class RecipeRepair implements IRecipe {
                 hammer.getTagCompound().setBoolean("Torch", false);
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-
+        if(findItem(ic, AddItems.trash))
+        if (findItem(ic, AddItems.trash) && hammer != null && hammer.hasTagCompound() && Config.MTrash && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTrash()) {
+            if (!hammer.getTagCompound().getBoolean("Trash")) {
+                hammer.getTagCompound().setBoolean("Trash", true);
+                hammer.getTagCompound().setTag("Items", getItem(ic, AddItems.trash).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
+                hammer.getTagCompound().setBoolean("Invert", getItem(ic, AddItems.trash).getTagCompound().getBoolean("Invert"));
+                hammer.getTagCompound().setBoolean("Modif", true);
+            }else {
+                hammer.getTagCompound().setBoolean("Trash", false);
+            }
+        }
 
         if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).getHammerSettings().isRepair())
             if (findItem(ic, hammer.getItem()))
@@ -116,6 +130,13 @@ public class RecipeRepair implements IRecipe {
                 return true;
 
         return false;
+    }
+
+    public ItemStack getItem(InventoryCrafting ic, Item item) {
+        for (int i = 0; i < ic.getSizeInventory(); i++)
+            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() == item)
+                return ic.getStackInSlot(i);
+        return null;
     }
 
     int getDamage(ItemStack itemStack, int multi) {

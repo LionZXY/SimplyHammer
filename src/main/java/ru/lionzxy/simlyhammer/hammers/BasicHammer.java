@@ -22,6 +22,7 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
@@ -32,7 +33,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-public class BasicHammer extends ItemTool implements IModifiHammer {
+public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
     HammerSettings hammerSettings;
 
     public BasicHammer(HammerSettings hammerSettings) {
@@ -370,6 +371,8 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
                     list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
                 if (itemStack.getTagCompound().getInteger("Shovel") != 0)
                     list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
+                if  (itemStack.getTagCompound().getBoolean("Trash"))
+                    list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Trash"));
             }
         } else list.add(StatCollector.translateToLocal("information.ShiftDialog"));
     }
@@ -440,5 +443,6 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
             p_77644_1_.damageItem(2, p_77644_3_);
         return true;
     }
+
 
 }

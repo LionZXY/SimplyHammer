@@ -11,7 +11,7 @@ import java.io.File;
 public class Config {
 
     public static Configuration config;
-    public static boolean pick,MTorch,MDiamond,MAxe,MShovel,repair;
+    public static boolean pick,MTorch,MDiamond,MAxe,MShovel,repair, MTrash;
     public static int customHammer;
 
     public static void createConfig() {
@@ -23,6 +23,7 @@ public class Config {
         MShovel = Config.config.get("general", "ShovelModif", true).getBoolean();
         MAxe = Config.config.get("general", "AxeModif", true).getBoolean();
         MDiamond = Config.config.get("general", "DiamondModif", true).getBoolean();
+        MTrash = Config.config.get("general", "TrashModif", true).getBoolean();;
         repair = Config.config.get("general", "RepairTool", true).getBoolean();
         customHammer = Config.config.get("general","customHammer",0).getInt();
         config.save();

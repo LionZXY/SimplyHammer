@@ -10,6 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.items.TrashItem;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.proxy.CommonProxy;
@@ -43,8 +44,7 @@ public class SimplyHammer {
         Config.createConfig();
         HammerUtils.init();
         tabGeneral = new HammerTab("tabGeneral");
-        System.out.println(Loader.isModLoaded("AWWayofTime"));
-        AddHammers.addAllHammers();
+        AddItems.init();
         CustomHammers.addCustomHammers();
         GameRegistry.addRecipe(new RecipeRepair());
         if (Loader.isModLoaded("AWWayofTime"))
@@ -53,7 +53,6 @@ public class SimplyHammer {
         FMLCommonHandler.instance().bus().register(new AchievementSH());
         AchievementSH.addAchivement();
         proxy.registerProxies();
-        new TrashItem();
         Config.config.save();
     }
 }

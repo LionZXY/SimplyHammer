@@ -7,10 +7,14 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.Aronil98Hammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.interfaces.ITrash;
+import ru.lionzxy.simlyhammer.items.TrashItem;
 
 /**
  * Created by nikit on 03.09.2015.
@@ -19,11 +23,12 @@ public class AchievementSH {
     public static Achievement firstDig, placeBlock, firstResearch, firstUpgrade;
 
     @SubscribeEvent
-    public void onBreak(net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed event){
-        if(event != null && event.entityPlayer != null && event.entityPlayer.getCurrentEquippedItem()!= null && event.entityPlayer.getCurrentEquippedItem().getItem() instanceof Aronil98Hammer)
-            if(!Aronil98Hammer.isPlayerAutor(event.entityPlayer))
+    public void onBreak(net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed event) {
+        if (event != null && event.entityPlayer != null && event.entityPlayer.getCurrentEquippedItem() != null && event.entityPlayer.getCurrentEquippedItem().getItem() instanceof Aronil98Hammer)
+            if (!Aronil98Hammer.isPlayerAutor(event.entityPlayer))
                 event.newSpeed = 0.0F;
     }
+
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
         if (event.crafting.getItem() instanceof IModifiHammer) if (event.crafting.hasTagCompound())
@@ -33,6 +38,25 @@ public class AchievementSH {
             if (event.crafting.getItem() == SimplyHammer.hammers.get(i)) {
                 event.player.addStat(SimplyHammer.achievements.get(i), 1);
                 return;
+            }
+    }
+
+    @SubscribeEvent
+    public void onPickUp(EntityItemPickupEvent event) {
+        for (int i = 0; i < event.entityPlayer.inventory.getSizeInventory(); i++)
+            if (event.entityPlayer.inventory.getStackInSlot(i) != null && (event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof TrashItem || event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer)) {
+                if (event.item != null && TrashItem.isTrash(event.item.getEntityItem(), event.entityPlayer.inventory.getStackInSlot(i)))
+                    event.item.getEntityItem().stackSize = 0;
+            }
+
+    }
+
+    @SubscribeEvent
+    public void onHarvestDrop(BlockEvent.HarvestDropsEvent event) {
+            if(event.harvester == null || event.harvester.getCurrentEquippedItem() == null)
+                return;
+            if (event.harvester.getCurrentEquippedItem().getItem() instanceof ITrash) {
+                TrashItem.removeTrash(event.drops, event.harvester.getCurrentEquippedItem());
             }
     }
 

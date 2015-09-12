@@ -168,6 +168,7 @@ public class TrashInventory implements IInventory {
      */
     public void writeToNBT(NBTTagCompound tagcompound) {
         if (tagcompound != null) {
+            tagcompound.setBoolean("Trash",true);
             NBTTagList nbttaglist = new NBTTagList();
             for (int i = 0; i < inventory.length; i++) {
                 if (inventory[i] != null && inventory[i].stackSize != 0) {
