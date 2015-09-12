@@ -3,7 +3,6 @@ package ru.lionzxy.simlyhammer.hammers;
 import com.google.common.collect.Multimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -16,7 +15,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.*;
@@ -27,6 +25,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
+import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
@@ -37,7 +36,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
+public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVacuum {
     HammerSettings hammerSettings;
 
     public BasicHammer(HammerSettings hammerSettings) {
@@ -229,7 +228,6 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
         if (world.isAirBlock(x, y, z))
             return;
 
-
         // what?
         if (!(playerEntity instanceof EntityPlayerMP))
             return;
@@ -240,6 +238,9 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
         Block block = world.getBlock(x, y, z);
         int meta = world.getBlockMetadata(x, y, z);
 
+        //Fix bug with break bedrock
+        if(block.getBlockHardness(world,x,y,z) <= 0)
+            return;
         // only effective materials
         if (!isEffective(player.getCurrentEquippedItem(), block, meta))
             return;
@@ -365,8 +366,6 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
                     }
                 }
             } else {
-                list.add(StatCollector.translateToLocal("information.placeBlock"));
-                list.add(StatCollector.translateToLocal("information.line"));
                 list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
                 if (hammerSettings.isRepair())
@@ -388,6 +387,8 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
                         list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
                     if (itemStack.getTagCompound().getBoolean("Trash"))
                         list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("modification.Trash"));
+                    if (itemStack.getTagCompound().getBoolean("Vacuum"))
+                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Vacuum"));
                 }
             }
         } else {
@@ -465,4 +466,10 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
     }
 
 
+    @Override
+    public boolean isVacuum(ItemStack itemStack) {
+        if(hammerSettings.getMVacuum() && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Vacuum"))
+            return true;
+        return false;
+    }
 }

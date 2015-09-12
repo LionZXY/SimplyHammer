@@ -2,7 +2,6 @@ package ru.lionzxy.simlyhammer.handlers;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -14,6 +13,7 @@ import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.Aronil98Hammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
+import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.items.TrashItem;
 
 /**
@@ -53,11 +53,28 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onHarvestDrop(BlockEvent.HarvestDropsEvent event) {
-            if(event.harvester == null || event.harvester.getCurrentEquippedItem() == null)
-                return;
-            if (event.harvester.getCurrentEquippedItem().getItem() instanceof ITrash) {
-                TrashItem.removeTrash(event.drops, event.harvester.getCurrentEquippedItem());
-            }
+        if (event.harvester == null || event.harvester.getCurrentEquippedItem() == null)
+            return;
+        if (event.harvester.getCurrentEquippedItem().getItem() instanceof ITrash) {
+            TrashItem.removeTrash(event.drops, event.harvester.getCurrentEquippedItem());
+        }
+        if (event.harvester.getCurrentEquippedItem() != null &&
+                event.harvester.getCurrentEquippedItem().getItem() instanceof IVacuum &&
+                ((IVacuum) event.harvester.getCurrentEquippedItem().getItem()).isVacuum(event.harvester.getCurrentEquippedItem())) {
+            for (int k = 0; k < event.drops.size(); k++)
+                if (event.harvester.inventory.addItemStackToInventory(event.drops.get(k)))
+                    event.drops.remove(k);
+        } else
+            for (int i = 0; i < event.harvester.inventory.getSizeInventory(); i++)
+                if (event.harvester.inventory.getStackInSlot(i) != null &&
+                        event.harvester.inventory.getStackInSlot(i).getItem() instanceof IVacuum &&
+                        !(event.harvester.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer) &&
+                        ((IVacuum) event.harvester.inventory.getStackInSlot(i).getItem()).isVacuum(event.harvester.inventory.getStackInSlot(i)))
+                    for (int k = 0; k < event.drops.size(); k++)
+                        if (event.harvester.inventory.addItemStackToInventory(event.drops.get(k)))
+                            event.drops.remove(k);
+
+
     }
 
 

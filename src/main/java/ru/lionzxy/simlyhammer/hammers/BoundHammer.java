@@ -29,6 +29,7 @@ import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
+import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
@@ -38,7 +39,7 @@ import java.util.List;
 /**
  * Created by nikit on 06.09.2015.
  */
-public class BoundHammer extends BasicHammer implements IBindable, ITrash {
+public class BoundHammer extends BasicHammer implements IBindable {
     @SideOnly(Side.CLIENT)
     private IIcon activeIcon;
     @SideOnly(Side.CLIENT)
@@ -78,8 +79,6 @@ public class BoundHammer extends BasicHammer implements IBindable, ITrash {
     public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
         if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             if (itemStack.hasTagCompound()) {
-                list.add(StatCollector.translateToLocal("information.placeBlock"));
-                list.add(StatCollector.translateToLocal("information.line"));
                 if (!itemStack.getTagCompound().getString("ownerName").equals("") && itemStack.getTagCompound() != null)
                     list.add(StatCollector.translateToLocal("information.usesLeft") + " " + SoulNetworkHandler.getCurrentEssence(itemStack.getTagCompound().getString("ownerName")) + " " + StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick"));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + itemStack.getTagCompound().getInteger("HammerHarvestLevel"));

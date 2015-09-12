@@ -1,6 +1,9 @@
 package ru.lionzxy.simlyhammer.hammers;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import lumaceon.mods.clockworkphase.item.construct.clockwork.tool.ItemTemporalClockworkPickaxe;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
@@ -12,7 +15,7 @@ public class ClockWorkPhaseTemporalHammer extends ItemTemporalClockworkPickaxe {
     public ClockWorkPhaseTemporalHammer(ToolMaterial mat) {
         super(mat);
         this.setUnlocalizedName("cwpTemporalHammer");
-        this.setTextureName("simplyhammer:" + getUnlocalizedName());
+        this.setTextureName("clockworkphase:" +"temporalClockworkPickaxe");
     }
 
     @Override
@@ -30,5 +33,11 @@ public class ClockWorkPhaseTemporalHammer extends ItemTemporalClockworkPickaxe {
      */
     public String getUnlocalizedName(ItemStack p_77667_1_) {
         return "item." + "cwpTemporalHammer";
+    }
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister registry)
+    {
+        this.itemIcon = registry.registerIcon("clockworkphase:" +"temporalClockworkPickaxe");
     }
 }

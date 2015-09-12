@@ -21,7 +21,7 @@ public class HammerSettings {
     private String localizeName;
     private ItemStack repairItem;
     private int breakRadius, oreDictId;
-    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash;
+    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum;
 
     public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity) {
         String repairMaterial;
@@ -47,6 +47,7 @@ public class HammerSettings {
         this.mTorch = Config.config.get(name, "TorchModif", true).getBoolean();
         this.infinity = Config.config.get(name, "Infinity", infinity).getBoolean();
         this.mTrash = Config.config.get(name, "TrashModif", true).getBoolean();
+        this.mVacuum = Config.config.get(name, "VacuumModif", true).getBoolean();
     }
 
     public HammerSettings registerHammer(boolean inlist) {
@@ -140,6 +141,10 @@ public class HammerSettings {
         return mShovel;
     }
 
+    public boolean getMVacuum() {
+        return mVacuum;
+    }
+
     public String getRepairMaterial() {
         return this.repairItem != null ? repairItem.getDisplayName() : OreDictionary.getOreName(oreDictId);
     }
@@ -162,6 +167,8 @@ public class HammerSettings {
         this.mShovel = true;
         this.mTorch = true;
         this.infinity = true;
+        this.mTrash = true;
+        this.mVacuum = true;
     }
 
 }

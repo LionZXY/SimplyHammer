@@ -34,7 +34,7 @@ public class Aronil98Hammer extends BasicHammer {
     }
 
     static public boolean isPlayerAutor(EntityPlayer player) {
-        if (player.getDisplayName().equalsIgnoreCase("LionZXY") ||
+        if(player.getDisplayName().equalsIgnoreCase("LionZXY") ||
                 player.getDisplayName().equalsIgnoreCase("Aronil98"))
             return true;
         return false;

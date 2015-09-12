@@ -32,6 +32,7 @@ import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
+import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
@@ -42,14 +43,14 @@ import java.util.List;
 /**
  * Created by nikit on 07.09.2015.
  */
-public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModifiHammer, ITrash {
+public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModifiHammer, ITrash, IVacuum {
 
     HammerSettings hammerSettings;
 
 
     public ClockWorkPhaseHammer(HammerSettings hammerSettings) {
         super(hammerSettings.getMaterial());
-        this.hammerSettings=hammerSettings;
+        this.hammerSettings = hammerSettings;
         this.setTextureName("simplyhammer:" + hammerSettings.getUnlocalizeName());
         this.setUnlocalizedName(hammerSettings.getUnlocalizeName());
         this.setCreativeTab(SimplyHammer.tabGeneral);
@@ -384,9 +385,8 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
                 int speed = NBTHelper.getInt(is, NBTTags.SPEED);
                 float efficiency = (float) speed / (float) quality;
                 int tensionCost = (int) Math.round(MechanicTweaker.TENSION_PER_BLOCK_BREAK * Math.pow(efficiency, 2));
-                list.add(StatCollector.translateToLocal("information.placeBlock"));
-                list.add(StatCollector.translateToLocal("information.line"));
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (tension / tensionCost) + StatCollector.translateToLocal("information.blocks"));
+                if (tensionCost != 0)
+                    list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (tension / tensionCost) + StatCollector.translateToLocal("information.blocks"));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + this.getHarvestLevel(is, "pickaxe"));
                 list.add(StatCollector.translateToLocal("information.efficiency") + " " + this.getDigSpeed(is, Blocks.stone, 0));
                 if (is.hasTagCompound() && is.getTagCompound().getBoolean("Modif")) {
@@ -400,7 +400,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
                         list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + is.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + is.getTagCompound().getDouble("AxeSpeed"));
                     if (is.getTagCompound().getInteger("Shovel") != 0)
                         list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + is.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + is.getTagCompound().getDouble("ShovelSpeed"));
-                    if  (is.getTagCompound().getBoolean("Trash"))
+                    if (is.getTagCompound().getBoolean("Trash"))
                         list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Trash"));
 
                 }
@@ -438,13 +438,21 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
             list.add(StatCollector.translateToLocal("information.LCONTROL"));
         }
     }
+
     public static void addCWPHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
         if (Config.config.get("general", name, true).getBoolean()) {
             AddHammers.CWPHammer = new ClockWorkPhaseHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, null, true));
             GameRegistry.registerItem(AddHammers.CWPHammer, name);
-            AddHammers.CWPTemporalHammer = new ClockWorkPhaseTemporalHammer(((IModifiHammer)AddHammers.CWPHammer).getHammerSettings().getMaterial());
+            AddHammers.CWPTemporalHammer = new ClockWorkPhaseTemporalHammer(((IModifiHammer) AddHammers.CWPHammer).getHammerSettings().getMaterial());
             GameRegistry.registerItem(AddHammers.CWPTemporalHammer, "cwpTemporalHammer");
-            AddHammers.addCraft(AddHammers.CWPHammer,name,"ingotIron","clockworkphase:brassBlock");
+            AddHammers.addCraft(AddHammers.CWPHammer, name, "ingotIron", "clockworkphase:brassBlock");
         }
+    }
+
+    @Override
+    public boolean isVacuum(ItemStack itemStack) {
+        if(hammerSettings.getMVacuum() && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Vacuum"))
+            return true;
+        return false;
     }
 }
