@@ -22,18 +22,13 @@ public class TrashGui extends GuiContainer {
 
     @Override
     public void drawScreen(int x, int y, float ticks) {
-        int guiX = (width - guiWidth) / 2;
-        int guiY = (height - guiHeight) / 2;
-        GL11.glColor4f(1, 1, 1, 1);
         drawDefaultBackground();
         mc.renderEngine.bindTexture(textureLocation);
-        drawTexturedModalRect(guiX, guiY, 0, 0, guiWidth, guiHeight);
         super.drawScreen(x, y, ticks);
     }
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float p_146976_1, int p_146976_2_, int p_146976_3_) {
-        GL11.glColor4f(1, 1, 1, 1);
         int guiX = (width - guiWidth) / 2;
         int guiY = (height - guiHeight) / 2;
         this.drawTexturedModalRect(guiX, guiY, 0, 0, guiWidth, guiHeight);

@@ -14,6 +14,7 @@ item.terraSteelHammer.name=TerraSteel Hammer
 item.thaumiumHammer.name=Thaumium Hammer
 item.HSLAHammer.name=HSLA Hammer
 item.prospectorsPick.name=Prospector's Pick
+item.trashitem.name=Trash
 itemGroup.tabGeneral=Simply Hammer
 
 
@@ -75,6 +76,7 @@ information.infinity=Infinity
 information.efficiency=Efficiency:
 information.modification=Modifications:
 information.NotHaveTagCompound=Item not have NBT tag. Place item in craft window!
+information.CtrlShiftDialog=-Hold Shift and Ctrl for trash details-
 
 modification.Diamond=Diamond
 modification.Axe=Axe:
@@ -82,3 +84,7 @@ modification.AxeSpeed=, Speed:
 modification.Shovel=Shovel:
 modification.ShovelSpeed=, Speed:
 modification.Torch=Torch
+modification.Trash=Trash
+
+trash.Inverted=Inverted
+trash.IgnoreList=Ignore List:

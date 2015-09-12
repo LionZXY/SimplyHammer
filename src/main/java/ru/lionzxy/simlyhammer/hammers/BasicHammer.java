@@ -3,6 +3,7 @@ package ru.lionzxy.simlyhammer.hammers;
 import com.google.common.collect.Multimap;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -14,11 +15,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.*;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
@@ -42,7 +46,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
 
     public BasicHammer(HammerSettings hammerSettings, String texturename) {
         super(1F, hammerSettings.getMaterial(), null);
-        this.hammerSettings=hammerSettings;
+        this.hammerSettings = hammerSettings;
         this.setTextureName(texturename);
         this.setCreativeTab(SimplyHammer.tabGeneral);
         this.setMaxStackSize(1);
@@ -350,31 +354,47 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
         if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            list.add(StatCollector.translateToLocal("information.placeBlock"));
-            list.add(StatCollector.translateToLocal("information.line"));
-            list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
-            list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
-            if (hammerSettings.isRepair())
-                list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
-            else if (hammerSettings.isInfinity())
-                list.add(StatCollector.translateToLocal("information.infinity"));
-            else list.add(StatCollector.translateToLocal("information.noRepairable"));
-            list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
-            if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
-                list.add("");
-                list.add(StatCollector.translateToLocal("information.modification"));
-                if (itemStack.getTagCompound().getBoolean("Torch"))
-                    list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
-                if (itemStack.getTagCompound().getBoolean("Diamond"))
-                    list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
-                if (itemStack.getTagCompound().getInteger("Axe") != 0)
-                    list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
-                if (itemStack.getTagCompound().getInteger("Shovel") != 0)
-                    list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
-                if  (itemStack.getTagCompound().getBoolean("Trash"))
-                    list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Trash"));
+            if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                if (itemStack.getTagCompound().getBoolean("Invert"))
+                    list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
+                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash")) {
+                    list.add(StatCollector.translateToLocal("trash.IgnoreList"));
+                    for (int i = 0; i < itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
+                        NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
+                        list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
+                    }
+                }
+            } else {
+                list.add(StatCollector.translateToLocal("information.placeBlock"));
+                list.add(StatCollector.translateToLocal("information.line"));
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
+                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
+                if (hammerSettings.isRepair())
+                    list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
+                else if (hammerSettings.isInfinity())
+                    list.add(StatCollector.translateToLocal("information.infinity"));
+                else list.add(StatCollector.translateToLocal("information.noRepairable"));
+                list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
+                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
+                    list.add("");
+                    list.add(StatCollector.translateToLocal("information.modification"));
+                    if (itemStack.getTagCompound().getBoolean("Torch"))
+                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
+                    if (itemStack.getTagCompound().getBoolean("Diamond"))
+                        list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
+                    if (itemStack.getTagCompound().getInteger("Axe") != 0)
+                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
+                    if (itemStack.getTagCompound().getInteger("Shovel") != 0)
+                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
+                    if (itemStack.getTagCompound().getBoolean("Trash"))
+                        list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("modification.Trash"));
+                }
             }
-        } else list.add(StatCollector.translateToLocal("information.ShiftDialog"));
+        } else {
+            list.add(StatCollector.translateToLocal("information.ShiftDialog"));
+            if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash"))
+                list.add(StatCollector.translateToLocal("information.CtrlShiftDialog"));
+        }
     }
 
 

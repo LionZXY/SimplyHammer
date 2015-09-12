@@ -28,6 +28,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
@@ -37,7 +38,7 @@ import java.util.List;
 /**
  * Created by nikit on 06.09.2015.
  */
-public class BoundHammer extends BasicHammer implements IBindable {
+public class BoundHammer extends BasicHammer implements IBindable, ITrash {
     @SideOnly(Side.CLIENT)
     private IIcon activeIcon;
     @SideOnly(Side.CLIENT)
@@ -94,6 +95,9 @@ public class BoundHammer extends BasicHammer implements IBindable {
                         list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
                     if (itemStack.getTagCompound().getInteger("Shovel") != 0)
                         list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
+                    if  (itemStack.getTagCompound().getBoolean("Trash"))
+                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Trash"));
+
                 }
             } else list.add(StatCollector.translateToLocal("information.NotHaveTagCompound"));
         } else list.add(StatCollector.translateToLocal("information.ShiftDialog"));

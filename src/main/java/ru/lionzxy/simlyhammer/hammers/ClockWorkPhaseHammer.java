@@ -31,6 +31,7 @@ import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
@@ -41,7 +42,7 @@ import java.util.List;
 /**
  * Created by nikit on 07.09.2015.
  */
-public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModifiHammer {
+public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModifiHammer, ITrash {
 
     HammerSettings hammerSettings;
 
@@ -399,6 +400,8 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
                         list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + is.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + is.getTagCompound().getDouble("AxeSpeed"));
                     if (is.getTagCompound().getInteger("Shovel") != 0)
                         list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + is.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + is.getTagCompound().getDouble("ShovelSpeed"));
+                    if  (is.getTagCompound().getBoolean("Trash"))
+                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Trash"));
 
                 }
             } else {

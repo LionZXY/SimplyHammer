@@ -15,6 +15,7 @@ import ru.lionzxy.simlyhammer.items.TrashItem;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
 import ru.lionzxy.simlyhammer.proxy.CommonProxy;
 import ru.lionzxy.simlyhammer.recipe.BindingRecipe;
+import ru.lionzxy.simlyhammer.recipe.InvertRecipe;
 import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
@@ -47,6 +48,7 @@ public class SimplyHammer {
         AddItems.init();
         CustomHammers.addCustomHammers();
         GameRegistry.addRecipe(new RecipeRepair());
+        GameRegistry.addRecipe(new InvertRecipe());
         if (Loader.isModLoaded("AWWayofTime"))
             new BindingRecipe(null, null);
         MinecraftForge.EVENT_BUS.register(new AchievementSH());
