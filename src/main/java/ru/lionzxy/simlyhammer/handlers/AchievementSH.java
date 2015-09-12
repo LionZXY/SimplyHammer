@@ -1,4 +1,4 @@
-package ru.lionzxy.simlyhammer.utils;
+package ru.lionzxy.simlyhammer.handlers;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
@@ -20,7 +20,7 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onBreak(net.minecraftforge.event.entity.player.PlayerEvent.BreakSpeed event){
-        if(event.entityPlayer.getCurrentEquippedItem().getItem() instanceof Aronil98Hammer)
+        if(event != null && event.entityPlayer != null && event.entityPlayer.getCurrentEquippedItem()!= null && event.entityPlayer.getCurrentEquippedItem().getItem() instanceof Aronil98Hammer)
             if(!Aronil98Hammer.isPlayerAutor(event.entityPlayer))
                 event.newSpeed = 0.0F;
     }

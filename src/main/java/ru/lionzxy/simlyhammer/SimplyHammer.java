@@ -3,24 +3,22 @@ package ru.lionzxy.simlyhammer;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.items.TrashItem;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
+import ru.lionzxy.simlyhammer.proxy.CommonProxy;
 import ru.lionzxy.simlyhammer.recipe.BindingRecipe;
 import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
-import ru.lionzxy.simlyhammer.utils.AchievementSH;
+import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
-import scala.collection.parallel.ParIterableLike;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +28,12 @@ import java.util.List;
  */
 @Mod(modid = "simplyhammer", name = "Simply Hammer", version = "0.7")
 public class SimplyHammer {
+    @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy",serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
+    public static CommonProxy proxy;
+
+    @Mod.Instance
+    public static SimplyHammer instance;
+
     public static CreativeTabs tabGeneral;
     public static List<net.minecraft.stats.Achievement> achievements = new ArrayList<net.minecraft.stats.Achievement>();
     public static List<Item> hammers = new ArrayList<Item>();
@@ -39,6 +43,7 @@ public class SimplyHammer {
         Config.createConfig();
         HammerUtils.init();
         tabGeneral = new HammerTab("tabGeneral");
+        System.out.println(Loader.isModLoaded("AWWayofTime"));
         AddHammers.addAllHammers();
         CustomHammers.addCustomHammers();
         GameRegistry.addRecipe(new RecipeRepair());
@@ -47,6 +52,8 @@ public class SimplyHammer {
         MinecraftForge.EVENT_BUS.register(new AchievementSH());
         FMLCommonHandler.instance().bus().register(new AchievementSH());
         AchievementSH.addAchivement();
+        proxy.registerProxies();
+        new TrashItem();
         Config.config.save();
     }
 }

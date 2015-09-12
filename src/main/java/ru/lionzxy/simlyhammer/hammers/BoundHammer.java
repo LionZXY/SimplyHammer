@@ -8,6 +8,8 @@ import WayofTime.alchemicalWizardry.common.items.EnergyItems;
 import WayofTime.alchemicalWizardry.common.spell.complex.effect.SpellHelper;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -25,7 +27,9 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -282,5 +286,12 @@ public class BoundHammer extends BasicHammer implements IBindable {
         if (stack.hasTagCompound())
             return stack.getTagCompound().getInteger("HammerHarvestLevel");
         else return toolMaterial.getHarvestLevel();
+    }
+
+    public static void addBMHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
+        if (Config.config.get("general", name, true).getBoolean()) {
+            AddHammers.BMHammer = new BoundHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, null, true));
+            GameRegistry.registerItem(AddHammers.BMHammer, name);
+        }
     }
 }

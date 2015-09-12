@@ -1,34 +1,31 @@
 package ru.lionzxy.simlyhammer.utils;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import lumaceon.mods.clockworkphase.init.ModItems;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.stats.Achievement;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.*;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by nikit on 30.08.2015.
  */
 public class AddHammers {
 
-    public static HashMap<String, Item> hammers = new HashMap<String, Item>();
-
-    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, EnergyHammer;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer;
 
     static public void addAllHammers() {
+        FMLLog.bigWarning("reg7");
         addVanilaHammers();
         addOreDictModHammers();
         Config.config.save();
@@ -56,8 +53,11 @@ public class AddHammers {
         addHammer("manaSteelHammer", 1, 3, 6F, 5120, "Botania", "storage", "ingotManasteel", false);
         addHammer("terraSteelHammer", 1, 3, 6F, 20480, "Botania", "storage:1", "ingotTerrasteel", false);
         addHammer("thaumiumHammer", 1, 3, 6F, 10240, "Thaumcraft", "blockCosmeticSolid:4", "ingotThaumium", false);
-        addCWPHammer("clockworkHammer", 1, 3, 6F, 1024);
-        addIC2Hammer("energyHammer",1,3,4F,50);
+        FMLLog.bigWarning("reg4");
+        if (Loader.isModLoaded("AWWayofTime"))
+            BoundHammer.addBMHammer("boundHammer", 1, 3, 6F, 1100);
+        if (Loader.isModLoaded("clockworkphase"))
+            ClockWorkPhaseHammer.addCWPHammer("clockworkHammer", 1, 3, 6F, 1024);
         if (Config.pick) {
             GameRegistry.registerItem(geologHammer, "prospectorsPick");
             GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(geologHammer),
@@ -85,28 +85,6 @@ public class AddHammers {
         }*/
     }
 
-    static void addIC2Hammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
-        if (Loader.isModLoaded("IC2") && Config.config.get("general", name, true).getBoolean()){
-            EnergyHammer = new ElectricHammer(new HammerSettings(name,breakRadius,harvestLevel,speed,damage,null,true).registerHammer(false));
-        }
-    }
-
-    static void addCWPHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
-        if (Loader.isModLoaded("clockworkphase") && Config.config.get("general", name, true).getBoolean()) {
-            CWPHammer = new ClockWorkPhaseHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, null, true));
-            GameRegistry.registerItem(CWPHammer, name);
-            CWPTemporalHammer = new ClockWorkPhaseTemporalHammer(ModItems.clockworkMaterial);
-            GameRegistry.registerItem(CWPTemporalHammer, "cwpTemporalHammer");
-            addBMHammer("boundHammer", 1, 3, 6F, 1100);
-        }
-    }
-
-    static void addBMHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
-        if (Loader.isModLoaded("AWWayofTime") && Config.config.get("general", name, true).getBoolean()) {
-            BMHammer = new BoundHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, null, true));
-            GameRegistry.registerItem(BMHammer, name);
-        }
-    }
 
     static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String materialOreDict, String repairMaterial, boolean infinity) {
         if (checkToNotNull(materialOreDict) && checkToNotNull(repairMaterial)) {

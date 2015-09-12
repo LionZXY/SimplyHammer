@@ -1,7 +1,6 @@
 package ru.lionzxy.simlyhammer.hammers;
 
 import com.google.common.collect.Multimap;
-import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -14,21 +13,18 @@ import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
-import ru.lionzxy.simlyhammer.utils.AchievementSH;
+import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 
 import java.util.List;
@@ -206,9 +202,10 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
                         used = item.onItemUse(nearbyStack, player, world, x, y, z, side, clickX, clickY, clickZ);
 
                     // handle creative mode
-                    if (player.capabilities.isCreativeMode || hammerSettings.isInfinity()) {
+                    if (player.capabilities.isCreativeMode) {
                         // fun fact: vanilla minecraft does it exactly the same way
                         nearbyStack.setItemDamage(dmg);
+                        player.inventoryContainer.getSlot(itemSlot).onSlotChanged();
                         nearbyStack.stackSize = count;
                     }
                     if (nearbyStack.stackSize < 1) {
@@ -218,6 +215,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer {
                 }
             }
         }
+
         return used;
     }
 

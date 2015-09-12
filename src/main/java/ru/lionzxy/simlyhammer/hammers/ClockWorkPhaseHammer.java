@@ -3,7 +3,6 @@ package ru.lionzxy.simlyhammer.hammers;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import lumaceon.mods.clockworkphase.init.ModItems;
 import lumaceon.mods.clockworkphase.item.construct.clockwork.tool.ItemClockworkPickaxe;
 import lumaceon.mods.clockworkphase.lib.MechanicTweaker;
 import lumaceon.mods.clockworkphase.lib.NBTTags;
@@ -27,15 +26,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.event.world.BlockEvent;
-import net.minecraftforge.oredict.OreDictionary;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUtils;
-import ru.lionzxy.simlyhammer.utils.AchievementSH;
+import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 import java.util.List;
@@ -435,6 +433,15 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
         } else {
             list.add(StatCollector.translateToLocal("information.ShiftDialog"));
             list.add(StatCollector.translateToLocal("information.LCONTROL"));
+        }
+    }
+    public static void addCWPHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {
+        if (Config.config.get("general", name, true).getBoolean()) {
+            AddHammers.CWPHammer = new ClockWorkPhaseHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, null, true));
+            GameRegistry.registerItem(AddHammers.CWPHammer, name);
+            AddHammers.CWPTemporalHammer = new ClockWorkPhaseTemporalHammer(((IModifiHammer)AddHammers.CWPHammer).getHammerSettings().getMaterial());
+            GameRegistry.registerItem(AddHammers.CWPTemporalHammer, "cwpTemporalHammer");
+            AddHammers.addCraft(AddHammers.CWPHammer,name,"ingotIron","clockworkphase:brassBlock");
         }
     }
 }
