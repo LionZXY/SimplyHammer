@@ -46,6 +46,7 @@ public class RecipeRepair implements IRecipe {
             tag.setBoolean("Torch", false);
             tag.setBoolean("Trash", false);
             tag.setBoolean("Vacuum", false);
+            tag.setBoolean("Smelt", false);
             hammer.setTagCompound(tag);
         }
         if (findItem(ic, Items.diamond) && hammer != null && hammer.hasTagCompound() && Config.MDiamond && !hammer.getTagCompound().getBoolean("Diamond") && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMDiamond()) {
@@ -88,6 +89,15 @@ public class RecipeRepair implements IRecipe {
                 hammer.getTagCompound().setBoolean("Modif", true);}
             else
                 hammer.getTagCompound().setBoolean("Vacuum", false);
+
+        if (findItem(ic, AddItems.autosmelt) && hammer != null && hammer.hasTagCompound() && Config.MSmelt && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMSmelt())
+            if (!hammer.getTagCompound().getBoolean("Smelt")){
+                hammer.getTagCompound().setBoolean("Smelt", true);
+                hammer.getTagCompound().setTag("ItemsSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
+                hammer.getTagCompound().setBoolean("InvertSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getBoolean("Invert"));
+                hammer.getTagCompound().setBoolean("Modif", true);}
+            else
+                hammer.getTagCompound().setBoolean("Smelt", false);
 
         if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).getHammerSettings().isRepair())
             if (findItem(ic, hammer.getItem()))

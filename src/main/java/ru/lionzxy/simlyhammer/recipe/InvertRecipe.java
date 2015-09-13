@@ -15,7 +15,7 @@ public class InvertRecipe implements IRecipe {
     @Override
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)
-            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() == AddItems.trash)
+            if (ic.getStackInSlot(i) != null && (ic.getStackInSlot(i).getItem() == AddItems.trash || ic.getStackInSlot(i).getItem() == AddItems.autosmelt))
                 return true;
         return false;
     }
@@ -24,7 +24,7 @@ public class InvertRecipe implements IRecipe {
     public ItemStack getCraftingResult(InventoryCrafting ic) {
         ItemStack trash = null;
         for (int i = 0; i < ic.getSizeInventory(); i++)
-            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() == AddItems.trash)
+            if (ic.getStackInSlot(i) != null && (ic.getStackInSlot(i).getItem() == AddItems.trash || ic.getStackInSlot(i).getItem() == AddItems.autosmelt))
                 trash = ic.getStackInSlot(i).copy();
         if (trash != null && trash.hasTagCompound())
             for (int i = 0; i < ic.getSizeInventory(); i++)

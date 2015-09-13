@@ -11,6 +11,9 @@ import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.Aronil98Hammer;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.items.AutoSmeltItem;
+import ru.lionzxy.simlyhammer.items.VacuumItem;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 /**
@@ -21,7 +24,7 @@ public class HammerSettings {
     private String localizeName;
     private ItemStack repairItem;
     private int breakRadius, oreDictId;
-    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum;
+    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum, mSmelt;
 
     public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity) {
         String repairMaterial;
@@ -48,6 +51,7 @@ public class HammerSettings {
         this.infinity = Config.config.get(name, "Infinity", infinity).getBoolean();
         this.mTrash = Config.config.get(name, "TrashModif", true).getBoolean();
         this.mVacuum = Config.config.get(name, "VacuumModif", true).getBoolean();
+        this.mSmelt = Config.config.get(name, "SmeltModif", true).getBoolean();
     }
 
     public HammerSettings registerHammer(boolean inlist) {
@@ -118,31 +122,42 @@ public class HammerSettings {
     }
 
     public boolean isRepair() {
-        return repair;
+        return repair && Config.repair;
     }
 
     public boolean getMTorch() {
-        return mTorch;
+        return mTorch && Config.MTorch;
     }
 
     public boolean getMTrash() {
-        return mTrash;
+        return mTrash && Config.MTrash;
+    }
+
+    public boolean getMSmelt() {
+        return mSmelt && Config.MSmelt;
     }
 
     public boolean getMDiamond() {
-        return mDiamond;
+        return mDiamond && Config.MDiamond;
     }
 
-    public boolean getMAxe() {
-        return mAxe;
-    }
+    public boolean getMAxe() {return mAxe && Config.MAxe;}
 
     public boolean getMShovel() {
-        return mShovel;
+        return mShovel && Config.MShovel;
     }
 
     public boolean getMVacuum() {
-        return mVacuum;
+        return mVacuum && Config.MVacuum;
+    }
+
+    public static boolean isVacuum(ItemStack itemStack) {
+        return itemStack.getItem() instanceof IModifiHammer ? ((IModifiHammer) itemStack.getItem()).getHammerSettings().getMVacuum() && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Vacuum") : itemStack.getItem() instanceof VacuumItem;
+    }
+
+
+    public static boolean isSmelt(ItemStack itemStack) {
+        return itemStack.getItem() instanceof IModifiHammer ? ((IModifiHammer) itemStack.getItem()).getHammerSettings().getMSmelt() && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Smelt") : itemStack.getItem() instanceof AutoSmeltItem;
     }
 
     public String getRepairMaterial() {
@@ -169,6 +184,7 @@ public class HammerSettings {
         this.infinity = true;
         this.mTrash = true;
         this.mVacuum = true;
+        this.mSmelt = true;
     }
 
 }

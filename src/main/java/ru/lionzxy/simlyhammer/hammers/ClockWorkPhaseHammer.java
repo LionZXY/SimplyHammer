@@ -448,11 +448,4 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
             AddHammers.addCraft(AddHammers.CWPHammer, name, "ingotIron", "clockworkphase:brassBlock");
         }
     }
-
-    @Override
-    public boolean isVacuum(ItemStack itemStack) {
-        if(hammerSettings.getMVacuum() && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Vacuum"))
-            return true;
-        return false;
-    }
 }

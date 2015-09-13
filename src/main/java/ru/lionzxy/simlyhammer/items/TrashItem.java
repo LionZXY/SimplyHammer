@@ -3,12 +3,14 @@ package ru.lionzxy.simlyhammer.items;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -23,6 +25,10 @@ import java.util.List;
  * Created by nikit on 12.09.2015.
  */
 public class TrashItem extends Item implements ITrash {
+
+    @SideOnly(Side.CLIENT)
+    protected IIcon invertIcon;
+
     public TrashItem() {
         this.setCreativeTab(SimplyHammer.tabGeneral);
         this.setUnlocalizedName("trashitem");
@@ -53,7 +59,7 @@ public class TrashItem extends Item implements ITrash {
 
 
     public static boolean isTrash(ItemStack trash, ItemStack itemStack) {
-        if (!itemStack.hasTagCompound() || !itemStack.getTagCompound().getBoolean("Trash"))
+        if (!itemStack.hasTagCompound() || !itemStack.getTagCompound().getBoolean("Trash") || !(itemStack.getItem() instanceof ITrash))
             return false;
         NBTTagList items = itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND);
         for (int i = 0; i < items.tagCount(); ++i) {
@@ -62,9 +68,9 @@ public class TrashItem extends Item implements ITrash {
 
             // Just double-checking that the saved slot index is within our inventory array bounds
             if (slot >= 0 && slot < 9) {
-                if (!itemStack.getTagCompound().getBoolean("Invert") && trash.getItem() == ItemStack.loadItemStackFromNBT(item).getItem())
+                if (!itemStack.getTagCompound().getBoolean("Invert") && ItemStack.loadItemStackFromNBT(item).isItemEqual(trash))
                     return true;
-                else if (itemStack.getTagCompound().getBoolean("Invert") && trash.getItem() != ItemStack.loadItemStackFromNBT(item).getItem())
+                else if (itemStack.getTagCompound().getBoolean("Invert") && !ItemStack.loadItemStackFromNBT(item).isItemEqual(trash))
                     return true;
             }
         }
@@ -75,6 +81,20 @@ public class TrashItem extends Item implements ITrash {
         for (int i = 0; i < itemStacks.size(); i++)
             if (isTrash(itemStacks.get(i), itemStack))
                 itemStacks.remove(i);
+    }
+
+    @SideOnly(Side.CLIENT)
+    public IIcon getIconIndex(ItemStack is)
+    {   if(!is.hasTagCompound() || !is.getTagCompound().getBoolean("Invert"))
+        return itemIcon;
+        else return invertIcon;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister p_94581_1_)
+    {
+        this.invertIcon = p_94581_1_.registerIcon("simplyhammer:trashitemInvert");
+        this.itemIcon = p_94581_1_.registerIcon("simplyhammer:trashitem");
     }
 
 }

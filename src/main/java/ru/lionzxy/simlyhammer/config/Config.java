@@ -11,7 +11,7 @@ import java.io.File;
 public class Config {
 
     public static Configuration config;
-    public static boolean pick,MTorch,MDiamond,MAxe,MShovel,repair, MTrash, MVacuum;
+    public static boolean pick, MTorch, MDiamond, MAxe, MShovel, repair, MTrash, MVacuum, MCheckVacuum, MCheckTrash, MSmelt;
     public static int customHammer;
 
     public static void createConfig() {
@@ -19,14 +19,17 @@ public class Config {
         config = new Configuration(configFile, "0.7");
         config.getCategory("general");
         pick = config.get("general", "Prospector's Pick", true).getBoolean();
-        MTorch =  Config.config.get("general", "TorchModif", true).getBoolean();
-        MShovel = Config.config.get("general", "ShovelModif", true).getBoolean();
-        MAxe = Config.config.get("general", "AxeModif", true).getBoolean();
-        MDiamond = Config.config.get("general", "DiamondModif", true).getBoolean();
-        MTrash = Config.config.get("general", "TrashModif", true).getBoolean();;
-        MVacuum = Config.config.get("general", "VacuumModif", true).getBoolean();;
-        repair = Config.config.get("general", "RepairTool", true).getBoolean();
-        customHammer = Config.config.get("general","customHammer",0).getInt();
+        MTorch = Config.config.get("modif", "TorchModif", true).getBoolean();
+        MShovel = Config.config.get("modif", "ShovelModif", true).getBoolean();
+        MAxe = Config.config.get("modif", "AxeModif", true).getBoolean();
+        MDiamond = Config.config.get("modif", "DiamondModif", true).getBoolean();
+        MTrash = Config.config.get("modif", "TrashModif", true).getBoolean();
+        MCheckTrash = Config.config.get("modif", "TrashCheckModif", true, "Check every pickup item all inventory slot").getBoolean();
+        MVacuum = Config.config.get("modif", "VacuumModif", true).getBoolean();
+        MCheckVacuum = Config.config.get("modif", "VacuumCheckModif", true, "Check every harvest block all inventory slot").getBoolean();
+        repair = Config.config.get("modif", "RepairTool", true).getBoolean();
+        MSmelt = Config.config.get("modif", "SmeltModif", true).getBoolean();
+        customHammer = Config.config.get("general", "customHammer", 0).getInt();
         config.save();
         config.load();
     }

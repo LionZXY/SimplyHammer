@@ -12,9 +12,13 @@ import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.Aronil98Hammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.interfaces.ISmelt;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
+import ru.lionzxy.simlyhammer.items.AutoSmeltItem;
 import ru.lionzxy.simlyhammer.items.TrashItem;
+import ru.lionzxy.simlyhammer.items.VacuumItem;
+import ru.lionzxy.simlyhammer.libs.HammerSettings;
 
 /**
  * Created by nikit on 03.09.2015.
@@ -43,11 +47,12 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onPickUp(EntityItemPickupEvent event) {
-        for (int i = 0; i < event.entityPlayer.inventory.getSizeInventory(); i++)
-            if (event.entityPlayer.inventory.getStackInSlot(i) != null && (event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof TrashItem || event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer)) {
-                if (event.item != null && TrashItem.isTrash(event.item.getEntityItem(), event.entityPlayer.inventory.getStackInSlot(i)))
-                    event.item.getEntityItem().stackSize = 0;
-            }
+        if (Config.MCheckTrash)
+            for (int i = 0; i < event.entityPlayer.inventory.getSizeInventory(); i++)
+                if (event.entityPlayer.inventory.getStackInSlot(i) != null && (event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof TrashItem || event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer)) {
+                    if (event.item != null && TrashItem.isTrash(event.item.getEntityItem(), event.entityPlayer.inventory.getStackInSlot(i)))
+                        event.item.getEntityItem().stackSize = 0;
+                }
 
     }
 
@@ -58,22 +63,34 @@ public class AchievementSH {
         if (event.harvester.getCurrentEquippedItem().getItem() instanceof ITrash) {
             TrashItem.removeTrash(event.drops, event.harvester.getCurrentEquippedItem());
         }
-        if (event.harvester.getCurrentEquippedItem() != null &&
-                event.harvester.getCurrentEquippedItem().getItem() instanceof IVacuum &&
-                ((IVacuum) event.harvester.getCurrentEquippedItem().getItem()).isVacuum(event.harvester.getCurrentEquippedItem())) {
-            for (int k = 0; k < event.drops.size(); k++)
-                if (event.harvester.inventory.addItemStackToInventory(event.drops.get(k)))
-                    event.drops.remove(k);
-        } else
-            for (int i = 0; i < event.harvester.inventory.getSizeInventory(); i++)
-                if (event.harvester.inventory.getStackInSlot(i) != null &&
-                        event.harvester.inventory.getStackInSlot(i).getItem() instanceof IVacuum &&
-                        !(event.harvester.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer) &&
-                        ((IVacuum) event.harvester.inventory.getStackInSlot(i).getItem()).isVacuum(event.harvester.inventory.getStackInSlot(i)))
-                    for (int k = 0; k < event.drops.size(); k++)
-                        if (event.harvester.inventory.addItemStackToInventory(event.drops.get(k)))
-                            event.drops.remove(k);
 
+        if (event.harvester.getCurrentEquippedItem() != null){
+            if (event.harvester.getCurrentEquippedItem().getItem() instanceof IModifiHammer &&
+                    HammerSettings.isSmelt(event.harvester.getCurrentEquippedItem()))
+                for (int i = 0; i < event.drops.size(); i++) {
+                    ItemStack drop = AutoSmeltItem.getSmelt(event.drops.get(i), event.harvester.getCurrentEquippedItem());
+                    event.drops.remove(i);
+                    event.drops.add(i, drop);
+                }
+            if (event.harvester.getCurrentEquippedItem().getItem() instanceof IVacuum &&
+                    HammerSettings.isVacuum(event.harvester.getCurrentEquippedItem())) {
+                for (int k = 0; k < event.drops.size(); k++)
+                    if (event.harvester.inventory.addItemStackToInventory(event.drops.get(k)))
+                        event.drops.remove(k);
+            } else if (Config.MCheckVacuum)
+                for (int i = 0; i < event.harvester.inventory.getSizeInventory(); i++)
+                    if (event.harvester.inventory.getStackInSlot(i) != null &&(
+                            event.harvester.inventory.getStackInSlot(i).getItem() instanceof VacuumItem || (
+                            event.harvester.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer &&
+                                    HammerSettings.isVacuum(event.harvester.inventory.getStackInSlot(i)))))
+                        for (int k = 0; k < event.drops.size(); k++)
+                            if (!TrashItem.isTrash(event.drops.get(k), event.harvester.inventory.getStackInSlot(i))) {
+                                if (event.harvester.inventory.addItemStackToInventory(event.drops.get(k)))
+                                    event.drops.remove(k);
+                            } else event.drops.remove(k);}
+
+            for(int k = 0; k < event.drops.size(); k++)
+                System.out.println(event.drops.get(k));
 
     }
 

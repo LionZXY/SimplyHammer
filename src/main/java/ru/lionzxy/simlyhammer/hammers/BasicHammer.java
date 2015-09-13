@@ -24,6 +24,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.interfaces.ISmelt;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
@@ -36,7 +37,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVacuum {
+public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVacuum, ISmelt {
     HammerSettings hammerSettings;
 
     public BasicHammer(HammerSettings hammerSettings) {
@@ -465,11 +466,4 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         return true;
     }
 
-
-    @Override
-    public boolean isVacuum(ItemStack itemStack) {
-        if(hammerSettings.getMVacuum() && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Vacuum"))
-            return true;
-        return false;
-    }
 }
