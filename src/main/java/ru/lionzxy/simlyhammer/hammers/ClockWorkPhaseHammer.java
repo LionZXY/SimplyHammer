@@ -34,7 +34,7 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
-import ru.lionzxy.simlyhammer.libs.HammerUtils;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
@@ -127,9 +127,10 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
-        if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Torch"))
+        if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Torch") && stack.getTagCompound().getInteger("TorchID") > 0)
             for (int i = 0; i < player.inventory.getSizeInventory(); i++)
-                if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == Item.getItemFromBlock(Blocks.torch)) {
+                if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() instanceof ItemBlock &&
+                        Block.getIdFromBlock(((ItemBlock) player.inventory.getStackInSlot(i).getItem()).field_150939_a) == stack.getTagCompound().getInteger("TorchID")) {
                     itemSlot = i;
                     break;
                 }
@@ -393,7 +394,8 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
                     list.add("");
                     list.add(StatCollector.translateToLocal("information.modification"));
                     if (is.getTagCompound().getBoolean("Torch"))
-                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
+                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch") + "(" +
+                                new ItemStack(Block.getBlockById(is.getTagCompound().getInteger("TorchID"))).getDisplayName() + ")");
                     if (is.getTagCompound().getBoolean("Diamond"))
                         list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
                     if (is.getTagCompound().getInteger("Axe") != 0)

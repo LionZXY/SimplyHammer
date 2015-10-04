@@ -1,7 +1,6 @@
 package ru.lionzxy.simlyhammer.libs;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
@@ -9,12 +8,11 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.hammers.Aronil98Hammer;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.items.AutoSmeltItem;
 import ru.lionzxy.simlyhammer.items.VacuumItem;
-import ru.lionzxy.simlyhammer.utils.AddHammers;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 /**
  * Created by nikit on 08.09.2015.

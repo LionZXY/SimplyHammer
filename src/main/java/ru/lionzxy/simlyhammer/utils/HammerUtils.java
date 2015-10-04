@@ -1,4 +1,4 @@
-package ru.lionzxy.simlyhammer.libs;
+package ru.lionzxy.simlyhammer.utils;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;

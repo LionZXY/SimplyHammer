@@ -11,14 +11,12 @@ import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.items.AddItems;
-import ru.lionzxy.simlyhammer.items.TrashItem;
-import ru.lionzxy.simlyhammer.libs.HammerUtils;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
 import ru.lionzxy.simlyhammer.proxy.CommonProxy;
 import ru.lionzxy.simlyhammer.recipe.BindingRecipe;
 import ru.lionzxy.simlyhammer.recipe.InvertRecipe;
 import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
-import ru.lionzxy.simlyhammer.utils.AddHammers;
 import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
 

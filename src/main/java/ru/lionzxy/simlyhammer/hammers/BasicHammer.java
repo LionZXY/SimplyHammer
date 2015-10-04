@@ -28,7 +28,7 @@ import ru.lionzxy.simlyhammer.interfaces.ISmelt;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
-import ru.lionzxy.simlyhammer.libs.HammerUtils;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 
@@ -144,9 +144,10 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;
-        if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Torch"))
+        if (stack.hasTagCompound() && stack.getTagCompound().getBoolean("Torch") && stack.getTagCompound().getInteger("TorchID") > 0)
             for (int i = 0; i < player.inventory.getSizeInventory(); i++)
-                if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() == Item.getItemFromBlock(Blocks.torch)) {
+                if (player.inventory.getStackInSlot(i) != null && player.inventory.getStackInSlot(i).getItem() instanceof ItemBlock &&
+                        Block.getIdFromBlock(((ItemBlock) player.inventory.getStackInSlot(i).getItem()).field_150939_a) == stack.getTagCompound().getInteger("TorchID")) {
                     itemSlot = i;
                     break;
                 }
@@ -381,7 +382,8 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                         list.add("");
                         list.add(StatCollector.translateToLocal("information.modification"));
                         if (itemStack.getTagCompound().getBoolean("Torch"))
-                            list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
+                            list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch") + "(" +
+                                    new ItemStack(Block.getBlockById(itemStack.getTagCompound().getInteger("TorchID"))).getDisplayName() + ")");
                         if (itemStack.getTagCompound().getBoolean("Diamond"))
                             list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
                         if (itemStack.getTagCompound().getInteger("Axe") != 0)

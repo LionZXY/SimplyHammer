@@ -1,14 +1,14 @@
 package ru.lionzxy.simlyhammer.recipe;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockTorch;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemAxe;
-import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import ru.lionzxy.simlyhammer.config.Config;
@@ -65,10 +65,11 @@ public class RecipeRepair implements IRecipe {
             hammer.getTagCompound().setDouble("ShovelSpeed", ((ItemSpade) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
         }
-        if (findItem(ic, Item.getItemFromBlock(Blocks.torch)) && hammer != null && hammer.hasTagCompound() && Config.MTorch && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTorch()) {
-            if (!hammer.getTagCompound().getBoolean("Torch"))
+        if (findTorch(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MTorch && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTorch()) {
+            if (!hammer.getTagCompound().getBoolean("Torch")) {
+                hammer.getTagCompound().setInteger("TorchID", Block.getIdFromBlock(((ItemBlock) findTorch(ic).getItem()).field_150939_a));
                 hammer.getTagCompound().setBoolean("Torch", true);
-            else
+            } else
                 hammer.getTagCompound().setBoolean("Torch", false);
             hammer.getTagCompound().setBoolean("Modif", true);
         }
@@ -84,19 +85,19 @@ public class RecipeRepair implements IRecipe {
 
 
         if (findItem(ic, AddItems.vacuum) && hammer != null && hammer.hasTagCompound() && Config.MVacuum && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMVacuum())
-            if (!hammer.getTagCompound().getBoolean("Vacuum")){
+            if (!hammer.getTagCompound().getBoolean("Vacuum")) {
                 hammer.getTagCompound().setBoolean("Vacuum", true);
-                hammer.getTagCompound().setBoolean("Modif", true);}
-            else
+                hammer.getTagCompound().setBoolean("Modif", true);
+            } else
                 hammer.getTagCompound().setBoolean("Vacuum", false);
 
         if (findItem(ic, AddItems.autosmelt) && hammer != null && hammer.hasTagCompound() && Config.MSmelt && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMSmelt())
-            if (!hammer.getTagCompound().getBoolean("Smelt")){
+            if (!hammer.getTagCompound().getBoolean("Smelt")) {
                 hammer.getTagCompound().setBoolean("Smelt", true);
                 hammer.getTagCompound().setTag("ItemsSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
                 hammer.getTagCompound().setBoolean("InvertSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getBoolean("Invert"));
-                hammer.getTagCompound().setBoolean("Modif", true);}
-            else
+                hammer.getTagCompound().setBoolean("Modif", true);
+            } else
                 hammer.getTagCompound().setBoolean("Smelt", false);
 
         if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).getHammerSettings().isRepair())
@@ -161,6 +162,21 @@ public class RecipeRepair implements IRecipe {
             return (itemStack.getItemDamage() - (itemStack.getMaxDamage() / 10) * multi);
         else
             return 0;
+    }
+
+    public ItemStack findTorch(InventoryCrafting ic) {
+        for (int i = 0; i < ic.getSizeInventory(); i++)
+            if (isTorch(ic.getStackInSlot(i)))
+                return ic.getStackInSlot(i);
+
+        return null;
+    }
+
+    public static boolean isTorch(ItemStack itemStack) {
+        if (itemStack != null && itemStack.getItem() instanceof ItemBlock && (itemStack.getDisplayName().contains(StatCollector.translateToLocal("tile.torch.name"))
+                || (itemStack.getItem() instanceof ItemBlock && (((ItemBlock) itemStack.getItem()).field_150939_a instanceof BlockTorch))))
+            return true;
+        return false;
     }
 
 }
