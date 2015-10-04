@@ -1,15 +1,20 @@
 package ru.lionzxy.simlyhammer.items;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+
+import java.util.List;
 
 /**
  * Created by nikit on 13.09.2015.
@@ -29,6 +34,13 @@ public class AutoSmeltItem extends Item{
         return is;
     }
 
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack is, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
+        if(!is.hasTagCompound())
+            list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
+    }
+
+
     public static ItemStack getSmelt(ItemStack smelt, ItemStack itemStack) {
         if (!itemStack.hasTagCompound() || !itemStack.getTagCompound().getBoolean("Smelt"))
             return smelt;
@@ -40,11 +52,18 @@ public class AutoSmeltItem extends Item{
             // Just double-checking that the saved slot index is within our inventory array bounds
             if (slot >= 0 && slot < 9) {
                 if (!itemStack.getTagCompound().getBoolean("InvertSmelt") && ItemStack.loadItemStackFromNBT(item).isItemEqual(smelt))
-                    return FurnaceRecipes.smelting().getSmeltingResult(smelt) != null ? FurnaceRecipes.smelting().getSmeltingResult(smelt) : smelt;
+                    return FurnaceRecipes.smelting().getSmeltingResult(smelt) != null ? getOneSmelt(smelt) : smelt;
                 else if (itemStack.getTagCompound().getBoolean("InvertSmelt") && !ItemStack.loadItemStackFromNBT(item).isItemEqual(smelt))
-                    return FurnaceRecipes.smelting().getSmeltingResult(smelt) != null ? FurnaceRecipes.smelting().getSmeltingResult(smelt) : smelt;
+                    return FurnaceRecipes.smelting().getSmeltingResult(smelt) != null ? getOneSmelt(smelt) : smelt;
             }
         }
+        return smelt;
+    }
+
+    private static ItemStack getOneSmelt(ItemStack smelt){
+        int tmp = smelt.stackSize;
+        smelt = FurnaceRecipes.smelting().getSmeltingResult(smelt);
+        smelt.stackSize = tmp;
         return smelt;
     }
 }

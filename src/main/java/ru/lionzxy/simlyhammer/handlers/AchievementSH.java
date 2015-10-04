@@ -89,9 +89,6 @@ public class AchievementSH {
                                     event.drops.remove(k);
                             } else event.drops.remove(k);}
 
-            for(int k = 0; k < event.drops.size(); k++)
-                System.out.println(event.drops.get(k));
-
     }
 
 

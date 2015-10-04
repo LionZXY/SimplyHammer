@@ -54,6 +54,8 @@ public class TrashItem extends Item implements ITrash {
                 NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
                 list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
             }
+        }else {
+                list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
         }
     }
 

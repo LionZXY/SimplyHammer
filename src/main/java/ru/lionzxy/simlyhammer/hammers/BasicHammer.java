@@ -240,7 +240,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         int meta = world.getBlockMetadata(x, y, z);
 
         //Fix bug with break bedrock
-        if(block.getBlockHardness(world,x,y,z) <= 0)
+        if (block.getBlockHardness(world, x, y, z) <= 0)
             return;
         // only effective materials
         if (!isEffective(player.getCurrentEquippedItem(), block, meta))
@@ -355,47 +355,55 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
-        if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-                if (itemStack.getTagCompound().getBoolean("Invert"))
-                    list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
-                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash")) {
-                    list.add(StatCollector.translateToLocal("trash.IgnoreList"));
-                    for (int i = 0; i < itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
-                        NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
-                        list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
+        if (itemStack.hasTagCompound()) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                    if (itemStack.getTagCompound().getBoolean("Invert"))
+                        list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
+                    if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash")) {
+                        list.add(StatCollector.translateToLocal("trash.IgnoreList"));
+                        for (int i = 0; i < itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
+                            NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
+                            list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
+                        }
+                    }
+                } else {
+                    list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
+                    list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
+                    if (hammerSettings.isRepair())
+                        list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
+                    else if (hammerSettings.isInfinity())
+                        list.add(StatCollector.translateToLocal("information.infinity"));
+                    else list.add(StatCollector.translateToLocal("information.noRepairable"));
+                    list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
+
+                    if (itemStack.getTagCompound().getBoolean("Modif")) {
+                        list.add("");
+                        list.add(StatCollector.translateToLocal("information.modification"));
+                        if (itemStack.getTagCompound().getBoolean("Torch"))
+                            list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
+                        if (itemStack.getTagCompound().getBoolean("Diamond"))
+                            list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
+                        if (itemStack.getTagCompound().getInteger("Axe") != 0)
+                            list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
+                        if (itemStack.getTagCompound().getInteger("Shovel") != 0)
+                            list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
+                        if (itemStack.getTagCompound().getBoolean("Trash"))
+                            list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("modification.Trash"));
+                        if (itemStack.getTagCompound().getBoolean("Vacuum"))
+                            list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Vacuum"));
+                        if (itemStack.getTagCompound().getBoolean("Smelt"))
+                            list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Smelt"));
+
                     }
                 }
             } else {
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
-                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
-                if (hammerSettings.isRepair())
-                    list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
-                else if (hammerSettings.isInfinity())
-                    list.add(StatCollector.translateToLocal("information.infinity"));
-                else list.add(StatCollector.translateToLocal("information.noRepairable"));
-                list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
-                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
-                    list.add("");
-                    list.add(StatCollector.translateToLocal("information.modification"));
-                    if (itemStack.getTagCompound().getBoolean("Torch"))
-                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
-                    if (itemStack.getTagCompound().getBoolean("Diamond"))
-                        list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
-                    if (itemStack.getTagCompound().getInteger("Axe") != 0)
-                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
-                    if (itemStack.getTagCompound().getInteger("Shovel") != 0)
-                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
-                    if (itemStack.getTagCompound().getBoolean("Trash"))
-                        list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("modification.Trash"));
-                    if (itemStack.getTagCompound().getBoolean("Vacuum"))
-                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Vacuum"));
-                }
+                list.add(StatCollector.translateToLocal("information.ShiftDialog"));
+                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash"))
+                    list.add(StatCollector.translateToLocal("information.CtrlShiftDialog"));
             }
         } else {
-            list.add(StatCollector.translateToLocal("information.ShiftDialog"));
-            if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash"))
-                list.add(StatCollector.translateToLocal("information.CtrlShiftDialog"));
+            list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
         }
     }
 

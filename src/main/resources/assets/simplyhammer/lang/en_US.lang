@@ -15,6 +15,8 @@ item.thaumiumHammer.name=Thaumium Hammer
 item.HSLAHammer.name=HSLA Hammer
 item.prospectorsPick.name=Prospector's Pick
 item.trashitem.name=Trash
+item.smeltitem.name=Auto-smelt Upgrade
+item.vacumitem.name=Vacuum Upgrade
 itemGroup.tabGeneral=Simply Hammer
 
 
@@ -85,6 +87,7 @@ modification.Shovel=Shovel:
 modification.ShovelSpeed=, Speed:
 modification.Torch=Torch
 modification.Trash=Trash
+modification.Smelt=Auto-Smelt
 
 trash.Inverted=Inverted
 trash.IgnoreList=Ignore List:
