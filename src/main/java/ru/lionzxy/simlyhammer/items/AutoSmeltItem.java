@@ -10,6 +10,7 @@ import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import ru.lionzxy.simlyhammer.SimplyHammer;
@@ -36,8 +37,12 @@ public class AutoSmeltItem extends Item{
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack is, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
-        if(!is.hasTagCompound())
-            list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
+        if(is.hasTagCompound()){
+        list.add(StatCollector.translateToLocal("trash.IgnoreList"));
+        for (int i = 0; i < is.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
+            NBTTagCompound item = /*(NBTTagCompound)*/ is.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
+            list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
+        }}
     }
 
 
