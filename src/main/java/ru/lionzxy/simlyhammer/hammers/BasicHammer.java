@@ -356,28 +356,27 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer player, List list, boolean par4) {
-        if (itemStack.hasTagCompound()) {
-            if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
-                    if (itemStack.getTagCompound().getBoolean("Invert"))
-                        list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
-                    if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash")) {
-                        list.add(StatCollector.translateToLocal("trash.IgnoreList"));
-                        for (int i = 0; i < itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
-                            NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
-                            list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
-                        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+            if (Keyboard.isKeyDown(Keyboard.KEY_LCONTROL)) {
+                if (itemStack.getTagCompound().getBoolean("Invert"))
+                    list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
+                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash")) {
+                    list.add(StatCollector.translateToLocal("trash.IgnoreList"));
+                    for (int i = 0; i < itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
+                        NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
+                        list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
                     }
-                } else {
-                    list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
-                    list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
-                    if (hammerSettings.isRepair())
-                        list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
-                    else if (hammerSettings.isInfinity())
-                        list.add(StatCollector.translateToLocal("information.infinity"));
-                    else list.add(StatCollector.translateToLocal("information.noRepairable"));
-                    list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
-
+                }
+            } else {
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
+                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
+                if (hammerSettings.isRepair())
+                    list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
+                else if (hammerSettings.isInfinity())
+                    list.add(StatCollector.translateToLocal("information.infinity"));
+                else list.add(StatCollector.translateToLocal("information.noRepairable"));
+                list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
+                if (itemStack.hasTagCompound()) {
                     if (itemStack.getTagCompound().getBoolean("Modif")) {
                         list.add("");
                         list.add(StatCollector.translateToLocal("information.modification"));
@@ -398,15 +397,16 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                             list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Smelt"));
 
                     }
+                } else {
+                    list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
                 }
-            } else {
-                list.add(StatCollector.translateToLocal("information.ShiftDialog"));
-                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash"))
-                    list.add(StatCollector.translateToLocal("information.CtrlShiftDialog"));
             }
         } else {
-            list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
+            list.add(StatCollector.translateToLocal("information.ShiftDialog"));
+            if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Trash"))
+                list.add(StatCollector.translateToLocal("information.CtrlShiftDialog"));
         }
+
     }
 
 

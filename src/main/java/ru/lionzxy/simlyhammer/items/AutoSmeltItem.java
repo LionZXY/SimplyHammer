@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.FurnaceRecipes;
@@ -13,6 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 
 import java.util.List;
@@ -27,6 +29,10 @@ public class AutoSmeltItem extends Item{
         this.setTextureName("simplyhammer:smeltitem");
         this.setMaxStackSize(1);
         GameRegistry.registerItem(this, "smeltitem");
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this),
+                "xyx", "yxy", "xyx",
+                'x', Blocks.furnace,
+                'y', "blockCoal"));
     }
 
     public ItemStack onItemRightClick(ItemStack is, World world, EntityPlayer player) {

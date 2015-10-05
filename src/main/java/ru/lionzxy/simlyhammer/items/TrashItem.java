@@ -5,6 +5,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -14,6 +15,7 @@ import net.minecraft.util.IIcon;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
@@ -35,6 +37,11 @@ public class TrashItem extends Item implements ITrash {
         this.setTextureName("simplyhammer:trashitem");
         this.setMaxStackSize(1);
         GameRegistry.registerItem(this, "trashitem");
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this),
+                "xxx", "yzy", "yyy",
+                'x', "cobblestone",
+                'y', Blocks.chest,
+                'z', "stone"));
     }
 
 

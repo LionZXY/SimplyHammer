@@ -16,7 +16,7 @@ public class Config {
 
     public static void createConfig() {
         File configFile = new File(Loader.instance().getConfigDir(), "SimplyHammer.cfg");
-        config = new Configuration(configFile, "0.7");
+        config = new Configuration(configFile, "0.8.5");
         config.getCategory("general");
         pick = config.get("general", "Prospector's Pick", true).getBoolean();
         MTorch = Config.config.get("modif", "TorchModif", true).getBoolean();
