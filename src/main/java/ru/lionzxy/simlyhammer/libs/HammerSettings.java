@@ -24,6 +24,7 @@ public class HammerSettings {
     private int breakRadius, oreDictId;
     private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum, mSmelt;
 
+    @Deprecated
     public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity) {
         String repairMaterial;
         material = EnumHelper.addToolMaterial(name,
@@ -139,7 +140,9 @@ public class HammerSettings {
         return mDiamond && Config.MDiamond;
     }
 
-    public boolean getMAxe() {return mAxe && Config.MAxe;}
+    public boolean getMAxe() {
+        return mAxe && Config.MAxe;
+    }
 
     public boolean getMShovel() {
         return mShovel && Config.MShovel;
@@ -167,7 +170,7 @@ public class HammerSettings {
     }
 
     public void setLocalizeName(String localizeName) {
-        this.localizeName = Config.config.get(this.getMaterial().name(), "LocalizeName", localizeName).getString();
+        this.localizeName = localizeName;
     }
 
     public HammerSettings(String name, int harvestLevel, float speed, int damage) {
@@ -184,5 +187,31 @@ public class HammerSettings {
         this.mVacuum = true;
         this.mSmelt = true;
     }
+
+    public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity,
+                          boolean repair, boolean isAchive, boolean mDiamond, boolean mAxe, boolean mShovel, boolean mTorch,
+                          boolean mTrash, boolean mVacuum, boolean mSmelt, int damageVsEntity, int enchantobility) {
+        material = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, damageVsEntity, enchantobility);
+        this.breakRadius = breakRadius;
+        String repairMaterial;
+        if (rm != null) {
+            repairMaterial = rm;
+            if (repairMaterial.indexOf(':') != -1)
+                repairItem = HammerUtils.getItemFromString(repairMaterial);
+            else
+                oreDictId = OreDictionary.getOreID(repairMaterial);
+        }
+        this.repair = repair;
+        this.isAchive = isAchive;
+        this.mDiamond = mDiamond;
+        this.mAxe = mAxe;
+        this.mShovel = mShovel;
+        this.mTorch = mTorch;
+        this.infinity = infinity;
+        this.mTrash = mTrash;
+        this.mVacuum = mVacuum;
+        this.mSmelt = mSmelt;
+    }
+
 
 }
