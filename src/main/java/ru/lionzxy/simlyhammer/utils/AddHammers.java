@@ -21,7 +21,6 @@ public class AddHammers {
     public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer;
 
     static public void addAllHammers() {
-        addVanilaHammers();
         addOreDictModHammers();
         Config.config.save();
     }
@@ -33,10 +32,23 @@ public class AddHammers {
         GOLD(0, 32, 12.0F, 0.0F, 22);
         BasicHammer(String name,int breakRadius, int harvestLevel,float speed, int damage)*/
     static void addVanilaHammers() {
-        new Aronil98Hammer();
+
+        CustomHammers.addHammer("bronzeHammer",1,2,6,2250,5,5,"blockBronze","ingotBronze",false,true,true,true,
+                true,true,true,true,true,true,"Bronze Hammer","simplyhammer:bronzeHammer");
+        CustomHammers.addHammer("stoneHammer",1,1,2,131,5,5,"stone","cobblestone",false);
+        CustomHammers.addHammer("ironHammer",1,2,6,2250,5,5,"blockIron","ingotIron",false);
+        CustomHammers.addHammer("copperHammer",1,2,6,512,5,5,"blockCopper","ingotCopper",false);
+        CustomHammers.addHammer("steelHammer",1,3,6,5120,5,5,"blockSteel","ingotSteel",false);
+        CustomHammers.addHammer("tungstenHammer",1,3,6,1100,5,5,"blockTungsten","ingotTungsten",false);
+        CustomHammers.addHammer("HSLAHammer",1,3,6,10240,5,5,"RotaryCraft:rotarycraft_block_deco","ingotHSLA",false);
+        CustomHammers.addHammer("unstableHammer",1,10,10,10240,5,5,"blockUnstable","ingotUnstable",true);
+        CustomHammers.addHammer("manaSteelHammer",1,3,6,2048,5,5,"Botania:storage","ingotManasteel",false);
+        CustomHammers.addHammer("terraSteelHammer",1,3,6,20480,5,5,"Botania:storage:1","ingotTerrasteel",false);
+        CustomHammers.addHammer("thaumiumHammer",1,3,6,2250,5,5,"Thaumcraft:blockCosmeticSolid:4","ingotThaumium",false);
     }
 
     static public void addOreDictModHammers() {
+        new Aronil98Hammer();
         if (Loader.isModLoaded("AWWayofTime"))
             BoundHammer.addBMHammer("boundHammer", 1, 3, 6F, 1100);
         if (Loader.isModLoaded("clockworkphase"))
@@ -52,7 +64,7 @@ public class AddHammers {
 
     }
 
-
+    @Deprecated
     static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String modName, String nameid, String repairMaterial, boolean infinity) {
         //if (!name.equalsIgnoreCase("HSLAHammer") || (name.equalsIgnoreCase("HSLAHammer") && Loader.isModLoaded("RotaryCraft"))) {
         if (Config.config.get("general", name, true).getBoolean()) {
@@ -68,7 +80,7 @@ public class AddHammers {
         }*/
     }
 
-
+    @Deprecated
     static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String materialOreDict, String repairMaterial, boolean infinity) {
         if (checkToNotNull(materialOreDict) && checkToNotNull(repairMaterial)) {
             if (Config.config.get("general", name, true).getBoolean()) {

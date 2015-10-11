@@ -6,10 +6,9 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import ru.lionzxy.simlyhammer.SimplyHammer;
-import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
@@ -34,8 +33,9 @@ public class CustomHammers {
                     if (!jsonFile.canWrite()) {
                         jsonFile.getParentFile().mkdirs();
                         jsonFile.createNewFile();
+                        AddHammers.addVanilaHammers();
                         FileOutputStream os = new FileOutputStream(jsonFile);
-                        os.write(STARTJSON.getBytes());
+                        os.write(JsonConfig.getFormatedText(mainJson.toString()).getBytes());
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -77,139 +77,47 @@ public class CustomHammers {
         }
     }
 
-    static final String STARTJSON= "[\n" +
-            "  {\n" +
-            "    \"name\": \"bronzeHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 2,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 2250,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotBronze\",\n" +
-            "    \"CraftMaterial\": \"blockBronze\",\n" +
-            "    \"Infinity\": false,\n" +
-            "    \"Repairable\": true,\n" +
-            "    \"GetAchievement\": true,\n" +
-            "    \"DiamondModif\": true,\n" +
-            "    \"AxeModif\": true,\n" +
-            "    \"ShovelModif\": true,\n" +
-            "    \"TorchModif\": true,\n" +
-            "    \"TrashModif\": true,\n" +
-            "    \"VacuumModif\": true,\n" +
-            "    \"SmeltModif\": true,\n" +
-            "    \"TexturePath\": \"simplyhammer:bronzeHammer\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"stoneHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 1,\n" +
-            "    \"Speed\": 2,\n" +
-            "    \"Durability\": 131,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"cobblestone\",\n" +
-            "    \"CraftMaterial\": \"stone\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"ironHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 2,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 2250,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotIron\",\n" +
-            "    \"CraftMaterial\": \"blockIron\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"copperHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 2,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 512,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotCopper\",\n" +
-            "    \"CraftMaterial\": \"blockCopper\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"steelHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 3,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 5120,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotSteel\",\n" +
-            "    \"CraftMaterial\": \"blockSteel\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"tungstenHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 3,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 1100,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotTungsten\",\n" +
-            "    \"CraftMaterial\": \"blockTungsten\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"HSLAHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 3,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 10240,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotHSLA\",\n" +
-            "    \"CraftMaterial\": \"RotaryCraft:rotarycraft_block_deco\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"unstableHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 10,\n" +
-            "    \"Speed\": 10,\n" +
-            "    \"Durability\": 10240,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotUnstable\",\n" +
-            "    \"CraftMaterial\": \"blockUnstable\",\n" +
-            "    \"Infinity\": true\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"manaSteelHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 3,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 2048,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotManasteel\",\n" +
-            "    \"CraftMaterial\": \"Botania:storage\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"terraSteelHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 3,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 20480,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotTerrasteel\",\n" +
-            "    \"CraftMaterial\": \"Botania:storage:1\"\n" +
-            "  },\n" +
-            "  {\n" +
-            "    \"name\": \"thaumiumHammer\",\n" +
-            "    \"BreakRadius\": 1,\n" +
-            "    \"HarvestLevel\": 3,\n" +
-            "    \"Speed\": 6,\n" +
-            "    \"Durability\": 2250,\n" +
-            "    \"AttackDamage\": 5,\n" +
-            "    \"Enchant\": 5,\n" +
-            "    \"RepairMaterial\": \"ingotThaumium\",\n" +
-            "    \"CraftMaterial\": \"Thaumcraft:blockCosmeticSolid:4\"\n" +
-            "  }\n" +
-            "]";
+    static public void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int damageVsEntity, int enchant, String materialOreDict, String repairMaterial, boolean infinity) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("name", name);
+        obj.addProperty("BreakRadius", breakRadius);
+        obj.addProperty("HarvestLevel", harvestLevel);
+        obj.addProperty("Speed", speed);
+        obj.addProperty("Durability", damage);
+        obj.addProperty("AttackDamage", damageVsEntity);
+        obj.addProperty("Enchant", enchant);
+        obj.addProperty("RepairMaterial", repairMaterial);
+        obj.addProperty("CraftMaterial", materialOreDict);
+        if (infinity)
+            obj.addProperty("Infinity", infinity);
+        mainJson.add(obj);
+    }
+
+    static public void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int damageVsEntity, int enchant, String materialOreDict, String rm, boolean infinity,
+                                 boolean repair, boolean isAchive, boolean mDiamond, boolean mAxe, boolean mShovel, boolean mTorch,
+                                 boolean mTrash, boolean mVacuum, boolean mSmelt, String localizeName, String texturepath) {
+        JsonObject obj = new JsonObject();
+        obj.addProperty("name", name);
+        obj.addProperty("BreakRadius", breakRadius);
+        obj.addProperty("HarvestLevel", harvestLevel);
+        obj.addProperty("Speed", speed);
+        obj.addProperty("Durability", damage);
+        obj.addProperty("CraftMaterial", materialOreDict);
+        obj.addProperty("RepairMaterial", rm);
+        obj.addProperty("Infinity", infinity);
+        obj.addProperty("Repairable", repair);
+        obj.addProperty("GetAchievement", isAchive);
+        obj.addProperty("DiamondModif", mDiamond);
+        obj.addProperty("AxeModif", mAxe);
+        obj.addProperty("ShovelModif", mShovel);
+        obj.addProperty("TorchModif", mTorch);
+        obj.addProperty("TrashModif", mTrash);
+        obj.addProperty("VacuumModif", mVacuum);
+        obj.addProperty("SmeltModif", mSmelt);
+        obj.addProperty("AttackDamage", damageVsEntity);
+        obj.addProperty("Enchant", enchant);
+        obj.addProperty("LocalizeName", localizeName);
+        obj.addProperty("TexturePath", texturepath);
+        mainJson.add(obj);
+    }
 }

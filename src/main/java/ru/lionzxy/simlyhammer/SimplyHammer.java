@@ -10,6 +10,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
 import ru.lionzxy.simlyhammer.proxy.CommonProxy;

@@ -1,5 +1,6 @@
 package ru.lionzxy.simlyhammer.handlers;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.init.Blocks;
@@ -100,29 +101,33 @@ public class AchievementSH {
                     "craft." + thisItem.getItem().getUnlocalizedName(),
                     0, 0, thisItem.getItem(), null));
         }
-        for (int i = 0; i < SimplyHammer.achievements.size(); i++)
-            if (((IModifiHammer) SimplyHammer.hammers.get(i)).getHammerSettings().isAchive())
-                SimplyHammer.achievements.get(i).registerStat();
-        if (Config.config.get("general", "AchievementFirstBreak", true).getBoolean())
-            firstDig = new Achievement("achievement.firstBreak",
-                    "firstBreak",
-                    0, 0, SimplyHammer.hammers.get(0), (Achievement) null).registerStat();
+        try {
+            for (int i = 0; i < SimplyHammer.achievements.size(); i++)
+                if (((IModifiHammer) SimplyHammer.hammers.get(i)).getHammerSettings().isAchive())
+                    SimplyHammer.achievements.get(i).registerStat();
+            if (Config.config.get("general", "AchievementFirstBreak", true).getBoolean())
+                firstDig = new Achievement("achievement.firstBreak",
+                        "firstBreak",
+                        0, 0, SimplyHammer.hammers.get(0), (Achievement) null).registerStat();
 
-        if (Config.config.get("general", "AchievementPlaceBlock", true).getBoolean())
-            placeBlock = new Achievement("achievement.placeBlock",
-                    "placeBlock",
-                    0, 0, Blocks.cobblestone, (Achievement) null).registerStat();
+            if (Config.config.get("general", "AchievementPlaceBlock", true).getBoolean())
+                placeBlock = new Achievement("achievement.placeBlock",
+                        "placeBlock",
+                        0, 0, Blocks.cobblestone, (Achievement) null).registerStat();
 
-        if (Config.config.get("prospectorsPick", "Achievement", true).getBoolean())
-            firstResearch = new Achievement("achievement.firstResearch",
-                    "firstResearch",
-                    0, 0, SimplyHammer.hammers.get(SimplyHammer.hammers.size() - 1), (Achievement) null).registerStat();
+            if (Config.config.get("prospectorsPick", "Achievement", true).getBoolean())
+                firstResearch = new Achievement("achievement.firstResearch",
+                        "firstResearch",
+                        0, 0, SimplyHammer.hammers.get(SimplyHammer.hammers.size() - 1), (Achievement) null).registerStat();
 
-        if (Config.config.get("general", "AchievementModification", true).getBoolean())
-            placeBlock = new Achievement("achievement.Modification",
-                    "Modification",
-                    0, 0, Items.diamond, (Achievement) null).registerStat();
-
+            if (Config.config.get("general", "AchievementModification", true).getBoolean())
+                placeBlock = new Achievement("achievement.Modification",
+                        "Modification",
+                        0, 0, Items.diamond, (Achievement) null).registerStat();
+        }catch (Exception e){
+            FMLLog.bigWarning("ACHIVEMENT DON'T ADD!!!");
+            e.printStackTrace();
+        }
         Config.config.save();
 
     }

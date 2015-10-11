@@ -96,6 +96,8 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
         if (hammerSettings.isAchive())
             player.addStat(AchievementSH.firstDig, 1);
+        if(player.isSneaking())
+            return true;
 
         MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
         if (mop == null)

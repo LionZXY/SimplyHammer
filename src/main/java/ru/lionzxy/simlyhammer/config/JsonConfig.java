@@ -100,15 +100,35 @@ public class JsonConfig {
         return property;
     }
 
-    public String getFormatedText(String in){
-        String tab = "";
-        int b = in.indexOf('{');
-        while (b != -1){
-            //Very lag. Don't use
-            in = in.substring(0,b) + "\n" + in.substring(b);
-            b = in.indexOf('{');
+    public static String getFormatedText(String in){
+        StringBuilder sb = new StringBuilder();
+        boolean isIgnore = false;
+        int tabCount = 0;
+        int b;
+        for(int i = 0; i < in.length();i++){
+            sb.append(in.charAt(i));
+            if(in.charAt(i) == '\"')
+                isIgnore=!isIgnore;
+            if(!isIgnore)
+            switch (in.charAt(i)){
+                case '{':
+                case '[':
+                    tabCount++;
+                case ',':
+                    sb.append('\n');
+                    for(b = 0; b < tabCount; b++)
+                        sb.append('\t');
+                    break;
+                case '}':
+                case ']':
+                    tabCount--;
+                    sb.deleteCharAt(sb.length()-1);
+                    sb.append("\n");
+                    for(b = 0; b < tabCount; b++)
+                        sb.append('\t');
+                    sb.append(in.charAt(i));
+            }
         }
-        System.out.println(in);
-        return in;
+        return sb.toString();
     }
 }
