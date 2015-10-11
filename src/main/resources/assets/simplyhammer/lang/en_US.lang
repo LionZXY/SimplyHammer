@@ -17,6 +17,7 @@ item.prospectorsPick.name=Prospector's Pick
 item.trashitem.name=Trash
 item.smeltitem.name=Auto-smelt Upgrade
 item.vacumitem.name=Vacuum Upgrade
+item.loupe.name=Loupe Name
 itemGroup.tabGeneral=Simply Hammer
 
 

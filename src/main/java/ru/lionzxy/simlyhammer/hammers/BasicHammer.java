@@ -96,9 +96,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
         if (hammerSettings.isAchive())
             player.addStat(AchievementSH.firstDig, 1);
-        if(player.isSneaking())
-            return true;
-
+        if(!player.isSneaking()){
         MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
         if (mop == null)
             return false;
@@ -123,6 +121,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                 zRange = breakRadius;
                 break;
         }
+
         for (int xPos = X - xRange; xPos <= X + xRange; xPos++)
             for (int yPos = Y - yRange; yPos <= Y + yRange; yPos++)
                 for (int zPos = Z - zRange; zPos <= Z + zRange; zPos++) {
@@ -132,7 +131,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
 
                     if (!super.onBlockStartBreak(itemstack, xPos, yPos, zPos, player))
                         breakExtraBlock(player.worldObj, xPos, yPos, zPos, sideHit, player, X, Y, Z);
-                }
+                }}
         return super.onBlockStartBreak(itemstack, X, Y, Z, player);
     }
 

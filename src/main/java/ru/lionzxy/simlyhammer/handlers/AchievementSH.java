@@ -65,7 +65,7 @@ public class AchievementSH {
             TrashItem.removeTrash(event.drops, event.harvester.getCurrentEquippedItem());
         }
 
-        if (event.harvester.getCurrentEquippedItem() != null){
+        if (event.harvester.getCurrentEquippedItem() != null) {
             if (event.harvester.getCurrentEquippedItem().getItem() instanceof IModifiHammer &&
                     HammerSettings.isSmelt(event.harvester.getCurrentEquippedItem()))
                 for (int i = 0; i < event.drops.size(); i++) {
@@ -80,15 +80,16 @@ public class AchievementSH {
                         event.drops.remove(k);
             } else if (Config.MCheckVacuum)
                 for (int i = 0; i < event.harvester.inventory.getSizeInventory(); i++)
-                    if (event.harvester.inventory.getStackInSlot(i) != null &&(
+                    if (event.harvester.inventory.getStackInSlot(i) != null && (
                             event.harvester.inventory.getStackInSlot(i).getItem() instanceof VacuumItem || (
-                            event.harvester.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer &&
-                                    HammerSettings.isVacuum(event.harvester.inventory.getStackInSlot(i)))))
+                                    event.harvester.inventory.getStackInSlot(i).getItem() instanceof IModifiHammer &&
+                                            HammerSettings.isVacuum(event.harvester.inventory.getStackInSlot(i)))))
                         for (int k = 0; k < event.drops.size(); k++)
                             if (!TrashItem.isTrash(event.drops.get(k), event.harvester.inventory.getStackInSlot(i))) {
                                 if (event.harvester.inventory.addItemStackToInventory(event.drops.get(k)))
                                     event.drops.remove(k);
-                            } else event.drops.remove(k);}
+                            } else event.drops.remove(k);
+        }
 
     }
 
@@ -124,7 +125,7 @@ public class AchievementSH {
                 placeBlock = new Achievement("achievement.Modification",
                         "Modification",
                         0, 0, Items.diamond, (Achievement) null).registerStat();
-        }catch (Exception e){
+        } catch (Exception e) {
             FMLLog.bigWarning("ACHIVEMENT DON'T ADD!!!");
             e.printStackTrace();
         }
