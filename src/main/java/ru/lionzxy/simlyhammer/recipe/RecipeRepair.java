@@ -74,7 +74,7 @@ public class RecipeRepair implements IRecipe {
             hammer.getTagCompound().setBoolean("Modif", true);
         }
 
-        if (findItem(ic, AddItems.trash) && hammer != null && hammer.hasTagCompound() && Config.MTrash && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTrash())
+        if (findItem(ic, AddItems.trash) && getItem(ic, AddItems.trash) != null && getItem(ic, AddItems.trash).hasTagCompound() && hammer != null && hammer.hasTagCompound() && Config.MTrash && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTrash())
             if (!hammer.getTagCompound().getBoolean("Trash")) {
                 hammer.getTagCompound().setBoolean("Trash", true);
                 hammer.getTagCompound().setTag("Items", getItem(ic, AddItems.trash).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
