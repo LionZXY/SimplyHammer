@@ -214,10 +214,12 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                         nearbyStack.setItemDamage(dmg);
                         player.inventoryContainer.getSlot(itemSlot).onSlotChanged();
                         nearbyStack.stackSize = count;
+                        player.inventory.inventoryChanged = true;
                     }
                     if (nearbyStack.stackSize < 1) {
                         nearbyStack = null;
                         player.inventory.setInventorySlotContents(itemSlot, null);
+                        //player.inventory.inventoryChanged = true;
                     }
                 }
             }
@@ -351,7 +353,10 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
 
     public Multimap getAttributeModifiers(ItemStack stack) {
         Multimap multimap = super.getAttributeModifiers(stack);
-        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double) hammerSettings.getDamageVsEntity(), 0));
+
+        //if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
+        //    multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double) 0, 0));
+        multimap.put(SharedMonsterAttributes.attackDamage.getAttributeUnlocalizedName(), new AttributeModifier(field_111210_e, "Weapon modifier", (double) 0, 0));
         return multimap;
     }
 
@@ -471,9 +476,11 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         return true;
     }
 
-    public boolean hitEntity(ItemStack p_77644_1_, EntityLivingBase p_77644_2_, EntityLivingBase p_77644_3_) {
+    public boolean hitEntity(ItemStack is, EntityLivingBase p_77644_2_, EntityLivingBase p_77644_3_) {
+        if (is.getItemDamage() >= is.getMaxDamage() - 1)
+            return false;
         if (!hammerSettings.isInfinity())
-            p_77644_1_.damageItem(2, p_77644_3_);
+            is.damageItem(2, p_77644_3_);
         return true;
     }
 

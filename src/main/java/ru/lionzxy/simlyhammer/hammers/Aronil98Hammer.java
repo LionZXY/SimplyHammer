@@ -19,8 +19,8 @@ public class Aronil98Hammer extends BasicHammer {
         GameRegistry.registerItem(this, this.hammerSettings.getUnlocalizeName());
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this),
                 "xyx", " z ", " z ",
-                'x', "gemDiamond",
-                'y', "stone",
+                'x', "obsidian",
+                'y', "blockDiamond",
                 'z', "ingotIron"));
 
     }

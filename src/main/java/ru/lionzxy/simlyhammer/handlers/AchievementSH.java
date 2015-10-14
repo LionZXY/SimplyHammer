@@ -5,8 +5,12 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
+import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.event.entity.living.LivingSetAttackTargetEvent;
+import net.minecraftforge.event.entity.player.AttackEntityEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import ru.lionzxy.simlyhammer.SimplyHammer;
@@ -36,9 +40,15 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
-        if (event.crafting.getItem() instanceof IModifiHammer) if (event.crafting.hasTagCompound())
+        if(event.crafting == null)
+            return;
+        if (event.crafting.getItem() instanceof IModifiHammer && event.crafting.hasTagCompound()) {
             if (event.crafting.getTagCompound().getBoolean("Modif"))
-                event.player.addStat(firstUpgrade, 1);
+                event.player.addStat(firstUpgrade, 1);}
+        if (event.crafting.getItem() instanceof Aronil98Hammer && !Aronil98Hammer.isPlayerAutor(event.player)){
+            event.crafting.func_150996_a(Item.getItemFromBlock(Blocks.diamond_block));
+            event.player.addChatComponentMessage(new ChatComponentText("This can craft only author mod"));}
+
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
             if (event.crafting.getItem() == SimplyHammer.hammers.get(i)) {
                 event.player.addStat(SimplyHammer.achievements.get(i), 1);
