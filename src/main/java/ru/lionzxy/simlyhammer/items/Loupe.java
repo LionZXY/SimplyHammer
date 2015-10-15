@@ -2,10 +2,13 @@ package ru.lionzxy.simlyhammer.items;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 
@@ -28,11 +31,22 @@ public class Loupe extends Item {
             return true;
         Block blockop = world.getBlock(x, y, z);
         if(blockop != null){
-            player.addChatComponentMessage(new ChatComponentText("Name: " + new ItemStack(blockop).getDisplayName()));
-            player.addChatComponentMessage(new ChatComponentText("Material: " + blockop.getMaterial()));
+            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GRAY + "=============="));
+            if(new ItemStack(Item.getItemFromBlock(blockop)).getItem() != null)
+            player.addChatComponentMessage(new ChatComponentText("Name: " + new ItemStack(Item.getItemFromBlock(blockop)).getDisplayName()));
+            if(world.getTileEntity(x,y,z) != null && world.getTileEntity(x,y,z).canUpdate())
+            {
+                TileEntity te = world.getTileEntity(x,y,z);
+
+                long startTime = System.nanoTime();
+                te.updateEntity();
+                long endTime = System.nanoTime();
+                player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Nanoseconds per tick: " + EnumChatFormatting.RED + (endTime - startTime) + EnumChatFormatting.WHITE + " (" + (double)(endTime - startTime)/1000000 + " Ms)"));
+            }
             player.addChatComponentMessage(new ChatComponentText("Harvest Tool: " + blockop.getHarvestTool(world.getBlockMetadata(x,y,z))));
             player.addChatComponentMessage(new ChatComponentText("Harvest Level: " + blockop.getHarvestLevel(world.getBlockMetadata(x,y,z))));
             player.addChatComponentMessage(new ChatComponentText("" + blockop.getUnlocalizedName()));
+            player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GRAY + "=============="));
         }
         return false;
     }
