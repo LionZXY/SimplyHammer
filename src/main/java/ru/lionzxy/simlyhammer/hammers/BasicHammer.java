@@ -1,6 +1,7 @@
 package ru.lionzxy.simlyhammer.hammers;
 
 import com.google.common.collect.Multimap;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -70,7 +71,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
     @Override
     public float getDigSpeed(ItemStack stack, Block block, int meta) {
         if (block.getHarvestTool(meta) == null)
-            return 0.5F;
+            return hammerSettings.getEffiency();
         if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
             return -1F;
         if (block.getHarvestTool(meta).equals("pickaxe"))
@@ -90,7 +91,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
     }
 
     public boolean isEffective(ItemStack stack, Block block, int meta) {
-        return block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("pickaxe") || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0) || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0) || isEffective(block.getMaterial());
+        return block.getHarvestTool(meta) == null || (block.getHarvestTool(meta).equals("pickaxe") || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0) || (stack.hasTagCompound() && block.getHarvestTool(meta) != null && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0) || isEffective(block.getMaterial()));
     }
 
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
@@ -432,12 +433,16 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
             return stack.getTagCompound().getInteger("Shovel");
         if (!toolClass.equals("pickaxe"))
             return -1;
+
         // tadaaaa
         return hammerSettings.getHarvestLevel();
     }
 
 
     public boolean isEffective(Material material) {
+        //???
+       if(material == null)
+            return true;
         for (Material m : getEffectiveMaterials())
             if (m == material)
                 return true;
@@ -449,7 +454,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         return materials;
     }
 
-    static Material[] materials = new Material[]{Material.rock, Material.iron, Material.ice, Material.glass, Material.piston, Material.anvil};
+    public static Material[] materials = new Material[]{Material.rock, Material.iron, Material.ice, Material.glass, Material.piston, Material.anvil};
 
     public int getMaxDamage(ItemStack stack) {
         /**

@@ -28,7 +28,10 @@ public class Loupe extends Item {
             return true;
         Block blockop = world.getBlock(x, y, z);
         if(blockop != null){
-            player.addChatComponentMessage(new ChatComponentText("" + new ItemStack(blockop).getDisplayName()));
+            player.addChatComponentMessage(new ChatComponentText("Name: " + new ItemStack(blockop).getDisplayName()));
+            player.addChatComponentMessage(new ChatComponentText("Material: " + blockop.getMaterial()));
+            player.addChatComponentMessage(new ChatComponentText("Harvest Tool: " + blockop.getHarvestTool(world.getBlockMetadata(x,y,z))));
+            player.addChatComponentMessage(new ChatComponentText("Harvest Level: " + blockop.getHarvestLevel(world.getBlockMetadata(x,y,z))));
             player.addChatComponentMessage(new ChatComponentText("" + blockop.getUnlocalizedName()));
         }
         return false;
