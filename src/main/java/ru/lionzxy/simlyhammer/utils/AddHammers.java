@@ -35,16 +35,16 @@ public class AddHammers {
 
         CustomHammers.addHammer("bronzeHammer",1,2,6,2250,5,5,"blockBronze","ingotBronze",false,true,true,true,
                 true,true,true,true,true,true,"Bronze Hammer","simplyhammer:bronzeHammer");
-        CustomHammers.addHammer("stoneHammer",1,1,2,131,5,5,"stone","cobblestone",false);
-        CustomHammers.addHammer("ironHammer",1,2,6,2250,5,5,"blockIron","ingotIron",false);
-        CustomHammers.addHammer("copperHammer",1,2,6,512,5,5,"blockCopper","ingotCopper",false);
-        CustomHammers.addHammer("steelHammer",1,3,6,5120,5,5,"blockSteel","ingotSteel",false);
-        CustomHammers.addHammer("tungstenHammer",1,3,6,1100,5,5,"blockTungsten","ingotTungsten",false);
-        CustomHammers.addHammer("HSLAHammer",1,3,6,10240,5,5,"RotaryCraft:rotarycraft_block_deco","ingotHSLA",false);
-        CustomHammers.addHammer("unstableHammer",1,10,10,10240,5,5,"blockUnstable","ingotUnstable",true);
-        CustomHammers.addHammer("manaSteelHammer",1,3,6,2048,5,5,"Botania:storage","ingotManasteel",false);
-        CustomHammers.addHammer("terraSteelHammer",1,3,6,20480,5,5,"Botania:storage:1","ingotTerrasteel",false);
-        CustomHammers.addHammer("thaumiumHammer",1,3,6,2250,5,5,"Thaumcraft:blockCosmeticSolid:4","ingotThaumium",false);
+        CustomHammers.addHammer("stoneHammer",1,1,2,131,"stone","cobblestone",false);
+        CustomHammers.addHammer("ironHammer",1,2,6,2250,"blockIron","ingotIron",false);
+        CustomHammers.addHammer("copperHammer",1,2,6,512,"blockCopper","ingotCopper",false);
+        CustomHammers.addHammer("steelHammer",1,3,6,5120,"blockSteel","ingotSteel",false);
+        CustomHammers.addHammer("tungstenHammer",1,3,6,1100,"blockTungsten","ingotTungsten",false);
+        CustomHammers.addHammer("HSLAHammer",1,3,6,10240,"RotaryCraft:rotarycraft_block_deco","ingotHSLA",false);
+        CustomHammers.addHammer("unstableHammer",1,10,10,10240,"blockUnstable","ingotUnstable",true);
+        CustomHammers.addHammer("manaSteelHammer",1,3,6,2048,"Botania:storage","ingotManasteel",false);
+        CustomHammers.addHammer("terraSteelHammer",1,3,6,20480,"Botania:storage:1","ingotTerrasteel",false);
+        CustomHammers.addHammer("thaumiumHammer",1,3,6,2250,"Thaumcraft:blockCosmeticSolid:4","ingotThaumium",false);
     }
 
     static public void addOreDictModHammers() {
@@ -64,58 +64,12 @@ public class AddHammers {
 
     }
 
-    @Deprecated
-    static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String modName, String nameid, String repairMaterial, boolean infinity) {
-        //if (!name.equalsIgnoreCase("HSLAHammer") || (name.equalsIgnoreCase("HSLAHammer") && Loader.isModLoaded("RotaryCraft"))) {
-        if (Config.config.get("general", name, true).getBoolean()) {
-            new BasicHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, repairMaterial, infinity).registerHammer(true));
-            int thisPos = SimplyHammer.hammers.size() - 1;
-            if (Loader.isModLoaded(modName))
-                addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", modName + ":" + nameid);
-        }
-        /*} else {
-            SimplyHammer.hammers.add(new BasicHammer(name, breakRadius, harvestLevel, speed, damage, (int) (speed * 1000) / damage));
-            int thisPos = SimplyHammer.hammers.size() - 1;
-            GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), name);
-        }*/
-    }
-
-    @Deprecated
-    static void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, String materialOreDict, String repairMaterial, boolean infinity) {
-        if (checkToNotNull(materialOreDict) && checkToNotNull(repairMaterial)) {
-            if (Config.config.get("general", name, true).getBoolean()) {
-                new BasicHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, repairMaterial, infinity).registerHammer(true));
-                int thisPos = SimplyHammer.hammers.size() - 1;
-                addCraft(SimplyHammer.hammers.get(thisPos), name, "ingotIron", materialOreDict);
-            }
-        } else {
-            new BasicHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, repairMaterial, infinity).registerHammer(true));
-        }
-    }
-
-    static public void addCraft(Item craftItem, String name, String craftRodt, String material) {
-        String craftRod = craftRodt;
-        String craftMaterial = material;
-        if (!isOreDict(craftRod))
-            if (!isOreDict(craftMaterial))
-                GameRegistry.addRecipe(new ItemStack(craftItem),
-                        "xxx", "xyx", " y ",
-                        'x', HammerUtils.getItemFromString(craftMaterial),
-                        'y', HammerUtils.getItemFromString(craftRod)// look in OreDictionary for vanilla definitions
-                );
-            else GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
-                    "xxx", "xyx", " y ",
-                    'x', craftMaterial,
-                    'y', HammerUtils.getItemFromString(craftRod)));
-        else if (!isOreDict(craftMaterial))
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
-                    "xxx", "xyx", " y ",
-                    'x', HammerUtils.getItemFromString(craftMaterial),
-                    'y', craftRod));
-        else GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
-                    "xxx", "xyx", " y ",
-                    'x', craftMaterial,
-                    'y', craftRod));
+    static public void addCraft(Item craftItem, String craftRodt, String material, String materialSimply) {
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
+                "zzz", "xyx", " y ",
+                'x', isOreDict(material) ? material : HammerUtils.getItemFromString(material),
+                'y', isOreDict(craftRodt) ? craftRodt : HammerUtils.getItemFromString(craftRodt),
+                'z', isOreDict(materialSimply) ? materialSimply : HammerUtils.getItemFromString(materialSimply)));
 
 
     }
