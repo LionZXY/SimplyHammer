@@ -60,10 +60,11 @@ public class IC2EnergyHammer extends BasicHammer implements IElectricItem, IBoxa
 
     @Override
     boolean giveDamage(ItemStack stack, EntityPlayer player) {
-        stack.getTagCompound().setInteger("charge", stack.getTagCompound().getInteger("charge") - 50);
-        System.out.println(stack.getTagCompound());
-        if (stack.getTagCompound().getInteger("charge") >= 50)
-            return true;
+        if (stack.hasTagCompound()) {
+            stack.getTagCompound().setInteger("charge", stack.getTagCompound().getInteger("charge") - 50);
+            if (stack.getTagCompound().getInteger("charge") >= 50)
+                return true;
+        }
         return false;
     }
 
@@ -72,8 +73,8 @@ public class IC2EnergyHammer extends BasicHammer implements IElectricItem, IBoxa
         //if (stack.hasTagCompound())System.out.println((double) stack.getTagCompound().getInteger("charge") / ((IC2EnergyHammer) stack.getItem()).getMaxCharge(stack));
         if (stack.hasTagCompound())
             return 1 - (double) stack.getTagCompound().getInteger("charge") / ((IC2EnergyHammer) stack.getItem()).getMaxCharge(stack);
-        //if (stack.hasTagCompound())
-        //    return (double) ((IC2EnergyHammer) stack.getItem()).getMaxCharge(stack) / stack.getTagCompound().getInteger("charge");
+            //if (stack.hasTagCompound())
+            //    return (double) ((IC2EnergyHammer) stack.getItem()).getMaxCharge(stack) / stack.getTagCompound().getInteger("charge");
         else return 0.0;
     }
 

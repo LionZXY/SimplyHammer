@@ -31,18 +31,18 @@ public class AddHammers {
         BasicHammer(String name,int breakRadius, int harvestLevel,float speed, int damage)*/
     static void addVanilaHammers() {
 
-        CustomHammers.addHammer("bronzeHammer",1,2,6,2250,5,5,"blockBronze","ingotBronze",false,true,true,true,
-                true,true,true,true,true,true,"Bronze Hammer","simplyhammer:bronzeHammer");
-        CustomHammers.addHammer("stoneHammer",1,1,2,131,"stone","cobblestone",false);
-        CustomHammers.addHammer("ironHammer",1,2,6,2250,"blockIron","ingotIron",false);
-        CustomHammers.addHammer("copperHammer",1,2,6,512,"blockCopper","ingotCopper",false);
-        CustomHammers.addHammer("steelHammer",1,3,6,5120,"blockSteel","ingotSteel",false);
-        CustomHammers.addHammer("tungstenHammer",1,3,6,1100,"blockTungsten","ingotTungsten",false);
-        CustomHammers.addHammer("HSLAHammer",1,3,6,10240,"RotaryCraft:rotarycraft_block_deco","ingotHSLA",false);
-        CustomHammers.addHammer("unstableHammer",1,10,10,10240,"blockUnstable","ingotUnstable",true);
-        CustomHammers.addHammer("manaSteelHammer",1,3,6,2048,"Botania:storage","ingotManasteel",false);
-        CustomHammers.addHammer("terraSteelHammer",1,3,6,20480,"Botania:storage:1","ingotTerrasteel",false);
-        CustomHammers.addHammer("thaumiumHammer",1,3,6,2250,"Thaumcraft:blockCosmeticSolid:4","ingotThaumium",false);
+        CustomHammers.addHammer("bronzeHammer", 1, 2, 6, 2250, 5, 5, "blockBronze", "ingotBronze", false, true, true, true,
+                true, true, true, true, true, true, "Bronze Hammer", "simplyhammer:bronzeHammer");
+        CustomHammers.addHammer("stoneHammer", 1, 1, 2, 131, "stone", "cobblestone", false);
+        CustomHammers.addHammer("ironHammer", 1, 2, 6, 2250, "blockIron", "ingotIron", false);
+        CustomHammers.addHammer("copperHammer", 1, 2, 6, 512, "blockCopper", "ingotCopper", false);
+        CustomHammers.addHammer("steelHammer", 1, 3, 6, 5120, "blockSteel", "ingotSteel", false);
+        CustomHammers.addHammer("tungstenHammer", 1, 3, 6, 1100, "blockTungsten", "ingotTungsten", false);
+        CustomHammers.addHammer("HSLAHammer", 1, 3, 6, 10240, "RotaryCraft:rotarycraft_block_deco", "ingotHSLA", false);
+        CustomHammers.addHammer("unstableHammer", 1, 10, 10, 10240, "blockUnstable", "ingotUnstable", true);
+        CustomHammers.addHammer("manaSteelHammer", 1, 3, 6, 2048, "Botania:storage", "ingotManasteel", false);
+        CustomHammers.addHammer("terraSteelHammer", 1, 3, 6, 20480, "Botania:storage:1", "ingotTerrasteel", false);
+        CustomHammers.addHammer("thaumiumHammer", 1, 3, 6, 2250, "Thaumcraft:blockCosmeticSolid:4", "ingotThaumium", false);
     }
 
     static public void addOreDictModHammers() {
@@ -59,7 +59,8 @@ public class AddHammers {
                     'y', new ItemStack(Items.stick)// look in OreDictionary for vanilla definitions
             ));
         }
-        new IC2EnergyHammer();
+        if (Loader.isModLoaded("IC2"))
+            new IC2EnergyHammer();
 
     }
 
