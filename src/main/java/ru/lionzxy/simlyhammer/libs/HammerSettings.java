@@ -12,6 +12,7 @@ import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.items.AutoSmeltItem;
 import ru.lionzxy.simlyhammer.items.VacuumItem;
+import ru.lionzxy.simlyhammer.utils.AddHammers;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 /**

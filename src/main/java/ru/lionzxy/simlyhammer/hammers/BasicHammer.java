@@ -481,12 +481,8 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         return true;
     }
 
-    public boolean hitEntity(ItemStack is, EntityLivingBase p_77644_2_, EntityLivingBase p_77644_3_) {
-        if (is.getItemDamage() >= is.getMaxDamage() - 1)
-            return false;
-        if (!hammerSettings.isInfinity())
-            is.damageItem(2, p_77644_3_);
-        return true;
+    public boolean hitEntity(ItemStack is, EntityLivingBase player, EntityLivingBase p_77644_3_) {
+        return this.giveDamage(is,(EntityPlayer) player);
     }
 
 }

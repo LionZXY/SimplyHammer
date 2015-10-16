@@ -61,6 +61,7 @@ public class AddHammers {
                     'y', new ItemStack(Items.stick)// look in OreDictionary for vanilla definitions
             ));
         }
+        new IC2EnergyHammer();
 
     }
 

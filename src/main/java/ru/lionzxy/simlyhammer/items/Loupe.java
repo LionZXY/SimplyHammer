@@ -1,6 +1,8 @@
 package ru.lionzxy.simlyhammer.items;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -27,8 +29,11 @@ public class Loupe extends Item {
 
 
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
-        if (world.isRemote)
+        if (world.isRemote){
+
             return true;
+        }
+        else {
         Block blockop = world.getBlock(x, y, z);
         if(blockop != null){
             player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GRAY + "=============="));
@@ -41,14 +46,15 @@ public class Loupe extends Item {
                 long startTime = System.nanoTime();
                 te.updateEntity();
                 long endTime = System.nanoTime();
-                player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Nanoseconds per tick: " + EnumChatFormatting.RED + (endTime - startTime) + EnumChatFormatting.WHITE + " (" + (double)(endTime - startTime)/1000000 + " Ms)"));
+                player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.AQUA + "Nanoseconds per tick: " + EnumChatFormatting.RED + (endTime - startTime) + EnumChatFormatting.WHITE + " (" + (float)(endTime - startTime)/1000000 + " Ms)"));
             }
             player.addChatComponentMessage(new ChatComponentText("Harvest Tool: " + blockop.getHarvestTool(world.getBlockMetadata(x,y,z))));
             player.addChatComponentMessage(new ChatComponentText("Harvest Level: " + blockop.getHarvestLevel(world.getBlockMetadata(x,y,z))));
-            player.addChatComponentMessage(new ChatComponentText("" + blockop.getUnlocalizedName()));
+            player.addChatComponentMessage(new ChatComponentText("Unlocalize name: " + blockop.getUnlocalizedName()));
+
             player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GRAY + "=============="));
         }
-        return false;
+        return false;}
     }
 
 }

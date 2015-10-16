@@ -204,20 +204,13 @@
         <root url="jar://$PROJECT_DIR$/libs/Clockworkphase-1.7.10-1.0f-source.jar!/" />
       </SOURCES>
     </library>
-    <library name="Guide-API-1.7.10-1.0.1-20-deobf">
+    <library name="industrialcraft-2-2.2.783-experimental-dev">
       <CLASSES>
-        <root url="jar://$USER_HOME$/Downloads/Guide-API-1.7.10-1.0.1-20-deobf.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
-    <library name="industrialcraft-2-2.2.771-experimental-dev">
-      <CLASSES>
-        <root url="jar://$PROJECT_DIR$/libs/industrialcraft-2-2.2.771-experimental-dev.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/industrialcraft-2-2.2.783-experimental-dev.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/libs/industrialcraft-2-2.2.771-experimental-dev.jar!/" />
+        <root url="jar://$PROJECT_DIR$/libs/industrialcraft-2-2.2.783-experimental-dev.jar!/" />
       </SOURCES>
     </library>
   </component>
