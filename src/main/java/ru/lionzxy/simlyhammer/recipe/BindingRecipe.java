@@ -7,7 +7,8 @@ import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 /**
- * Created by nikit on 06.09.2015.
+ * Created by LionZXY on 08.09.2015.
+ * SimplyHammer v0.9
  */
 public class BindingRecipe extends WayofTime.alchemicalWizardry.api.bindingRegistry.BindingRecipe {
     public BindingRecipe(ItemStack outputItem, ItemStack requiredItem) {

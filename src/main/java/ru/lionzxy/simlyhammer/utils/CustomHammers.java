@@ -18,7 +18,8 @@ import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import java.io.*;
 
 /**
- * Created by nikit on 06.09.2015.
+ * Created by LionZXY on 08.09.2015.
+ * SimplyHammer v0.9
  */
 public class CustomHammers {
     //public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity,
@@ -36,8 +37,11 @@ public class CustomHammers {
                         jsonFile.getParentFile().mkdirs();
                         jsonFile.createNewFile();
                         AddHammers.addVanilaHammers();
-                        FileOutputStream os = new FileOutputStream(jsonFile);
-                        os.write(JsonConfig.getFormatedText(mainJson.toString()).getBytes());
+                        try (FileOutputStream os = new FileOutputStream(jsonFile)) {
+                            os.write(JsonConfig.getFormatedText(mainJson.toString()).getBytes());
+                        } finally {
+
+                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -70,7 +74,7 @@ public class CustomHammers {
                     if (obj.get("TexturePath") != null)
                         SimplyHammer.hammers.get(thisPos).setTextureName(obj.get("TexturePath").getAsString());
                     AddHammers.addCraft(SimplyHammer.hammers.get(thisPos), "ingotIron", obj.get("CraftMaterial") == null ? "blockIron" : obj.get("CraftMaterial").getAsString(), obj.get("CraftMaterial2") == null ? obj.get("RepairMaterial") == null ? "ingotIron" : obj.get("RepairMaterial").getAsString() : obj.get("CraftMaterial2").getAsString());
-                    GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos),obj.get("name").getAsString());
+                    GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), obj.get("name").getAsString());
                     FMLLog.fine("Add hammer!" + new ItemStack(SimplyHammer.hammers.get(thisPos)).getDisplayName());
                 }
             } catch (FileNotFoundException e) {
@@ -92,7 +96,7 @@ public class CustomHammers {
         obj.addProperty("CraftMaterial", materialOreDict);
         obj.addProperty("CraftMaterial2", repairMaterial);
         if (infinity)
-            obj.addProperty("Infinity", infinity);
+            obj.addProperty("Infinity", true);
         mainJson.add(obj);
     }
 

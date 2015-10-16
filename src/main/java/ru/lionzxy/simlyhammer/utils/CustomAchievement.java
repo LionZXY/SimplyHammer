@@ -9,7 +9,8 @@ import net.minecraft.stats.Achievement;
 import net.minecraft.util.StatCollector;
 
 /**
- * Created by nikit on 06.09.2015.
+ * Created by LionZXY on 08.09.2015.
+ * SimplyHammer v0.9
  */
 public class CustomAchievement extends Achievement {
     String localizeName;

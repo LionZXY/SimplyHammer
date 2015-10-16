@@ -9,7 +9,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /**
- * Created by nikit on 01.09.2015.
+ * Created by LionZXY on 08.09.2015.
+ * SimplyHammer v0.9
  */
 public class HammerTab extends CreativeTabs {
     public HammerTab(String lable) {

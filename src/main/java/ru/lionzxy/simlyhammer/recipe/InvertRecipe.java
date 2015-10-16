@@ -9,7 +9,8 @@ import net.minecraft.world.World;
 import ru.lionzxy.simlyhammer.items.AddItems;
 
 /**
- * Created by nikit on 12.09.2015.
+ * Created by LionZXY on 08.09.2015.
+ * SimplyHammer v0.9
  */
 public class InvertRecipe implements IRecipe {
     @Override

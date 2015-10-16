@@ -17,7 +17,8 @@ import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.items.TrashItem;
 
 /**
- * Created by nikit on 30.08.2015.
+ * Created by LionZXY on 08.09.2015.
+ * SimplyHammer v0.9
  */
 public class RecipeRepair implements IRecipe {
 
