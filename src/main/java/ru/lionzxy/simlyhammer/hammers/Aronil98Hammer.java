@@ -37,9 +37,6 @@ public class Aronil98Hammer extends BasicHammer {
         return false;
     }
 
-    public void onCreated(ItemStack is, World p_77622_2_, EntityPlayer player) {
-        if(!isPlayerAutor(player))
-            is = null;
-    }
+
 
 }

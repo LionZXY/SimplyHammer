@@ -45,9 +45,9 @@ public class AchievementSH {
         if (event.crafting.getItem() instanceof IModifiHammer && event.crafting.hasTagCompound()) {
             if (event.crafting.getTagCompound().getBoolean("Modif"))
                 event.player.addStat(firstUpgrade, 1);}
-        /*if (event.crafting.getItem() instanceof Aronil98Hammer && !Aronil98Hammer.isPlayerAutor(event.player)){
+        if (event.crafting.getItem() instanceof Aronil98Hammer && !Aronil98Hammer.isPlayerAutor(event.player)){
             event.crafting.func_150996_a(Item.getItemFromBlock(Blocks.diamond_block));
-            event.player.addChatComponentMessage(new ChatComponentText("This can craft only author mod"));}*/
+            event.player.addChatComponentMessage(new ChatComponentText("This can craft only author mod"));}
 
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
             if (event.crafting.getItem() == SimplyHammer.hammers.get(i)) {
