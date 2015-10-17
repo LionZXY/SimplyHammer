@@ -22,7 +22,7 @@ import ru.lionzxy.simlyhammer.recipe.IC2DrillCrafting;
  */
 public class AddHammers {
 
-    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, ARHammer;
 
     static public void addAllHammers() {
         addOreDictModHammers();
@@ -52,7 +52,6 @@ public class AddHammers {
     }
 
     static public void addOreDictModHammers() {
-        new Aronil98Hammer();
         if (Loader.isModLoaded("AWWayofTime"))
             BoundHammer.addBMHammer("boundHammer", 1, 3, 6F, 1100);
         if (Loader.isModLoaded("clockworkphase"))
@@ -88,6 +87,8 @@ public class AddHammers {
             ));
             GameRegistry.addRecipe(new IC2DrillCrafting());
         }
+
+        ARHammer = new Aronil98Hammer();
 
     }
 

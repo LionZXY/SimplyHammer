@@ -9,12 +9,12 @@ import ru.lionzxy.simlyhammer.utils.AddHammers;
 public class AddItems {
     public static Item trash, vacuum, autosmelt, loupe, stick, ductape;
     public static void init(){
-        AddHammers.addAllHammers();
         trash = new TrashItem();
         vacuum = new VacuumItem();
         autosmelt = new AutoSmeltItem();
         stick = new Stick();
         ductape = new Ductape();
         loupe = new Loupe();
+        AddHammers.addAllHammers();
     }
 }
