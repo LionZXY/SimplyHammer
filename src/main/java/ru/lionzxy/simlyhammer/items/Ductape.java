@@ -23,7 +23,7 @@ public class Ductape extends Item {
         this.setMaxDamage(10);
         this.setTextureName("simplyhammer:ductape");
         OreDictionary.registerOre("ductape", this);
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(AddHammers.stick, 1, 0),
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(AddItems.stick, 1, 0),
                 "  x", " x ", "z  ",
                 'x', "logWood",
                 'z', "ductape"));

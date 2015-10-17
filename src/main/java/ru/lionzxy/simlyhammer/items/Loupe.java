@@ -12,6 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
@@ -27,10 +28,10 @@ public class Loupe extends Item {
         super.setUnlocalizedName("loupe");
         super.setTextureName("simplyhammer:loupe");
         GameRegistry.registerItem(this, "loupe");
-        GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this), " x ", "xyx", " xz",
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this), " x ", "xyx", " xz",
                 'x', "paneGlass",
                 'y', "plankWood",
-                'z', new ItemStack(AddHammers.stick, 1, 0)));
+                'z', new ItemStack(AddItems.stick, 1, 0)));
     }
 
 

@@ -11,6 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 /**
@@ -35,7 +36,7 @@ public class IC2DrillCrafting implements IRecipe {
             return false;
         if (!containsOresDict(ic.getStackInSlot(5), "blockSteel"))
             return false;
-        if (!new ItemStack(AddHammers.stick, 1, 0).isItemEqual(ic.getStackInSlot(7)))
+        if (!new ItemStack(AddItems.stick, 1, 0).isItemEqual(ic.getStackInSlot(7)))
             return false;
         return true;
     }

@@ -11,6 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.*;
+import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.items.Ductape;
 import ru.lionzxy.simlyhammer.items.Stick;
 import ru.lionzxy.simlyhammer.recipe.IC2DrillCrafting;
@@ -21,7 +22,7 @@ import ru.lionzxy.simlyhammer.recipe.IC2DrillCrafting;
  */
 public class AddHammers {
 
-    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, stick;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer;
 
     static public void addAllHammers() {
         addOreDictModHammers();
@@ -51,8 +52,6 @@ public class AddHammers {
     }
 
     static public void addOreDictModHammers() {
-        stick = new Stick();
-        new Ductape();
         new Aronil98Hammer();
         if (Loader.isModLoaded("AWWayofTime"))
             BoundHammer.addBMHammer("boundHammer", 1, 3, 6F, 1100);
@@ -85,7 +84,7 @@ public class AddHammers {
                     'y', "drillEu",
                     'z', "ingotSteel",
                     'p', IC2Items.getItem("mfeUnit"),
-                    'k', new ItemStack(stick, 1, 0)
+                    'k', new ItemStack(AddItems.stick, 1, 0)
             ));
             GameRegistry.addRecipe(new IC2DrillCrafting());
         }
@@ -96,8 +95,8 @@ public class AddHammers {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
                 "zzz", "xpx", " y ",
                 'x', isOreDict(material) ? material : HammerUtils.getItemFromString(material),
-                'p', new ItemStack(stick, 1, 1),
-                'y', new ItemStack(stick, 1, 0),
+                'p', new ItemStack(AddItems.stick, 1, 1),
+                'y', new ItemStack(AddItems.stick, 1, 0),
                 'z', isOreDict(materialSimply) ? materialSimply : HammerUtils.getItemFromString(materialSimply)));
 
 
