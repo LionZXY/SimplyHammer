@@ -4,12 +4,14 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.item.IBoxable;
 import ic2.api.item.IElectricItem;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.hammers.core.NBTHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
@@ -85,19 +87,10 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
     }
 
     @Override
-    public float getDigSpeed(ItemStack stack, Block block, int meta) {
-        if (block.getHarvestTool(meta) == null && stack.hasTagCompound())
-            return stack.getTagCompound().getFloat("DigSpeed");
-        if (stack.getTagCompound().getInteger("charge") < 50)
-            return -1F;
-        if (block.getHarvestTool(meta).equals("pickaxe") && stack.hasTagCompound())
-            return stack.getTagCompound().getFloat("DigSpeed");
-        if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0)
-            return (float) stack.getTagCompound().getDouble("AxeSpeed");
-        if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0)
-            return (float) stack.getTagCompound().getDouble("ShovelSpeed");
-
-        return 0.5F;
+    protected int usesLeftBlock(ItemStack is) {
+        if (!is.hasTagCompound())
+            is.setTagCompound(new NBTTagCompound());
+        return is.getTagCompound().getInteger("charge") / 50;
     }
 
     @Override
@@ -113,4 +106,11 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
             is.setTagCompound(new NBTTagCompound());
         list.add("Energy: " + is.getTagCompound().getInteger("charge") + " / " + (int) this.getMaxCharge(is));
     }
+
+    @Override
+    protected boolean damageItem(ItemStack is, EntityLivingBase player) {
+        return giveDamage(is,(EntityPlayer) player);
+    }
+
+
 }

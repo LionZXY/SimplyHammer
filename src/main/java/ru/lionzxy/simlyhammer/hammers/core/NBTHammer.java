@@ -2,10 +2,12 @@ package ru.lionzxy.simlyhammer.hammers.core;
 
 import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
@@ -26,7 +28,7 @@ public abstract class NBTHammer extends BasicHammer {
         if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             if (itemStack.hasTagCompound()) {
                 //if (!itemStack.getTagCompound().getString("ownerName").equals("") && itemStack.getTagCompound() != null)
-                    list.add(StatCollector.translateToLocal("information.usesLeft") + " " + this.usesLeft(itemStack));
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + this.usesLeft(itemStack));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + itemStack.getTagCompound().getInteger("HammerHarvestLevel"));
                 list.add(StatCollector.translateToLocal("information.efficiency") + " " + itemStack.getTagCompound().getDouble("HammerSpeed"));
                 if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
@@ -66,6 +68,8 @@ public abstract class NBTHammer extends BasicHammer {
     @Override
     public int getHarvestLevel(ItemStack stack, String toolClass) {
         // invalid query or wrong toolclass
+        if (usesLeftBlock(stack) < 2)
+            return -1;
         if (toolClass == null)
             return -1;
         if (toolClass.equals("axe") && stack.hasTagCompound() && stack.getTagCompound().getInteger("Axe") != 0)
@@ -80,7 +84,23 @@ public abstract class NBTHammer extends BasicHammer {
         else return toolMaterial.getHarvestLevel();
     }
 
+    @Override
+    public boolean onBlockDestroyed(ItemStack is, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase p_150894_7_) {
+        if ((double) p_150894_3_.getBlockHardness(p_150894_2_, p_150894_4_, p_150894_5_, p_150894_6_) != 0.0D && hammerSettings.getDurability() != -1 && !hammerSettings.isInfinity()) {
+            this.damageItem(is,p_150894_7_);
+        }
+        return true;
+    }
+
+    public boolean hitEntity(ItemStack is, EntityLivingBase player, EntityLivingBase p_77644_3_) {
+        return this.damageItem(is,player);
+    }
+
+    protected abstract int usesLeftBlock(ItemStack is);
+
     protected abstract String usesLeft(ItemStack is);
 
     protected abstract void addIInfo(ItemStack is, List list);
+
+    protected abstract boolean damageItem(ItemStack is, EntityLivingBase player);
 }

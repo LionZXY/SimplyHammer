@@ -11,6 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.*;
+import ru.lionzxy.simlyhammer.items.Ductape;
 import ru.lionzxy.simlyhammer.items.Stick;
 import ru.lionzxy.simlyhammer.recipe.IC2DrillCrafting;
 
@@ -51,6 +52,7 @@ public class AddHammers {
 
     static public void addOreDictModHammers() {
         stick = new Stick();
+        new Ductape();
         new Aronil98Hammer();
         if (Loader.isModLoaded("AWWayofTime"))
             BoundHammer.addBMHammer("boundHammer", 1, 3, 6F, 1100);
@@ -65,14 +67,26 @@ public class AddHammers {
             ));
         }
         if (Loader.isModLoaded("IC2")) {
+            FMLLog.info("Register oredict drill");
             try {
-            OreDictionary.registerOre("drillEu", IC2Items.getItem("miningDrill").getItem());
-            OreDictionary.registerOre("drillEu", IC2Items.getItem("diamondDrill").getItem());
-            OreDictionary.registerOre("drillEu", IC2Items.getItem("iridiumDrill").getItem());} catch (NullPointerException e){
-                FMLLog.bigWarning("[SimplyHammers] NOT FIND SOME IC2. EU Hammer not crafting!!!");
+                OreDictionary.registerOre("drillEu", IC2Items.getItem("miningDrill").getItem());
+                OreDictionary.registerOre("drillEu", IC2Items.getItem("diamondDrill").getItem());
+                OreDictionary.registerOre("drillEu", IC2Items.getItem("iridiumDrill").getItem());
+                OreDictionary.registerOre("ingotSteel", IC2Items.getItem("advIronIngot").getItem());
+                OreDictionary.registerOre("blockSteel", IC2Items.getItem("advironblock").getItem());
+            } catch (NullPointerException e) {
+                FMLLog.bigWarning("[SimplyHammers] NOT FOUND SOME IC2 ITEMS. EU Hammer not crafting!!!");
                 e.printStackTrace();
             }
             IC2Hammer = new IC2EnergyHammer();
+            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(IC2Hammer),
+                    "xyx", "zpz", " k ",
+                    'x', "blockSteel",
+                    'y', "drillEu",
+                    'z', "ingotSteel",
+                    'p', IC2Items.getItem("mfeUnit"),
+                    'k', new ItemStack(stick, 1, 0)
+            ));
             GameRegistry.addRecipe(new IC2DrillCrafting());
         }
 
@@ -82,8 +96,8 @@ public class AddHammers {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
                 "zzz", "xpx", " y ",
                 'x', isOreDict(material) ? material : HammerUtils.getItemFromString(material),
-                'p', new ItemStack(stick,1,1),
-                'y', new ItemStack(stick,1,0),
+                'p', new ItemStack(stick, 1, 1),
+                'y', new ItemStack(stick, 1, 0),
                 'z', isOreDict(materialSimply) ? materialSimply : HammerUtils.getItemFromString(materialSimply)));
 
 

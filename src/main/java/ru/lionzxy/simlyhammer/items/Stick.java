@@ -18,19 +18,18 @@ import java.util.List;
  * SimplyHammer v0.9
  */
 public class Stick extends Item {
+    private ItemStack emptyItem = null;
+    private static int maxDamage = 10;
     public IIcon[] icons = new IIcon[2];
 
-    public Stick(){
+    public Stick() {
         this.setHasSubtypes(true);
         this.setCreativeTab(SimplyHammer.tabGeneral);
         this.setUnlocalizedName("itemHammer");
-        GameRegistry.registerItem(this,"stickHammer");
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this,1,0),
-                "  x", " x ", "z  ",
-                'x', "logWood",
-                'z', new ItemStack(Blocks.wool,1,15)));
+        GameRegistry.registerItem(this, "stickHammer");
 
-        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this,16,1),
+
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(this, 16, 1),
                 "xxx", " x ", " x ",
                 'x', "ingotIron"));
     }
@@ -38,7 +37,7 @@ public class Stick extends Item {
 
     @Override
     public void registerIcons(IIconRegister reg) {
-        for (int i = 0; i < icons.length; i ++) {
+        for (int i = 0; i < icons.length; i++) {
             this.icons[i] = reg.registerIcon("simplyhammer:metaitem/" + i);
         }
     }
@@ -53,7 +52,7 @@ public class Stick extends Item {
 
     @Override
     public void getSubItems(Item item, CreativeTabs tab, List list) {
-        for (int i = 0; i < icons.length; i ++) {
+        for (int i = 0; i < icons.length; i++) {
             list.add(new ItemStack(item, 1, i));
         }
     }

@@ -51,6 +51,13 @@ public class BoundHammer extends NBTHammer implements IBindable {
     }
 
     @Override
+    protected int usesLeftBlock(ItemStack is) {
+        if (!is.hasTagCompound())
+            is.setTagCompound(new NBTTagCompound());
+        return SoulNetworkHandler.getCurrentEssence(is.getTagCompound().getString("ownerName")) / energyUsed;
+    }
+
+    @Override
     @SideOnly(Side.CLIENT)
     public void registerIcons(IIconRegister iconRegister) {
         this.itemIcon = iconRegister.registerIcon("simplyhammer:bloodHammer");
@@ -241,6 +248,11 @@ public class BoundHammer extends NBTHammer implements IBindable {
                 list.add(StatCollector.translateToLocal("tooltip.owner.currentowner") + " " + itemStack.getTagCompound().getString("ownerName"));
             }
         }
+    }
+
+    @Override
+    protected boolean damageItem(ItemStack is, EntityLivingBase player) {
+        return giveDamage(is,(EntityPlayer) player);
     }
 
     public static void addBMHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {

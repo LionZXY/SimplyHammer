@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.recipe.Recipes;
 import net.minecraft.creativetab.CreativeTabs;
@@ -13,6 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.hammers.IC2EnergyHammer;
+import ru.lionzxy.simlyhammer.handlers.CommandHandler;
 import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
 import ru.lionzxy.simlyhammer.proxy.CommonProxy;
@@ -57,5 +59,11 @@ public class SimplyHammer {
         AchievementSH.addAchivement();
         proxy.registerProxies();
         Config.config.save();
+    }
+
+    @Mod.EventHandler
+    public void serverLoad(FMLServerStartingEvent event)
+    {
+        event.registerServerCommand(new CommandHandler());
     }
 }

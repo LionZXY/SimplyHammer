@@ -35,7 +35,7 @@ public class IC2DrillCrafting implements IRecipe {
             return false;
         if (!containsOresDict(ic.getStackInSlot(5), "blockSteel"))
             return false;
-        if (new ItemStack(AddHammers.stick, 1, 0).isItemEqual(ic.getStackInSlot(7)))
+        if (!new ItemStack(AddHammers.stick, 1, 0).isItemEqual(ic.getStackInSlot(7)))
             return false;
         return true;
     }
@@ -43,7 +43,7 @@ public class IC2DrillCrafting implements IRecipe {
     @Override
     public ItemStack getCraftingResult(InventoryCrafting ic) {
         ItemStack output = new ItemStack(AddHammers.IC2Hammer);
-        ItemStack inputItem = ic.getStackInSlot(7);
+        ItemStack inputItem = ic.getStackInSlot(1);
         output.setTagCompound(new NBTTagCompound());
         NBTTagCompound tag = output.getTagCompound();
         if (IC2Items.getItem("miningDrill") != null && inputItem.getItem() == IC2Items.getItem("miningDrill").getItem()) {
@@ -74,7 +74,7 @@ public class IC2DrillCrafting implements IRecipe {
 
     public static boolean containsOresDict(ItemStack is, String oredict) {
         int oreDictId = OreDictionary.getOreID(oredict);
-        for (int id : OreDictionary.getOreIDs(is))
+        for (int id : OreDictionary.getOreIDs(new ItemStack(is.getItem())))
             if (id == oreDictId)
                 return true;
         return false;
