@@ -31,7 +31,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-@Mod(modid = "simplyhammer", name = "Simply Hammers", version = "0.8.5")
+@Mod(modid = "simplyhammer", name = "Simply Hammers", version = "0.9")
 public class SimplyHammer {
     @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy",serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;

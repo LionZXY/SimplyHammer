@@ -17,9 +17,9 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "0.7"
+version = "0.9"
 group= "ru.lionzxy.simplyhammer" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "simplyhammer"
+archivesBaseName = "SimplyHammer"
 
 minecraft {
     version = "1.7.10-10.13.4.1448-1.7.10"
