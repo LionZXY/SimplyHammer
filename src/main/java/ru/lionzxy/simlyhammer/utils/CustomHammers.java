@@ -39,11 +39,10 @@ public class CustomHammers {
                         jsonFile.getParentFile().mkdirs();
                         jsonFile.createNewFile();
                         AddHammers.addVanilaHammers();
-                        try (FileOutputStream os = new FileOutputStream(jsonFile)) {
-                            os.write(JsonConfig.getFormatedText(mainJson.toString()).getBytes());
-                        } finally {
+                        FileOutputStream os = new FileOutputStream(jsonFile);
+                        os.write(JsonConfig.getFormatedText(mainJson.toString()).getBytes());
+                        os.close();
 
-                        }
                     }
                 } catch (IOException e) {
                     e.printStackTrace();

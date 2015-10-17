@@ -21,11 +21,9 @@ public class ModHammerJson {
             try {
                 modJson.mkdirs();
                 modJson.createNewFile();
-                try(FileOutputStream os = new FileOutputStream(modJson)){
-                    os.write(JsonConfig.getFormatedText(jsonArray.toString()).getBytes());
-                }finally {
-
-                }
+                FileOutputStream os = new FileOutputStream(modJson);
+                os.write(JsonConfig.getFormatedText(jsonArray.toString()).getBytes());
+                os.close();
             }catch (Exception e){
 
             }}
