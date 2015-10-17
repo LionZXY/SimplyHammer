@@ -485,4 +485,15 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         return this.giveDamage(is,(EntityPlayer) player);
     }
 
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack is, int p_82790_2_)
+    {
+        if(!is.hasTagCompound())
+            is.setTagCompound(new NBTTagCompound());
+
+        if(is.getTagCompound().getInteger("Color") == 0)
+            return 16777215;
+        else return is.getTagCompound().getInteger("Color");
+    }
+
 }

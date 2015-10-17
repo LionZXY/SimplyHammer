@@ -8,6 +8,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
@@ -59,6 +60,11 @@ public class RecipeRepair implements IRecipe {
             hammer.getTagCompound().setInteger("Axe", ((ItemAxe) itemStack.getItem()).func_150913_i().getHarvestLevel());
             hammer.getTagCompound().setDouble("AxeSpeed", ((ItemAxe) itemStack.getItem()).func_150913_i().getEfficiencyOnProperMaterial());
             hammer.getTagCompound().setBoolean("Modif", true);
+        }
+        if (findDye(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MDye) {
+            ItemStack itemStack = findDye(ic);
+            int i = MathHelper.clamp_int(itemStack.getItemDamage(), 0, 15);
+            hammer.getTagCompound().setInteger("Color", ItemDye.field_150922_c[i]);
         }
         if (findShovel(ic) != null && hammer != null && hammer.hasTagCompound() && Config.MShovel && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMShovel()) {
             ItemStack itemStack = findShovel(ic);
@@ -137,6 +143,14 @@ public class RecipeRepair implements IRecipe {
     public ItemStack findAxe(InventoryCrafting ic) {
         for (int i = 0; i < ic.getSizeInventory(); i++)
             if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof ItemAxe)
+                return ic.getStackInSlot(i);
+
+        return null;
+    }
+
+    public ItemStack findDye(InventoryCrafting ic) {
+        for (int i = 0; i < ic.getSizeInventory(); i++)
+            if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() instanceof ItemDye)
                 return ic.getStackInSlot(i);
 
         return null;

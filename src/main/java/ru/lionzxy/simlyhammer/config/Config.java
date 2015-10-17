@@ -11,7 +11,7 @@ import java.io.File;
 public class Config {
 
     public static Configuration config;
-    public static boolean pick, MTorch, MDiamond, MAxe, MShovel, repair, MTrash, MVacuum, MCheckVacuum, MCheckTrash, MSmelt, debugI;
+    public static boolean pick, MTorch, MDiamond, MAxe, MShovel, repair, MTrash, MVacuum, MCheckVacuum, MCheckTrash, MSmelt, debugI, MDye;
 
     public static void createConfig() {
         File configFile = new File(Loader.instance().getConfigDir() + "/SimplyHammers", "SimplyHammer.cfg");
@@ -28,7 +28,8 @@ public class Config {
         MCheckVacuum = Config.config.get("modif", "VacuumCheckModif", true, "Check every harvest block all inventory slot").getBoolean();
         repair = Config.config.get("modif", "RepairTool", true).getBoolean();
         MSmelt = Config.config.get("modif", "SmeltModif", true).getBoolean();
-        debugI = config.get("general", "DebugMod", false).getBoolean();
+        MDye = Config.config.get("modif", "SmeltModif", true).getBoolean();
+        debugI = config.get("modif", "DyeUpgrade", true).getBoolean();
         config.save();
         config.load();
     }
