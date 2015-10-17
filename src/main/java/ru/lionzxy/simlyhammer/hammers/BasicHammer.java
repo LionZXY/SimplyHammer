@@ -39,7 +39,7 @@ import java.util.List;
  * Created by nikit on 30.08.2015.
  */
 public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVacuum, ISmelt {
-    HammerSettings hammerSettings;
+    public HammerSettings hammerSettings;
 
     public BasicHammer(HammerSettings hammerSettings) {
         this(hammerSettings, "simplyhammer:" + hammerSettings.getUnlocalizeName());
@@ -375,7 +375,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                     }
                 }
             } else {
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + StatCollector.translateToLocal("information.blocks"));
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + EnumChatFormatting.WHITE + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + EnumChatFormatting.GRAY +  StatCollector.translateToLocal("information.blocks"));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
                 if (hammerSettings.isRepair())
                     list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
@@ -465,7 +465,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         return getMaxDamage();
     }
 
-    boolean giveDamage(ItemStack stack, EntityPlayer player) {
+    public boolean giveDamage(ItemStack stack, EntityPlayer player) {
         if (stack.getItemDamage() >= stack.getMaxDamage() - 1)
             return false;
         if (!hammerSettings.isInfinity())

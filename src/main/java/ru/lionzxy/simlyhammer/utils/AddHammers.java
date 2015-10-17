@@ -1,7 +1,9 @@
 package ru.lionzxy.simlyhammer.utils;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
+import ic2.api.item.IC2Items;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -9,6 +11,8 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.*;
+import ru.lionzxy.simlyhammer.items.Stick;
+import ru.lionzxy.simlyhammer.recipe.IC2DrillCrafting;
 
 /**
  * Created by LionZXY on 08.09.2015.
@@ -16,7 +20,7 @@ import ru.lionzxy.simlyhammer.hammers.*;
  */
 public class AddHammers {
 
-    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, stick;
 
     static public void addAllHammers() {
         addOreDictModHammers();
@@ -46,6 +50,7 @@ public class AddHammers {
     }
 
     static public void addOreDictModHammers() {
+        stick = new Stick();
         new Aronil98Hammer();
         if (Loader.isModLoaded("AWWayofTime"))
             BoundHammer.addBMHammer("boundHammer", 1, 3, 6F, 1100);
@@ -59,16 +64,26 @@ public class AddHammers {
                     'y', new ItemStack(Items.stick)// look in OreDictionary for vanilla definitions
             ));
         }
-        if (Loader.isModLoaded("IC2"))
-            new IC2EnergyHammer();
+        if (Loader.isModLoaded("IC2")) {
+            try {
+            OreDictionary.registerOre("drillEu", IC2Items.getItem("miningDrill").getItem());
+            OreDictionary.registerOre("drillEu", IC2Items.getItem("diamondDrill").getItem());
+            OreDictionary.registerOre("drillEu", IC2Items.getItem("iridiumDrill").getItem());} catch (NullPointerException e){
+                FMLLog.bigWarning("[SimplyHammers] NOT FIND SOME IC2. EU Hammer not crafting!!!");
+                e.printStackTrace();
+            }
+            IC2Hammer = new IC2EnergyHammer();
+            GameRegistry.addRecipe(new IC2DrillCrafting());
+        }
 
     }
 
     static public void addCraft(Item craftItem, String craftRodt, String material, String materialSimply) {
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
-                "zzz", "xyx", " y ",
+                "zzz", "xpx", " y ",
                 'x', isOreDict(material) ? material : HammerUtils.getItemFromString(material),
-                'y', isOreDict(craftRodt) ? craftRodt : HammerUtils.getItemFromString(craftRodt),
+                'p', new ItemStack(stick,1,1),
+                'y', new ItemStack(stick,1,0),
                 'z', isOreDict(materialSimply) ? materialSimply : HammerUtils.getItemFromString(materialSimply)));
 
 

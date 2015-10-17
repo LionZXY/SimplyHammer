@@ -8,7 +8,6 @@ import WayofTime.alchemicalWizardry.common.items.EnergyItems;
 import WayofTime.alchemicalWizardry.common.spell.complex.effect.SpellHelper;
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -28,8 +27,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.interfaces.ITrash;
-import ru.lionzxy.simlyhammer.interfaces.IVacuum;
+import ru.lionzxy.simlyhammer.hammers.core.NBTHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
@@ -39,7 +37,7 @@ import java.util.List;
 /**
  * Created by nikit on 06.09.2015.
  */
-public class BoundHammer extends BasicHammer implements IBindable {
+public class BoundHammer extends NBTHammer implements IBindable {
     @SideOnly(Side.CLIENT)
     private IIcon activeIcon;
     @SideOnly(Side.CLIENT)
@@ -75,43 +73,6 @@ public class BoundHammer extends BasicHammer implements IBindable {
         }
     }
 
-    @Override
-    public void addInformation(ItemStack itemStack, EntityPlayer par2EntityPlayer, List list, boolean par4) {
-        if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-            if (itemStack.hasTagCompound()) {
-                if (!itemStack.getTagCompound().getString("ownerName").equals("") && itemStack.getTagCompound() != null)
-                    list.add(StatCollector.translateToLocal("information.usesLeft") + " " + SoulNetworkHandler.getCurrentEssence(itemStack.getTagCompound().getString("ownerName")) + " " + StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick"));
-                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + itemStack.getTagCompound().getInteger("HammerHarvestLevel"));
-                list.add(StatCollector.translateToLocal("information.efficiency") + " " + itemStack.getTagCompound().getDouble("HammerSpeed"));
-                if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
-                    list.add("");
-                    list.add(StatCollector.translateToLocal("information.modification"));
-                    if (itemStack.getTagCompound().getBoolean("Torch"))
-                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Torch"));
-                    if (itemStack.getTagCompound().getBoolean("Diamond"))
-                        list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
-                    if (itemStack.getTagCompound().getInteger("Axe") != 0)
-                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
-                    if (itemStack.getTagCompound().getInteger("Shovel") != 0)
-                        list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
-                    if  (itemStack.getTagCompound().getBoolean("Trash"))
-                        list.add(EnumChatFormatting.YELLOW + StatCollector.translateToLocal("modification.Trash"));
-
-                }
-            } else list.add(StatCollector.translateToLocal("information.NotHaveTagCompound"));
-        } else list.add(StatCollector.translateToLocal("information.ShiftDialog"));
-        if (!(itemStack.getTagCompound() == null)) {
-            if (itemStack.getTagCompound().getBoolean("isActive")) {
-                list.add(StatCollector.translateToLocal("tooltip.sigil.state.activated"));
-            } else {
-                list.add(StatCollector.translateToLocal("tooltip.sigil.state.deactivated"));
-            }
-
-            if (!itemStack.getTagCompound().getString("ownerName").equals("")) {
-                list.add(StatCollector.translateToLocal("tooltip.owner.currentowner") + " " + itemStack.getTagCompound().getString("ownerName"));
-            }
-        }
-    }
 
     @Override
     public boolean onBlockDestroyed(ItemStack itemStack, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase player) {
@@ -250,7 +211,7 @@ public class BoundHammer extends BasicHammer implements IBindable {
     }
 
     @Override
-    boolean giveDamage(ItemStack stack, EntityPlayer player) {
+    public boolean giveDamage(ItemStack stack, EntityPlayer player) {
 
         SoulNetworkHandler.syphonAndDamageFromNetwork(stack, (EntityPlayer) player, getEnergyUsed());
         return true;
@@ -260,35 +221,26 @@ public class BoundHammer extends BasicHammer implements IBindable {
         return this.energyUsed;
     }
 
-    @Override
-    public float getDigSpeed(ItemStack stack, Block block, int meta) {
-        if (block.getHarvestTool(meta) == null)
-            return 0.5F;
-        if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("pickaxe"))
-            return (float) stack.getTagCompound().getDouble("HammerSpeed");
-        if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("axe") && stack.getTagCompound().getInteger("Axe") != 0)
-            return (float) stack.getTagCompound().getDouble("AxeSpeed");
-        if (stack.hasTagCompound() && block.getHarvestTool(meta).equals("shovel") && stack.getTagCompound().getInteger("Shovel") != 0)
-            return (float) stack.getTagCompound().getDouble("ShovelSpeed");
-
-        return 0.5F;
-    }
 
     @Override
-    public int getHarvestLevel(ItemStack stack, String toolClass) {
-        // invalid query or wrong toolclass
-        if (toolClass == null)
-            return -1;
-        if (toolClass.equals("axe") && stack.hasTagCompound() && stack.getTagCompound().getInteger("Axe") != 0)
-            return stack.getTagCompound().getInteger("Axe");
-        if (toolClass.equals("shovel") && stack.hasTagCompound() && stack.getTagCompound().getInteger("Shovel") != 0)
-            return stack.getTagCompound().getInteger("Shovel");
-        if (!toolClass.equals("pickaxe"))
-            return -1;
-        // tadaaaa
-        if (stack.hasTagCompound())
-            return stack.getTagCompound().getInteger("HammerHarvestLevel");
-        else return toolMaterial.getHarvestLevel();
+    protected String usesLeft(ItemStack is) {
+        if (!is.getTagCompound().getString("ownerName").equals("") && is.getTagCompound() != null)
+        return SoulNetworkHandler.getCurrentEssence(is.getTagCompound().getString("ownerName")) + " " + StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick");
+        else return "Not Binding";}
+
+    @Override
+    protected void addIInfo(ItemStack itemStack, List list) {
+        if (!(itemStack.getTagCompound() == null)) {
+            if (itemStack.getTagCompound().getBoolean("isActive")) {
+                list.add(StatCollector.translateToLocal("tooltip.sigil.state.activated"));
+            } else {
+                list.add(StatCollector.translateToLocal("tooltip.sigil.state.deactivated"));
+            }
+
+            if (!itemStack.getTagCompound().getString("ownerName").equals("")) {
+                list.add(StatCollector.translateToLocal("tooltip.owner.currentowner") + " " + itemStack.getTagCompound().getString("ownerName"));
+            }
+        }
     }
 
     public static void addBMHammer(String name, int breakRadius, int harvestLevel, float speed, int damage) {

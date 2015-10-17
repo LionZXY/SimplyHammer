@@ -9,7 +9,9 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
@@ -49,33 +51,35 @@ public class CustomHammers {
                 mainJson = new JsonParser().parse(new JsonReader(new FileReader(jsonFile))).getAsJsonArray();
                 for (JsonElement obj2 : mainJson) {
                     JsonObject obj = obj2.getAsJsonObject();
-                    SimplyHammer.hammers.add(
-                            new BasicHammer(new HammerSettings(obj.get("name").getAsString(),
-                                    obj.get("BreakRadius") == null ? 1 : obj.get("BreakRadius").getAsInt(),
-                                    obj.get("HarvestLevel") == null ? 2 : obj.get("HarvestLevel").getAsInt(),
-                                    obj.get("Speed") == null ? 1F : obj.get("HarvestLevel").getAsFloat(),
-                                    obj.get("Durability") == null ? 2000 : obj.get("Durability").getAsInt(),
-                                    obj.get("RepairMaterial") == null ? "ingotIron" : obj.get("RepairMaterial").getAsString(),
-                                    obj.get("Infinity") != null && obj.get("Infinity").getAsBoolean(),
-                                    obj.get("Repairable") == null || obj.get("Repairable").getAsBoolean(),
-                                    obj.get("GetAchievement") == null || obj.get("GetAchievement").getAsBoolean(),
-                                    obj.get("DiamondModif") == null || obj.get("DiamondModif").getAsBoolean(),
-                                    obj.get("AxeModif") == null || obj.get("AxeModif").getAsBoolean(),
-                                    obj.get("ShovelModif") == null || obj.get("ShovelModif").getAsBoolean(),
-                                    obj.get("TorchModif") == null || obj.get("TorchModif").getAsBoolean(),
-                                    obj.get("TrashModif") == null || obj.get("TrashModif").getAsBoolean(),
-                                    obj.get("VacuumModif") == null || obj.get("VacuumModif").getAsBoolean(),
-                                    obj.get("SmeltModif") == null || obj.get("SmeltModif").getAsBoolean(),
-                                    obj.get("AttackDamage") == null ? 1 : obj.get("AttackDamage").getAsInt(),
-                                    obj.get("Enchant") == null ? (int) ((obj.get("Speed") == null ? 1.0 : obj.get("HarvestLevel").getAsFloat() * 10000) / (obj.get("Durability") == null ? 2000 : obj.get("Durability").getAsInt())) : obj.get("Enchant").getAsInt())));
-                    int thisPos = SimplyHammer.hammers.size() - 1;
-                    if (obj.get("LocalizeName") != null)
-                        ((IModifiHammer) SimplyHammer.hammers.get(thisPos)).getHammerSettings().setLocalizeName(obj.get("LocalizeName").getAsString());
-                    if (obj.get("TexturePath") != null)
-                        SimplyHammer.hammers.get(thisPos).setTextureName(obj.get("TexturePath").getAsString());
-                    AddHammers.addCraft(SimplyHammer.hammers.get(thisPos), "ingotIron", obj.get("CraftMaterial") == null ? "blockIron" : obj.get("CraftMaterial").getAsString(), obj.get("CraftMaterial2") == null ? obj.get("RepairMaterial") == null ? "ingotIron" : obj.get("RepairMaterial").getAsString() : obj.get("CraftMaterial2").getAsString());
-                    GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), obj.get("name").getAsString());
-                    FMLLog.fine("Add hammer!" + new ItemStack(SimplyHammer.hammers.get(thisPos)).getDisplayName());
+                    if (obj.get("CraftMaterial") == null || AddHammers.checkToNotNull(obj.get("CraftMaterial").getAsString()) || Config.debugI) {
+                        SimplyHammer.hammers.add(
+                                new BasicHammer(new HammerSettings(obj.get("name").getAsString(),
+                                        obj.get("BreakRadius") == null ? 1 : obj.get("BreakRadius").getAsInt(),
+                                        obj.get("HarvestLevel") == null ? 2 : obj.get("HarvestLevel").getAsInt(),
+                                        obj.get("Speed") == null ? 1F : obj.get("HarvestLevel").getAsFloat(),
+                                        obj.get("Durability") == null ? 2000 : obj.get("Durability").getAsInt(),
+                                        obj.get("RepairMaterial") == null ? "ingotIron" : obj.get("RepairMaterial").getAsString(),
+                                        obj.get("Infinity") != null && obj.get("Infinity").getAsBoolean(),
+                                        obj.get("Repairable") == null || obj.get("Repairable").getAsBoolean(),
+                                        obj.get("GetAchievement") == null || obj.get("GetAchievement").getAsBoolean(),
+                                        obj.get("DiamondModif") == null || obj.get("DiamondModif").getAsBoolean(),
+                                        obj.get("AxeModif") == null || obj.get("AxeModif").getAsBoolean(),
+                                        obj.get("ShovelModif") == null || obj.get("ShovelModif").getAsBoolean(),
+                                        obj.get("TorchModif") == null || obj.get("TorchModif").getAsBoolean(),
+                                        obj.get("TrashModif") == null || obj.get("TrashModif").getAsBoolean(),
+                                        obj.get("VacuumModif") == null || obj.get("VacuumModif").getAsBoolean(),
+                                        obj.get("SmeltModif") == null || obj.get("SmeltModif").getAsBoolean(),
+                                        obj.get("AttackDamage") == null ? 1 : obj.get("AttackDamage").getAsInt(),
+                                        obj.get("Enchant") == null ? (int) ((obj.get("Speed") == null ? 1.0 : obj.get("HarvestLevel").getAsFloat() * 10000) / (obj.get("Durability") == null ? 2000 : obj.get("Durability").getAsInt())) : obj.get("Enchant").getAsInt())));
+                        int thisPos = SimplyHammer.hammers.size() - 1;
+                        if (obj.get("LocalizeName") != null)
+                            ((IModifiHammer) SimplyHammer.hammers.get(thisPos)).getHammerSettings().setLocalizeName(obj.get("LocalizeName").getAsString());
+                        if (obj.get("TexturePath") != null)
+                            SimplyHammer.hammers.get(thisPos).setTextureName(obj.get("TexturePath").getAsString());
+                        AddHammers.addCraft(SimplyHammer.hammers.get(thisPos), "stickHammer", obj.get("CraftMaterial") == null ? "blockIron" : obj.get("CraftMaterial").getAsString(), obj.get("CraftMaterial2") == null ? obj.get("RepairMaterial") == null ? "ingotIron" : obj.get("RepairMaterial").getAsString() : obj.get("CraftMaterial2").getAsString());
+                        GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), obj.get("name").getAsString());
+                        FMLLog.fine("Add hammer!" + new ItemStack(SimplyHammer.hammers.get(thisPos)).getDisplayName());
+                    }
                 }
             } catch (FileNotFoundException e) {
             }
