@@ -97,50 +97,49 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
         if (hammerSettings.isAchive())
             player.addStat(AchievementSH.firstDig, 1);
-        if(!player.isSneaking()){
-        MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
-        if (mop == null)
-            return false;
-        int sideHit = mop.sideHit;
-        int xRange = breakRadius;
-        int yRange = breakRadius;
-        int zRange = breakDepth;
-        switch (sideHit) {
-            case 0:
-            case 1:
-                yRange = breakDepth;
-                zRange = breakRadius;
-                break;
-            case 2:
-            case 3:
-                xRange = breakRadius;
-                zRange = breakDepth;
-                break;
-            case 4:
-            case 5:
-                xRange = breakDepth;
-                zRange = breakRadius;
-                break;
+        if (!player.isSneaking()) {
+            MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
+            if (mop == null)
+                return false;
+            int sideHit = mop.sideHit;
+            int xRange = breakRadius;
+            int yRange = breakRadius;
+            int zRange = breakDepth;
+            switch (sideHit) {
+                case 0:
+                case 1:
+                    yRange = breakDepth;
+                    zRange = breakRadius;
+                    break;
+                case 2:
+                case 3:
+                    xRange = breakRadius;
+                    zRange = breakDepth;
+                    break;
+                case 4:
+                case 5:
+                    xRange = breakDepth;
+                    zRange = breakRadius;
+                    break;
+            }
+
+            for (int xPos = X - xRange; xPos <= X + xRange; xPos++)
+                for (int yPos = Y - yRange; yPos <= Y + yRange; yPos++)
+                    for (int zPos = Z - zRange; zPos <= Z + zRange; zPos++) {
+                        // don't break the originally already broken block, duh
+                        if (xPos == X && yPos == Y && zPos == Z)
+                            continue;
+
+                        if (!super.onBlockStartBreak(itemstack, xPos, yPos, zPos, player))
+                            breakExtraBlock(player.worldObj, xPos, yPos, zPos, sideHit, player, X, Y, Z);
+                    }
         }
-
-        for (int xPos = X - xRange; xPos <= X + xRange; xPos++)
-            for (int yPos = Y - yRange; yPos <= Y + yRange; yPos++)
-                for (int zPos = Z - zRange; zPos <= Z + zRange; zPos++) {
-                    // don't break the originally already broken block, duh
-                    if (xPos == X && yPos == Y && zPos == Z)
-                        continue;
-
-                    if (!super.onBlockStartBreak(itemstack, xPos, yPos, zPos, player))
-                        breakExtraBlock(player.worldObj, xPos, yPos, zPos, sideHit, player, X, Y, Z);
-                }}
         return super.onBlockStartBreak(itemstack, X, Y, Z, player);
     }
 
     //Right-click
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
-        if (world.isRemote)
-            return true;
         if (hammerSettings.isAchive())
             player.addStat(AchievementSH.placeBlock, 1);
         boolean used = false;
@@ -375,7 +374,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                     }
                 }
             } else {
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + EnumChatFormatting.WHITE + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + EnumChatFormatting.GRAY +  StatCollector.translateToLocal("information.blocks"));
+                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + EnumChatFormatting.WHITE + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + EnumChatFormatting.GRAY + StatCollector.translateToLocal("information.blocks"));
                 list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
                 if (hammerSettings.isRepair())
                     list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
@@ -441,7 +440,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
 
     public boolean isEffective(Material material) {
         //???
-       if(material == null)
+        if (material == null)
             return true;
         for (Material m : getEffectiveMaterials())
             if (m == material)
@@ -481,17 +480,18 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         return true;
     }
 
-    public boolean hitEntity(ItemStack is, EntityLivingBase player, EntityLivingBase p_77644_3_) {
-        return this.giveDamage(is,(EntityPlayer) player);
+    public boolean hitEntity(ItemStack is, EntityLivingBase entity, EntityLivingBase player) {
+        if (player instanceof EntityPlayer)
+            return this.giveDamage(is, (EntityPlayer) player);
+        else return false;
     }
 
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack is, int p_82790_2_)
-    {
-        if(!is.hasTagCompound())
+    public int getColorFromItemStack(ItemStack is, int p_82790_2_) {
+        if (!is.hasTagCompound())
             is.setTagCompound(new NBTTagCompound());
 
-        if(is.getTagCompound().getInteger("Color") == 0)
+        if (is.getTagCompound().getInteger("Color") == 0)
             return 16777215;
         else return is.getTagCompound().getInteger("Color");
     }
