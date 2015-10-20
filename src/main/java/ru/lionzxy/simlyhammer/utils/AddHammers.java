@@ -44,7 +44,7 @@ public class AddHammers {
         CustomHammers.addHammer("copperHammer", 1, 2, 6, 512, "blockCopper", "ingotCopper", false);
         CustomHammers.addHammer("steelHammer", 1, 3, 6, 5120, "blockSteel", "ingotSteel", false);
         CustomHammers.addHammer("tungstenHammer", 1, 3, 6, 1100, "blockTungsten", "ingotTungsten", false);
-        CustomHammers.addHammer("HSLAHammer", 1, 3, 6, 10240, "RotaryCraft:rotarycraft_block_deco", "ingotHSLA", false);
+        CustomHammers.addHammer("HSLAHammer", 1, 3, 6, 2250, "RotaryCraft:rotarycraft_block_deco", "ingotHSLA", false);
         CustomHammers.addHammer("unstableHammer", 1, 10, 10, 10240, "blockUnstable", "ingotUnstable", true);
         CustomHammers.addHammer("manaSteelHammer", 1, 3, 6, 2048, "Botania:storage", "ingotManasteel", false);
         CustomHammers.addHammer("terraSteelHammer", 1, 3, 6, 20480, "Botania:storage:1", "ingotTerrasteel", false);
@@ -87,7 +87,7 @@ public class AddHammers {
             ));
             GameRegistry.addRecipe(new IC2DrillCrafting());
         }
-
+        new RFHammer();
         ARHammer = new Aronil98Hammer();
 
     }

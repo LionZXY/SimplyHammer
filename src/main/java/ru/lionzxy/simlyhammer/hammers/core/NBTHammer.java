@@ -19,6 +19,7 @@ import java.util.List;
  * SimplyHammer v0.9
  */
 public abstract class NBTHammer extends BasicHammer {
+
     public NBTHammer(HammerSettings hammerSettings) {
         super(hammerSettings);
     }
@@ -92,7 +93,7 @@ public abstract class NBTHammer extends BasicHammer {
         return true;
     }
 
-    public boolean hitEntity(ItemStack is, EntityLivingBase player, EntityLivingBase p_77644_3_) {
+    public boolean hitEntity(ItemStack is, EntityLivingBase entityLivingBase, EntityLivingBase player) {
         return this.damageItem(is,player);
     }
 

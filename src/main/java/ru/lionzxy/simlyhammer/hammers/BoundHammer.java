@@ -42,7 +42,7 @@ public class BoundHammer extends NBTHammer implements IBindable {
     private IIcon activeIcon;
     @SideOnly(Side.CLIENT)
     private IIcon passiveIcon;
-    int energyUsed = 5;
+    int cost = 5;
 
     public BoundHammer(HammerSettings hammerSettings) {
         super(hammerSettings);
@@ -54,7 +54,7 @@ public class BoundHammer extends NBTHammer implements IBindable {
     protected int usesLeftBlock(ItemStack is) {
         if (!is.hasTagCompound())
             is.setTagCompound(new NBTTagCompound());
-        return SoulNetworkHandler.getCurrentEssence(is.getTagCompound().getString("ownerName")) / energyUsed;
+        return SoulNetworkHandler.getCurrentEssence(is.getTagCompound().getString("ownerName")) / getCost(is);
     }
 
     @Override
@@ -84,7 +84,7 @@ public class BoundHammer extends NBTHammer implements IBindable {
     @Override
     public boolean onBlockDestroyed(ItemStack itemStack, World p_150894_2_, Block p_150894_3_, int p_150894_4_, int p_150894_5_, int p_150894_6_, EntityLivingBase player) {
         if (player instanceof EntityPlayer) {
-            SoulNetworkHandler.syphonAndDamageFromNetwork(itemStack, (EntityPlayer) player, getEnergyUsed());
+            SoulNetworkHandler.syphonAndDamageFromNetwork(itemStack, (EntityPlayer) player, getCost(itemStack));
         }
         return true;
     }
@@ -220,19 +220,16 @@ public class BoundHammer extends NBTHammer implements IBindable {
     @Override
     public boolean giveDamage(ItemStack stack, EntityPlayer player) {
 
-        SoulNetworkHandler.syphonAndDamageFromNetwork(stack, (EntityPlayer) player, getEnergyUsed());
+        SoulNetworkHandler.syphonAndDamageFromNetwork(stack, (EntityPlayer) player, getCost(stack));
         return true;
     }
 
-    public int getEnergyUsed() {
-        return this.energyUsed;
-    }
 
 
     @Override
     protected String usesLeft(ItemStack is) {
         if (!is.getTagCompound().getString("ownerName").equals("") && is.getTagCompound() != null)
-        return SoulNetworkHandler.getCurrentEssence(is.getTagCompound().getString("ownerName")) + " " + StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick");
+        return SoulNetworkHandler.getCurrentEssence(is.getTagCompound().getString("ownerName")) + " " + StatCollector.translateToLocal("information.LP") + " " + StatCollector.translateToLocal("information.LPtoTick") + " (20 LP/Block)";
         else return "Not Binding";}
 
     @Override
@@ -260,5 +257,9 @@ public class BoundHammer extends NBTHammer implements IBindable {
             AddHammers.BMHammer = new BoundHammer(new HammerSettings(name, breakRadius, harvestLevel, speed, damage, null, true));
             GameRegistry.registerItem(AddHammers.BMHammer, name);
         }
+    }
+
+    public int getCost(ItemStack is) {
+        return cost  / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1);
     }
 }

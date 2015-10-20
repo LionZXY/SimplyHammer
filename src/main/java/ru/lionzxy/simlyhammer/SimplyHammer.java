@@ -44,7 +44,7 @@ public class SimplyHammer {
     public static List<Item> hammers = new ArrayList<Item>();
 
     @Mod.EventHandler
-    public void PostInit(FMLPostInitializationEvent event) {
+    public void postInit(FMLPostInitializationEvent event) {
         Config.createConfig();
         HammerUtils.init();
         tabGeneral = new HammerTab("tabGeneral");

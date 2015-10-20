@@ -40,8 +40,8 @@ public class HammerSettings {
                 repairItem = HammerUtils.getItemFromString(repairMaterial);
             else
                 oreDictId = OreDictionary.getOreID(repairMaterial);
-        }
-        this.repair = Config.config.get(name, "Repairable", true).getBoolean();
+            this.repair = Config.config.get(name, "Repairable", true).getBoolean();
+        } else repair = false;
         this.isAchive = Config.config.get(name, "GetAchievement", true).getBoolean();
         this.mDiamond = Config.config.get(name, "DiamondModif", true).getBoolean();
         this.mAxe = Config.config.get(name, "AxeModif", true).getBoolean();
@@ -165,12 +165,19 @@ public class HammerSettings {
         return this.repairItem != null ? repairItem.getDisplayName() : OreDictionary.getOreName(oreDictId);
     }
 
-    public void setInfinity() {
+    public HammerSettings setInfinity() {
         this.infinity = true;
+        return this;
     }
 
-    public void setLocalizeName(String localizeName) {
+    public HammerSettings setLocalizeName(String localizeName) {
         this.localizeName = localizeName;
+        return this;
+    }
+
+    public HammerSettings setRepir(boolean v) {
+        this.repair = v;
+        return this;
     }
 
     public HammerSettings(String name, int harvestLevel, float speed, int damage) {

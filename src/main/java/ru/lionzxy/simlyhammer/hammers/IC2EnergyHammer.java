@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.item.IBoxable;
 import ic2.api.item.IElectricItem;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -22,9 +23,10 @@ import java.util.List;
  * Created by nikit_000 on 16.10.2015.
  */
 public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxable {
+    int cost = 50;
 
     public IC2EnergyHammer() {
-        super(new HammerSettings("ic2hammer", 1, 2, 4F, 10, null, false));
+        super(new HammerSettings("ic2hammer", 1, 2, 4F, 2024000, null, false).setRepir(false));
         //String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity
         this.setUnlocalizedName("ic2hammer");
         this.setCreativeTab(SimplyHammer.tabGeneral);
@@ -53,7 +55,7 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
 
     @Override
     public double getMaxCharge(ItemStack itemStack) {
-        return 2024000;
+        return this.getHammerSettings().getDurability();
     }
 
     @Override
@@ -69,8 +71,8 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
     @Override
     public boolean giveDamage(ItemStack stack, EntityPlayer player) {
         if (stack.hasTagCompound()) {
-            stack.getTagCompound().setInteger("charge", stack.getTagCompound().getInteger("charge") - 50);
-            if (stack.getTagCompound().getInteger("charge") >= 50)
+            stack.getTagCompound().setInteger("charge", stack.getTagCompound().getInteger("charge") - getCost(stack));
+            if (stack.getTagCompound().getInteger("charge") >= getCost(stack))
                 return true;
         }
         return false;
@@ -90,14 +92,14 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
     protected int usesLeftBlock(ItemStack is) {
         if (!is.hasTagCompound())
             is.setTagCompound(new NBTTagCompound());
-        return is.getTagCompound().getInteger("charge") / 50;
+        return is.getTagCompound().getInteger("charge") / getCost(is);
     }
 
     @Override
     protected String usesLeft(ItemStack is) {
         if (!is.hasTagCompound())
             is.setTagCompound(new NBTTagCompound());
-        return EnumChatFormatting.WHITE.toString() + (int) (is.getTagCompound().getInteger("charge") / 50) + EnumChatFormatting.GRAY + StatCollector.translateToLocal("information.blocks");
+        return EnumChatFormatting.WHITE.toString() + (int) (is.getTagCompound().getInteger("charge") / getCost(is)) + EnumChatFormatting.GRAY + StatCollector.translateToLocal("information.blocks") + " (" + getCost(is) + " EU/Block)";
     }
 
     @Override
@@ -109,7 +111,15 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
 
     @Override
     protected boolean damageItem(ItemStack is, EntityLivingBase player) {
-        return giveDamage(is,(EntityPlayer) player);
+        if (player instanceof EntityPlayer)
+            return giveDamage(is, (EntityPlayer) player);
+        else return false;
+    }
+
+    public int getCost(ItemStack is) {
+        if (is.hasTagCompound() && is.getTagCompound().getDouble("HammerSpeed") != 0)
+            return (int) (cost * (is.getTagCompound().getDouble("HammerSpeed") / 8) / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1));
+        return cost / EnchantmentHelper.getEnchantmentLevel(34, is) + 1;
     }
 
 

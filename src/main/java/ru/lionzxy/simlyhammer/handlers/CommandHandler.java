@@ -3,6 +3,7 @@ package ru.lionzxy.simlyhammer.handlers;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.oredict.OreDictionary;
@@ -38,7 +39,7 @@ public class CommandHandler implements ICommand {
                 if (sender instanceof EntityPlayer) {
                     ItemStack is = ((EntityPlayer) sender).getCurrentEquippedItem();
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("1. Name: " + is.getDisplayName()));
-                    ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("2. UnlocalizeName: " + is.getUnlocalizedName()));
+                    ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("2. Item Path: " + Item.itemRegistry.getNameForObject(is.getItem())));
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("3. Damage: " + is.getItemDamage()));
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("4. OreDict: "));
 
