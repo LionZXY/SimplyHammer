@@ -2,9 +2,6 @@ package ru.lionzxy.simlyhammer.config;
 
 import cpw.mods.fml.common.Loader;
 import net.minecraftforge.common.config.Configuration;
-import ru.lionzxy.simlyhammer.hammers.BoundHammer;
-import ru.lionzxy.simlyhammer.hammers.IC2EnergyHammer;
-import ru.lionzxy.simlyhammer.hammers.RFHammer;
 
 import java.io.File;
 
@@ -34,9 +31,6 @@ public class Config {
         MSmelt = Config.config.get("modif", "SmeltModif", true).getBoolean();
         MDye = Config.config.get("modif", "SmeltModif", true).getBoolean();
         debugI = config.get("modif", "DyeUpgrade", true).getBoolean();
-        RFHammer.cost = JsonConfig.get("rfhammer","cost",200).getInt();
-        IC2EnergyHammer.cost = JsonConfig.get("ic2hammer","cost",50).getInt();
-        BoundHammer.cost = JsonConfig.get("boundHammer","cost",5).getInt();
         config.save();
         config.load();
     }

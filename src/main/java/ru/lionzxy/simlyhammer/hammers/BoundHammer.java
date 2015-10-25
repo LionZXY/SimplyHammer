@@ -25,6 +25,7 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.hammers.core.NBTHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
@@ -44,6 +45,7 @@ public class BoundHammer extends NBTHammer implements IBindable {
 
     public BoundHammer(HammerSettings hammerSettings) {
         super(hammerSettings);
+        cost = JsonConfig.get("boundHammer", "cost", 5).getInt();
         this.hammerSettings = hammerSettings;
         this.hammerSettings.setInfinity();
     }

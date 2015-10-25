@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.hammers.core.NBTHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 
@@ -26,6 +27,7 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
     public IC2EnergyHammer() {
         super(new HammerSettings("ic2hammer", 1, 2, 4F, 2024000, null, false).setRepir(false));
         //String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity
+        cost = JsonConfig.get("ic2hammer", "cost", 50).getInt();
         this.setUnlocalizedName("ic2hammer");
         this.setCreativeTab(SimplyHammer.tabGeneral);
         GameRegistry.registerItem(this, "ic2hammer");

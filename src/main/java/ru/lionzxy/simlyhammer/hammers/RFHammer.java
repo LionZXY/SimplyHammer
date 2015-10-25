@@ -15,6 +15,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.Constants;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
@@ -32,6 +33,7 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
 
     public RFHammer() {
         super(new HammerSettings("rfhammer", 1, 3, 24F, 2024000 * 4, null, false).setRepir(false));
+        cost = JsonConfig.get("rfhammer", "cost", 200).getInt();
         GameRegistry.registerItem(this, "rfhammer");
         System.out.println("OBJ: " + Item.itemRegistry.getObject("RedstoneArsenal:material:128"));
         if (Loader.isModLoaded("RedstoneArsenal"))
