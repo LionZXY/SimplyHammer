@@ -7,9 +7,9 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 
 /**
  * Created by nikit on 31.08.2015.

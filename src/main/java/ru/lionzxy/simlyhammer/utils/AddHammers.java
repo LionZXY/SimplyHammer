@@ -12,8 +12,6 @@ import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.hammers.*;
 import ru.lionzxy.simlyhammer.items.AddItems;
-import ru.lionzxy.simlyhammer.items.Ductape;
-import ru.lionzxy.simlyhammer.items.Stick;
 import ru.lionzxy.simlyhammer.recipe.IC2DrillCrafting;
 
 /**

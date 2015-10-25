@@ -1,7 +1,6 @@
 package ru.lionzxy.simlyhammer.hammers;
 
 import com.google.common.collect.Multimap;
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
@@ -13,8 +12,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.server.S23PacketBlockChange;
@@ -24,14 +25,14 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ISmelt;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
-import ru.lionzxy.simlyhammer.handlers.AchievementSH;
-import ru.lionzxy.simlyhammer.SimplyHammer;
 
 import java.util.List;
 

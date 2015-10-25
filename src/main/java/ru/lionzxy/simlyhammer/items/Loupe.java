@@ -1,10 +1,7 @@
 package ru.lionzxy.simlyhammer.items;
 
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -13,9 +10,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
-import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 /**
  * Created by nikit_000 on 06.10.2015.

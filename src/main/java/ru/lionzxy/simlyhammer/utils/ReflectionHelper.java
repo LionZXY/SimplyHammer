@@ -2,9 +2,6 @@ package ru.lionzxy.simlyhammer.utils;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import ru.lionzxy.simlyhammer.items.AddItems;
-
-import java.util.Objects;
 
 /**
  * Created by LionZXY on 22.10.2015.

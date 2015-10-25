@@ -4,12 +4,9 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
-import ru.lionzxy.simlyhammer.utils.AddHammers;
-import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 /**
  * Created by nikit on 08.09.2015.

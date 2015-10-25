@@ -1,6 +1,5 @@
 package ru.lionzxy.simlyhammer.hammers.core;
 
-import WayofTime.alchemicalWizardry.api.soulNetwork.SoulNetworkHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

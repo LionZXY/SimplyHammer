@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
-import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 
 import java.util.List;
 

@@ -3,10 +3,8 @@ package ru.lionzxy.simlyhammer.utils;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
-import net.minecraft.util.StatCollector;
 
 /**
  * Created by LionZXY on 08.09.2015.

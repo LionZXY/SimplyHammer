@@ -1,6 +1,5 @@
 package ru.lionzxy.simlyhammer.config;
 
-import akka.io.Tcp;
 import cpw.mods.fml.common.Loader;
 import net.minecraftforge.common.config.Configuration;
 import ru.lionzxy.simlyhammer.hammers.BoundHammer;

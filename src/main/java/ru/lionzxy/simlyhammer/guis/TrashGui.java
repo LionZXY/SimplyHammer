@@ -1,13 +1,9 @@
 package ru.lionzxy.simlyhammer.guis;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.inventory.Container;
-import net.minecraft.inventory.Slot;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 import ru.lionzxy.simlyhammer.containers.TrashContainer;
-import ru.lionzxy.simlyhammer.inventory.TrashInventory;
 
 /**
  * Created by nikit on 12.09.2015.

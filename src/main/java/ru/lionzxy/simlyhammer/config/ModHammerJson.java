@@ -3,7 +3,6 @@ package ru.lionzxy.simlyhammer.config;
 import com.google.gson.JsonArray;
 import cpw.mods.fml.common.Loader;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
-import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 import java.io.File;
 import java.io.FileOutputStream;

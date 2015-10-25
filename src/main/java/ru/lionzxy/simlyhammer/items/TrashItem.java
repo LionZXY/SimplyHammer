@@ -18,7 +18,6 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
-import ru.lionzxy.simlyhammer.utils.HammerTab;
 
 import java.util.ArrayList;
 import java.util.List;

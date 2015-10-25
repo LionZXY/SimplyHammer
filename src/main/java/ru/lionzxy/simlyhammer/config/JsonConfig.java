@@ -1,15 +1,15 @@
 package ru.lionzxy.simlyhammer.config;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import net.minecraft.crash.CrashReport;
 import net.minecraftforge.common.config.Property;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 
 /**
  * Created by nikit_000 on 06.10.2015.

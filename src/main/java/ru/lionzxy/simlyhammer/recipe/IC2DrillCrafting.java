@@ -1,8 +1,6 @@
 package ru.lionzxy.simlyhammer.recipe;
 
 import ic2.api.item.IC2Items;
-import ic2.core.IC2;
-import ic2.core.item.tool.ItemElectricTool;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
@@ -10,7 +8,6 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
-import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 

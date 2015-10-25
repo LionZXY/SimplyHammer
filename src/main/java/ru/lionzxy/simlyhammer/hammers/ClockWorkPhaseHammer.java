@@ -30,13 +30,13 @@ import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
-import ru.lionzxy.simlyhammer.utils.HammerUtils;
-import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 import java.util.List;
 

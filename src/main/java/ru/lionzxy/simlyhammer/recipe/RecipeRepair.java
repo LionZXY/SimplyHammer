@@ -2,7 +2,6 @@ package ru.lionzxy.simlyhammer.recipe;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.*;
@@ -15,7 +14,6 @@ import net.minecraftforge.common.util.Constants;
 import ru.lionzxy.simlyhammer.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.items.AddItems;
-import ru.lionzxy.simlyhammer.items.TrashItem;
 
 /**
  * Created by LionZXY on 08.09.2015.
