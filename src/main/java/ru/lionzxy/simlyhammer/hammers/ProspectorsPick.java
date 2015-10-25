@@ -38,7 +38,7 @@ public class ProspectorsPick extends Item {
                 for (int i = 0; i < radius; i++) {
                     itemStack = checkRadius(world, i, side, x, y, z, length);
                     if (itemStack != null) {
-                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("prospectorPick.Found"+" ") + itemStack.getDisplayName()));
+                        player.addChatComponentMessage(new ChatComponentText(StatCollector.translateToLocal("prospectorPick.Found") + " " + itemStack.getDisplayName()));
                         return true;
                     }
                 }

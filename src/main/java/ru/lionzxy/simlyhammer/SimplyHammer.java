@@ -4,16 +4,14 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import ic2.api.recipe.Recipes;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.config.JsonConfig;
-import ru.lionzxy.simlyhammer.hammers.IC2EnergyHammer;
 import ru.lionzxy.simlyhammer.handlers.CommandHandler;
 import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
@@ -24,6 +22,7 @@ import ru.lionzxy.simlyhammer.recipe.RecipeRepair;
 import ru.lionzxy.simlyhammer.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
+import ru.lionzxy.simlyhammer.utils.ReflectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,9 +30,9 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-@Mod(modid = "simplyhammer", name = "Simply Hammers", version = "0.9")
+@Mod(modid = "simplyhammer", name = "Simply Hammers", version = "0.9.2")
 public class SimplyHammer {
-    @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy",serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
+    @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy", serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.Instance
@@ -58,12 +57,11 @@ public class SimplyHammer {
         FMLCommonHandler.instance().bus().register(new AchievementSH());
         AchievementSH.addAchivement();
         proxy.registerProxies();
-        Config.config.save();
+        Config.saveConfig();
     }
 
     @Mod.EventHandler
-    public void serverLoad(FMLServerStartingEvent event)
-    {
+    public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandHandler());
     }
 }

@@ -45,7 +45,7 @@ public class Loupe extends Item {
                 player.addChatComponentMessage(new ChatComponentText(EnumChatFormatting.GRAY + "=============="));
                 if (new ItemStack(Item.getItemFromBlock(blockop)).getItem() != null)
                     player.addChatComponentMessage(new ChatComponentText("Name: " + new ItemStack(Item.getItemFromBlock(blockop)).getDisplayName()));
-                if (world.getTileEntity(x, y, z) != null && world.getTileEntity(x, y, z).canUpdate()) {
+                if (world.getTileEntity(x, y, z) != null) {
                     TileEntity te = world.getTileEntity(x, y, z);
 
                     long startTime = System.nanoTime();

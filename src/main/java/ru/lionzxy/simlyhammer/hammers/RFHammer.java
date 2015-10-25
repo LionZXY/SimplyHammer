@@ -15,8 +15,11 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.Constants;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.items.AddItems;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
+import ru.lionzxy.simlyhammer.utils.ReflectionHelper;
 
 import java.util.List;
 
@@ -25,19 +28,26 @@ import java.util.List;
  * SimplyHammer v0.9
  */
 public class RFHammer extends BasicHammer implements IEnergyContainerItem {
-    int cost = 200;
+    public static int cost = 200;
 
     public RFHammer() {
         super(new HammerSettings("rfhammer", 1, 3, 24F, 2024000 * 4, null, false).setRepir(false));
         GameRegistry.registerItem(this, "rfhammer");
         System.out.println("OBJ: " + Item.itemRegistry.getObject("RedstoneArsenal:material:128"));
-        /*if (Loader.isModLoaded("RedstoneArsenal"))
+        if (Loader.isModLoaded("RedstoneArsenal"))
             GameRegistry.addRecipe(new ItemStack(this),
                     "zzz", "xpx", " p ",
-                    'x', RAItems.plateFlux,
-                    'p', RAItems.rodObsidianFlux,
-                    'z', RAItems.ingotElectrumFlux);
-        else*/ if (Loader.isModLoaded("EnderIO"))
+                    'x', ReflectionHelper.getItemStackRA("plateFlux"),
+                    'p', ReflectionHelper.getItemStackRA("rodObsidianFlux"),
+                    'z', ReflectionHelper.getItemStackRA("ingotElectrumFlux"));
+        else if(Loader.isModLoaded("ThermalExpansion"))
+            GameRegistry.addRecipe(new ItemStack(this),
+                    "zzz", "dxd", " p ",
+                    'x', HammerUtils.getItemFromString("ThermalExpansion:Cell:3"),
+                    'p', new ItemStack(AddItems.stick, 1, 0),
+                    'z', HammerUtils.getItemFromString("ThermalFoundation:material:74"),
+                    'd', HammerUtils.getItemFromString("ThermalFoundation:Storage:10"));
+            else if (Loader.isModLoaded("EnderIO"))
             AddHammers.addCraft(this, null, "blockElectricalSteel", "ingotElectricalSteel");
     }
 
@@ -45,6 +55,8 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     @Override
     public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
         int receive = 8096 * 4;
+        if(simulate)
+            return receive;
         if (maxReceive < receive)
             receive = maxReceive;
         if (!container.hasTagCompound())
@@ -58,6 +70,8 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     @Override
     public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
         int extract = 8096 * 4;
+        if(simulate)
+            return extract;
         if (maxExtract < extract)
             extract = maxExtract;
         if (!container.hasTagCompound())
@@ -91,10 +105,8 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
 
     @Override
     public double getDurabilityForDisplay(ItemStack stack) {
-        if (!stack.hasTagCompound())
-            stack.setTagCompound(new NBTTagCompound());
         if (stack.hasTagCompound())
-            return 1 - (double) getEnergyStored(stack) / (double) getMaxEnergyStored(stack);
+            return 1 - (double) (getEnergyStored(stack) / getMaxEnergyStored(stack));
             //if (stack.hasTagCompound())
             //    return (double) ((IC2EnergyHammer) stack.getItem()).getMaxCharge(stack) / stack.getTagCompound().getInteger("charge");
         else return 0.0;
@@ -167,9 +179,8 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     }
 
 
-
     public int getCost(ItemStack is) {
 
-        return cost  / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1);
+        return cost / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1);
     }
 }

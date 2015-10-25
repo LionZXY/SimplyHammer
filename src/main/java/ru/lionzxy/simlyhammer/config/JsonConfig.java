@@ -4,7 +4,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
+import net.minecraft.crash.CrashReport;
 import net.minecraftforge.common.config.Property;
 
 import java.io.*;
@@ -13,121 +15,165 @@ import java.io.*;
  * Created by nikit_000 on 06.10.2015.
  */
 public class JsonConfig {
-    File jsonFile = new File(Loader.instance().getConfigDir(), "SimplyHammers.json");
-    JsonObject mainJson = new JsonObject();
 
-    public JsonConfig() {
-        try {
-            if (!jsonFile.canWrite()) {
+    private static JsonObject mainJson = new JsonObject();
+    static File jsonFile = new File(Loader.instance().getConfigDir() + "/SimplyHammers", "ModHammers.json");
+
+
+    public static void save() {
+
+        if (!jsonFile.canWrite()) {
+            try {
                 jsonFile.getParentFile().mkdirs();
                 jsonFile.createNewFile();
+            } catch (Exception e) {
+                FMLLog.bigWarning("Can't create json mod config!");
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
-    }
 
-    public void save() {
         try {
             FileOutputStream os = new FileOutputStream(jsonFile);
             os.write(getFormatedText(mainJson.toString()).getBytes());
+            os.close();
         } catch (Exception e) {
+            FMLLog.bigWarning("Can't save json mod config!");
             e.printStackTrace();
         }
     }
 
-    public void load() {
+    public static void load() {
 
-        jsonFile.getParentFile().mkdirs();
+        if (!jsonFile.canWrite()) {
+            try {
+                jsonFile.getParentFile().mkdirs();
+                jsonFile.createNewFile();
+            } catch (Exception e) {
+                FMLLog.bigWarning("Can't create json mod config!");
+                e.printStackTrace();
+            }
+        }
+
         try {
-            jsonFile.createNewFile();
-            mainJson = new JsonParser().parse(new JsonReader(new FileReader(jsonFile))).getAsJsonObject();
+            mainJson = new JsonParser().parse(new FileReader(jsonFile)).getAsJsonObject();
         } catch (Exception e) {
+            FMLLog.bigWarning("Can't load json mod config!");
             e.printStackTrace();
         }
     }
 
-    public Property get(String category, String key, boolean defaultValue) {
-        if (mainJson.get(category) == null) {
-            mainJson.add(category, new JsonObject());
+    public static Property get(String category, String name, boolean defaultValue) {
+        Property prop = new Property(category, name, Property.Type.BOOLEAN);
+
+        try {
+            if (mainJson.get(category) == null)
+                mainJson.add(category, new JsonObject());
+            JsonObject obj = mainJson.get(category).getAsJsonObject();
+
+            if (obj.get(name) == null)
+                obj.addProperty(name, defaultValue);
+
+            prop.set(obj.get(name).getAsBoolean());
+        } catch (Exception e) {
+            CrashReport.makeCrashReport(e, "Not read/write/parse config file SimplyHammers");
+            e.printStackTrace();
+            return null;
         }
-        if (mainJson.getAsJsonObject(category).get(key) == null) {
-            mainJson.getAsJsonObject(category).addProperty(key, defaultValue);
-        }
-        Property property = new Property(category, key, Property.Type.BOOLEAN);
-        property.set(mainJson.getAsJsonObject(category).get(key).getAsBoolean());
-        return property;
+
+        return prop;
     }
 
-    public Property get(String category, String key, int defaultValue) {
-        if (mainJson.get(category) == null) {
-            mainJson.add(category, new JsonObject());
-        }
-        if (mainJson.getAsJsonObject(category).get(key) == null) {
-            mainJson.getAsJsonObject(category).addProperty(key, defaultValue);
+    public static Property get(String category, String name, int defaultValue) {
+        Property prop = new Property(category, name, Property.Type.INTEGER);
+
+        try {
+            if (mainJson.get(category) == null)
+                mainJson.add(category, new JsonObject());
+            JsonObject obj = mainJson.get(category).getAsJsonObject();
+
+            if (obj.get(name) == null)
+                obj.addProperty(name, defaultValue);
+
+            prop.set(obj.get(name).getAsInt());
+        } catch (Exception e) {
+            CrashReport.makeCrashReport(e, "Not read/write/parse config file SimplyHammers");
+            e.printStackTrace();
+            return null;
         }
 
-        Property property = new Property(category, key, Property.Type.INTEGER);
-        property.set(mainJson.getAsJsonObject(category).get(key).getAsInt());
-        return property;
+        return prop;
     }
 
+    public static Property get(String category, String name, double defaultValue) {
+        Property prop = new Property(category, name, Property.Type.DOUBLE);
 
-    public Property get(String category, String key, String defaultValue) {
-        if (mainJson.get(category) == null) {
-            mainJson.add(category, new JsonObject());
-        }
-        if (mainJson.getAsJsonObject(category).get(key) == null) {
-            mainJson.getAsJsonObject(category).addProperty(key, defaultValue);
+        try {
+            if (mainJson.get(category) == null)
+                mainJson.add(category, new JsonObject());
+            JsonObject obj = mainJson.get(category).getAsJsonObject();
+
+            if (obj.get(name) == null)
+                obj.addProperty(name, defaultValue);
+
+            prop.set(obj.get(name).getAsDouble());
+        } catch (Exception e) {
+            CrashReport.makeCrashReport(e, "Not read/write/parse config file SimplyHammers");
+            e.printStackTrace();
+            return null;
         }
 
-        Property property = new Property(category, key, Property.Type.STRING);
-        property.set(mainJson.getAsJsonObject(category).get(key).getAsString());
-        return property;
+        return prop;
     }
 
+    public static Property get(String category, String name, String defaultValue) {
+        Property prop = new Property(category, name, Property.Type.STRING);
 
-    public Property get(String category, String key, double defaultValue) {
-        if (mainJson.get(category) == null) {
-            mainJson.add(category, new JsonObject());
-        }
-        if (mainJson.getAsJsonObject(category).get(key) == null) {
-            mainJson.getAsJsonObject(category).addProperty(key, defaultValue);
+        try {
+            if (mainJson.get(category) == null)
+                mainJson.add(category, new JsonObject());
+            JsonObject obj = mainJson.get(category).getAsJsonObject();
+
+            if (obj.get(name) == null)
+                obj.addProperty(name, defaultValue);
+
+            prop.set(obj.get(name).getAsString());
+        } catch (Exception e) {
+            CrashReport.makeCrashReport(e, "Not read/write/parse config file SimplyHammers");
+            e.printStackTrace();
+            return null;
         }
 
-        Property property = new Property(category, key, Property.Type.DOUBLE);
-        property.set(mainJson.getAsJsonObject(category).get(key).getAsDouble());
-        return property;
+        return prop;
     }
 
-    public static String getFormatedText(String in){
+    public static String getFormatedText(String in) {
         StringBuilder sb = new StringBuilder();
         boolean isIgnore = false;
         int tabCount = 0;
         int b;
-        for(int i = 0; i < in.length();i++){
+        for (int i = 0; i < in.length(); i++) {
             sb.append(in.charAt(i));
-            if(in.charAt(i) == '\"')
-                isIgnore=!isIgnore;
-            if(!isIgnore)
-            switch (in.charAt(i)){
-                case '{':
-                case '[':
-                    tabCount++;
-                case ',':
-                    sb.append('\n');
-                    for(b = 0; b < tabCount; b++)
-                        sb.append('\t');
-                    break;
-                case '}':
-                case ']':
-                    tabCount--;
-                    sb.deleteCharAt(sb.length()-1);
-                    sb.append("\n");
-                    for(b = 0; b < tabCount; b++)
-                        sb.append('\t');
-                    sb.append(in.charAt(i));
-            }
+            if (in.charAt(i) == '\"')
+                isIgnore = !isIgnore;
+            if (!isIgnore)
+                switch (in.charAt(i)) {
+                    case '{':
+                    case '[':
+                        tabCount++;
+                    case ',':
+                        sb.append('\n');
+                        for (b = 0; b < tabCount; b++)
+                            sb.append('\t');
+                        break;
+                    case '}':
+                    case ']':
+                        tabCount--;
+                        sb.deleteCharAt(sb.length() - 1);
+                        sb.append("\n");
+                        for (b = 0; b < tabCount; b++)
+                            sb.append('\t');
+                        sb.append(in.charAt(i));
+                }
         }
         return sb.toString();
     }

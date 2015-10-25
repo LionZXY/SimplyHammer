@@ -42,7 +42,7 @@ public class BoundHammer extends NBTHammer implements IBindable {
     private IIcon activeIcon;
     @SideOnly(Side.CLIENT)
     private IIcon passiveIcon;
-    int cost = 5;
+    public static int cost = 5;
 
     public BoundHammer(HammerSettings hammerSettings) {
         super(hammerSettings);

@@ -94,6 +94,7 @@ modification.ShovelSpeed=, Speed:
 modification.Torch=Torch
 modification.Trash=Trash
 modification.Smelt=Auto-Smelt
+modification.Vacuum=Vacuum Upgrade
 
 trash.Inverted=Inverted
 trash.IgnoreList=Ignore List:

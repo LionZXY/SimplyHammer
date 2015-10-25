@@ -5,6 +5,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import ru.lionzxy.simlyhammer.items.AddItems;
 
@@ -27,6 +28,8 @@ public class InvertRecipe implements IRecipe {
         for (int i = 0; i < ic.getSizeInventory(); i++)
             if (ic.getStackInSlot(i) != null && (ic.getStackInSlot(i).getItem() == AddItems.trash || ic.getStackInSlot(i).getItem() == AddItems.autosmelt))
                 trash = ic.getStackInSlot(i).copy();
+        if(trash != null && !trash.hasTagCompound())
+            trash.setTagCompound(new NBTTagCompound());
         if (trash != null && trash.hasTagCompound())
             for (int i = 0; i < ic.getSizeInventory(); i++)
                 if (ic.getStackInSlot(i) != null && ic.getStackInSlot(i).getItem() == Item.getItemFromBlock(Blocks.redstone_torch))

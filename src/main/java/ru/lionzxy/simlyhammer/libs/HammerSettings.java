@@ -8,6 +8,7 @@ import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.config.Config;
+import ru.lionzxy.simlyhammer.config.JsonConfig;
 import ru.lionzxy.simlyhammer.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.items.AutoSmeltItem;
@@ -24,33 +25,33 @@ public class HammerSettings {
     private int breakRadius, oreDictId;
     private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum, mSmelt;
 
-    @Deprecated
+
     public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity) {
         String repairMaterial;
         material = EnumHelper.addToolMaterial(name,
-                Config.config.get(name, "HarvestLevel", harvestLevel).getInt(),
-                Config.config.get(name, "Durability", damage).getInt(),
-                (float) Config.config.get(name, "Speed", (double) speed).getDouble(),
-                Config.config.get(name, "AttackDamage", (int) (harvestLevel * speed)).getInt(),
-                Config.config.get(name, "Enchant", (int) (speed * 10000) / damage).getInt());
-        this.breakRadius = Config.config.get(name, "BreakRadius", breakRadius).getInt();
+                JsonConfig.get(name, "HarvestLevel", harvestLevel).getInt(),
+                JsonConfig.get(name, "Durability", damage).getInt(),
+                (float) JsonConfig.get(name, "Speed", (double) speed).getDouble(),
+                JsonConfig.get(name, "AttackDamage", (int) (harvestLevel * speed)).getInt(),
+                JsonConfig.get(name, "Enchant", (int) (speed * 10000) / damage).getInt());
+        this.breakRadius = JsonConfig.get(name, "BreakRadius", breakRadius).getInt();
         if (rm != null) {
-            repairMaterial = Config.config.get(name, "RepairMaterial", rm).getString();
+            repairMaterial = JsonConfig.get(name, "RepairMaterial", rm).getString();
             if (repairMaterial.indexOf(':') != -1)
                 repairItem = HammerUtils.getItemFromString(repairMaterial);
             else
                 oreDictId = OreDictionary.getOreID(repairMaterial);
-            this.repair = Config.config.get(name, "Repairable", true).getBoolean();
+            this.repair = JsonConfig.get(name, "Repairable", true).getBoolean();
         } else repair = false;
-        this.isAchive = Config.config.get(name, "GetAchievement", true).getBoolean();
-        this.mDiamond = Config.config.get(name, "DiamondModif", true).getBoolean();
-        this.mAxe = Config.config.get(name, "AxeModif", true).getBoolean();
-        this.mShovel = Config.config.get(name, "ShovelModif", true).getBoolean();
-        this.mTorch = Config.config.get(name, "TorchModif", true).getBoolean();
-        this.infinity = Config.config.get(name, "Infinity", infinity).getBoolean();
-        this.mTrash = Config.config.get(name, "TrashModif", true).getBoolean();
-        this.mVacuum = Config.config.get(name, "VacuumModif", true).getBoolean();
-        this.mSmelt = Config.config.get(name, "SmeltModif", true).getBoolean();
+        this.isAchive = JsonConfig.get(name, "GetAchievement", true).getBoolean();
+        this.mDiamond = JsonConfig.get(name, "DiamondModif", true).getBoolean();
+        this.mAxe = JsonConfig.get(name, "AxeModif", true).getBoolean();
+        this.mShovel = JsonConfig.get(name, "ShovelModif", true).getBoolean();
+        this.mTorch = JsonConfig.get(name, "TorchModif", true).getBoolean();
+        this.infinity = JsonConfig.get(name, "Infinity", infinity).getBoolean();
+        this.mTrash = JsonConfig.get(name, "TrashModif", true).getBoolean();
+        this.mVacuum = JsonConfig.get(name, "VacuumModif", true).getBoolean();
+        this.mSmelt = JsonConfig.get(name, "SmeltModif", true).getBoolean();
     }
 
     public HammerSettings registerHammer(boolean inlist) {

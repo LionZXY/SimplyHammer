@@ -23,7 +23,7 @@ import java.util.List;
  * Created by nikit_000 on 16.10.2015.
  */
 public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxable {
-    int cost = 50;
+    public static int cost = 50;
 
     public IC2EnergyHammer() {
         super(new HammerSettings("ic2hammer", 1, 2, 4F, 2024000, null, false).setRepir(false));
@@ -119,7 +119,7 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
     public int getCost(ItemStack is) {
         if (is.hasTagCompound() && is.getTagCompound().getDouble("HammerSpeed") != 0)
             return (int) (cost * (is.getTagCompound().getDouble("HammerSpeed") / 8) / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1));
-        return cost / EnchantmentHelper.getEnchantmentLevel(34, is) + 1;
+        return cost / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1);
     }
 
 

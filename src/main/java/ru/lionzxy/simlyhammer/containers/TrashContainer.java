@@ -21,19 +21,19 @@ public class TrashContainer extends Container {
 
                 /* Gun Inventoty */
         for (i = 0; i < TrashInventory.INV_SIZE; ++i) {
-            this.addSlotToContainer(new Slot(this.inventory, i, 9 + i * 18, 34));
+            this.addSlotToContainer(new Slot(this.inventory, i, 9 + i * 18, 37));
         }
 
                 /* Player Main Inventory */
         for (i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
-                this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 9 + j * 18, 60 + i * 18));
+                this.addSlotToContainer(new Slot(inventoryPlayer, j + i * 9 + 9, 9 + j * 18, 63 + i * 18));
             }
         }
 
                 /* Player Hotbar */
         for (i = 0; i < 9; ++i) {
-            this.addSlotToContainer(new Slot(inventoryPlayer, i, 9 + i * 18, 118));
+            this.addSlotToContainer(new Slot(inventoryPlayer, i, 9 + i * 18, 121));
         }
     }
 

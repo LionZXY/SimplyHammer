@@ -26,7 +26,7 @@ public class GuiHandlers implements IGuiHandler {
         Object server = getServerGuiElement(ID, player, world, x, y, z);
         switch(ID) {
             case TRASH:
-                return new TrashGui((TrashContainer) server);
+                return new TrashGui((TrashContainer) server, player.inventory.getCurrentItem().getDisplayName());
             default:
                 return null;
         }
