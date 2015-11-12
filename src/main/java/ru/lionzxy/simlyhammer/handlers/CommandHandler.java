@@ -43,7 +43,7 @@ public class CommandHandler implements ICommand {
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("3. Damage: " + is.getItemDamage()));
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("4. OreDict: "));
 
-                    for(int i : OreDictionary.getOreIDs(new ItemStack(is.getItem())))
+                    for(int i : OreDictionary.getOreIDs(is))
                         ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText(OreDictionary.getOreName(i)));
 
                 }

@@ -93,7 +93,7 @@ public class CustomHammers {
         obj.addProperty("HarvestLevel", harvestLevel);
         obj.addProperty("Speed", speed);
         obj.addProperty("Durability", damage);
-        obj.addProperty("AttackDamage", harvestLevel * speed);
+        obj.addProperty("AttackDamage", (harvestLevel * speed)/10);
         obj.addProperty("RepairMaterial", repairMaterial);
         obj.addProperty("CraftMaterial", materialOreDict);
         obj.addProperty("CraftMaterial2", repairMaterial);

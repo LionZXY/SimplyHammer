@@ -8,6 +8,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.recipe.DuctapeRecipe;
 
 /**
  * Created by LionZXY on 17.10.2015.
@@ -20,13 +21,11 @@ public class Ductape extends Item {
         this.setUnlocalizedName("ductape");
         this.setMaxDamage(10);
         this.setTextureName("simplyhammer:ductape");
-        OreDictionary.registerOre("ductape", this);
+        GameRegistry.addRecipe(new DuctapeRecipe());
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(AddItems.stick, 1, 0),
                 "  x", " x ", "z  ",
                 'x', "logWood",
-                'z', "ductape"));
-
-
+                'z', new ItemStack(this)));
         GameRegistry.addRecipe(new ShapelessOreRecipe(new ItemStack(this, 1, 0), "slimeball", new ItemStack(Items.paper), new ItemStack(Items.coal)));
         GameRegistry.registerItem(this, "ductape");
     }

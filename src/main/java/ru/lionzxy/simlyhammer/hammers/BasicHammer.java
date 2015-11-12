@@ -394,9 +394,9 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                         if (itemStack.getTagCompound().getBoolean("Diamond"))
                             list.add(EnumChatFormatting.AQUA + StatCollector.translateToLocal("modification.Diamond"));
                         if (itemStack.getTagCompound().getInteger("Axe") != 0)
-                            list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + itemStack.getTagCompound().getDouble("AxeSpeed"));
+                            list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Axe") + " " + itemStack.getTagCompound().getInteger("Axe") + StatCollector.translateToLocal("modification.AxeSpeed") + " " + (int) itemStack.getTagCompound().getDouble("AxeSpeed"));
                         if (itemStack.getTagCompound().getInteger("Shovel") != 0)
-                            list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + itemStack.getTagCompound().getDouble("ShovelSpeed"));
+                            list.add(EnumChatFormatting.WHITE + StatCollector.translateToLocal("modification.Shovel") + " " + itemStack.getTagCompound().getInteger("Shovel") + StatCollector.translateToLocal("modification.ShovelSpeed") + " " + (int) itemStack.getTagCompound().getDouble("ShovelSpeed"));
                         if (itemStack.getTagCompound().getBoolean("Trash"))
                             list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("modification.Trash"));
                         if (itemStack.getTagCompound().getBoolean("Vacuum"))

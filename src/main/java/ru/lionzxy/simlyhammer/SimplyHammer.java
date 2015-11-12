@@ -5,8 +5,10 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -28,7 +30,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-@Mod(modid = "simplyhammer", name = "Simply Hammers", version = "0.9.2")
+@Mod(modid = "simplyhammer", name = "Simply Hammers", version = "0.9.3")
 public class SimplyHammer {
     @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy", serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;

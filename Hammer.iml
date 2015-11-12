@@ -670,5 +670,7 @@
     <orderEntry type="library" name="CodeChickenCore-1.7.10-1.0.7.47-dev" level="project" />
     <orderEntry type="library" name="CodeChickenLib-1.7.10-1.1.3.140-dev" level="project" />
     <orderEntry type="library" name="CoFHLib-[1.7.10]1.0.3-175-dev" level="project" />
+    <orderEntry type="library" name="EnderCore-1.7.10-0.2.0.30_beta-dev" level="project" />
+    <orderEntry type="library" name="EnderIO-1.7.10-2.3.0.418_beta-dev" level="project" />
   </component>
 </module>

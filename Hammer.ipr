@@ -22,6 +22,7 @@
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false">
     <file url="file://$PROJECT_DIR$/src/main/java/ru/lionzxy/simlyhammer/recipe/RecipeRepair.java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
@@ -225,6 +226,22 @@
     <library name="CoFHLib-[1.7.10]1.0.3-175-dev">
       <CLASSES>
         <root url="jar://$PROJECT_DIR$/libs/CoFHLib-[1.7.10]1.0.3-175-dev.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES />
+    </library>
+    <library name="EnderCore-1.7.10-0.2.0.30_beta-dev">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/EnderCore-1.7.10-0.2.0.30_beta-dev.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/libs/EnderCore-1.7.10-0.2.0.30_beta-sources.jar!/" />
+      </SOURCES>
+    </library>
+    <library name="EnderIO-1.7.10-2.3.0.418_beta-dev">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/libs/EnderIO-1.7.10-2.3.0.418_beta-dev.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
