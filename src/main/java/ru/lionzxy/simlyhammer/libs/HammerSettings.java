@@ -7,12 +7,12 @@ import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
-import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.config.JsonConfig;
-import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.commons.config.Config;
+import ru.lionzxy.simlyhammer.commons.config.JsonConfig;
+import ru.lionzxy.simlyhammer.commons.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
-import ru.lionzxy.simlyhammer.items.AutoSmeltItem;
-import ru.lionzxy.simlyhammer.items.VacuumItem;
+import ru.lionzxy.simlyhammer.commons.items.AutoSmeltItem;
+import ru.lionzxy.simlyhammer.commons.items.VacuumItem;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 /**

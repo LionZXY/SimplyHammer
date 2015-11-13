@@ -9,10 +9,10 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
-import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.hammers.*;
-import ru.lionzxy.simlyhammer.items.AddItems;
-import ru.lionzxy.simlyhammer.recipe.IC2DrillCrafting;
+import ru.lionzxy.simlyhammer.commons.config.Config;
+import ru.lionzxy.simlyhammer.commons.hammers.*;
+import ru.lionzxy.simlyhammer.commons.items.AddItems;
+import ru.lionzxy.simlyhammer.commons.recipe.IC2DrillCrafting;
 
 /**
  * Created by LionZXY on 08.09.2015.

@@ -10,9 +10,9 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.ItemStack;
 import ru.lionzxy.simlyhammer.SimplyHammer;
-import ru.lionzxy.simlyhammer.config.Config;
-import ru.lionzxy.simlyhammer.config.JsonConfig;
-import ru.lionzxy.simlyhammer.hammers.BasicHammer;
+import ru.lionzxy.simlyhammer.commons.config.Config;
+import ru.lionzxy.simlyhammer.commons.config.JsonConfig;
+import ru.lionzxy.simlyhammer.commons.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 
