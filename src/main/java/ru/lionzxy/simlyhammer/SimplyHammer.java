@@ -21,6 +21,7 @@ import ru.lionzxy.simlyhammer.commons.recipe.RecipeRepair;
 import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
+import ru.lionzxy.simlyhammer.utils.Ref;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-@Mod(modid = "simplyhammer", name = "Simply Hammers", version = "0.9.3")
+@Mod(modid = Ref.MODID, name = "Simply Hammers", version = "0.9.3")
 public class SimplyHammer {
     @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy", serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;
