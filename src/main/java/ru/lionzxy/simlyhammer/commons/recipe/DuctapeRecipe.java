@@ -17,21 +17,26 @@ public class DuctapeRecipe implements IRecipe {
 
     @Override
     public boolean matches(InventoryCrafting ic, World world) {
-        if (ic.getSizeInventory() == 9)
+        if (ic.getSizeInventory() == 9) {
             if (HammerUtils.isItemContainsInOreDict(ic.getStackInSlot(2), "logWood") &&
                     HammerUtils.isItemContainsInOreDict(ic.getStackInSlot(4), "logWood") &&
                     ic.getStackInSlot(6) != null && ic.getStackInSlot(6).getItem() instanceof Ductape)
                 return true;
+        }
         return false;
     }
 
     @Override
     public ItemStack getCraftingResult(InventoryCrafting ic) {
-        if (ic.getSizeInventory() == 9)
+        if (ic.getSizeInventory() == 9) {
             if (HammerUtils.isItemContainsInOreDict(ic.getStackInSlot(2), "logWood") &&
                     HammerUtils.isItemContainsInOreDict(ic.getStackInSlot(4), "logWood") &&
-                    ic.getStackInSlot(6) != null && ic.getStackInSlot(6).getItem() instanceof Ductape)
+                    ic.getStackInSlot(6) != null && ic.getStackInSlot(6).getItem() instanceof Ductape) {
                 return new ItemStack(AddItems.stick, 1, 0);
+            }
+
+        }
+
         return null;
     }
 

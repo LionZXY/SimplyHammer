@@ -18,9 +18,9 @@ public class HammerSimplyRender implements IItemRenderer {
     SimplyHammer model;
     ResourceLocation res;
 
-    public HammerSimplyRender(String resource) {
+    public HammerSimplyRender(ResourceLocation resourceLocation) {
 
-        this.res = new ResourceLocation(Ref.MODID, "textures/models/" + resource + ".png");
+        this.res = resourceLocation;
         model = new SimplyHammer();
     }
 

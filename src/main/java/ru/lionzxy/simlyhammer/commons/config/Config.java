@@ -12,12 +12,12 @@ public class Config {
 
     public static Configuration config;
     public static boolean pick, MTorch, MDiamond, MAxe, MShovel, repair, MTrash, MVacuum,
-            MCheckVacuum, MCheckTrash, MSmelt, debugI, MDye;
+            MCheckVacuum, MCheckTrash, MSmelt, debugI, MDye, model, checkUpdate;
 
     public static void createConfig() {
         JsonConfig.load();
         File configFile = new File(Loader.instance().getConfigDir() + "/SimplyHammers", "SimplyHammer.cfg");
-        config = new Configuration(configFile, "0.8.5");
+        config = new Configuration(configFile, "1.0.0");
         config.getCategory("general");
         pick = config.get("general", "Prospector's Pick", true).getBoolean();
         MTorch = Config.config.get("modif", "TorchModif", true).getBoolean();
@@ -32,6 +32,8 @@ public class Config {
         MSmelt = Config.config.get("modif", "SmeltModif", true).getBoolean();
         MDye = Config.config.get("modif", "SmeltModif", true).getBoolean();
         debugI = config.get("modif", "DyeUpgrade", true).getBoolean();
+        model = config.get("general", "Model", true).getBoolean();
+        checkUpdate = config.get("general", "CheckUpdate", true).getBoolean();
         config.save();
         config.load();
     }

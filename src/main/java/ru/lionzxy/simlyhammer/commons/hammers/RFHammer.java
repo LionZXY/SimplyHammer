@@ -32,7 +32,7 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     public static int cost = 200;
 
     public RFHammer() {
-        super(new HammerSettings("rfhammer", 1, 3, 24F, 2024000 * 4, null, false).setRepir(false));
+        super(new HammerSettings("rfhammer", 1, 3, 24F, 2024000 * 4, null, false).setRepair(false));
         cost = JsonConfig.get("rfhammer", "cost", 200).getInt();
         GameRegistry.registerItem(this, "rfhammer");
         System.out.println("OBJ: " + Item.itemRegistry.getObject("RedstoneArsenal:material:128"));

@@ -3,6 +3,7 @@ package ru.lionzxy.simlyhammer.libs;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.oredict.OreDictionary;
@@ -14,16 +15,17 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.commons.items.AutoSmeltItem;
 import ru.lionzxy.simlyhammer.commons.items.VacuumItem;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
+import ru.lionzxy.simlyhammer.utils.Ref;
 
 /**
  * Created by nikit on 08.09.2015.
  */
 public class HammerSettings {
     private Item.ToolMaterial material;
-    private String localizeName;
+    private String localizeName, modelPath;
     private ItemStack repairItem;
     private int breakRadius, oreDictId;
-    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum, mSmelt;
+    private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum, mSmelt, model;
 
 
     public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity) {
@@ -153,6 +155,19 @@ public class HammerSettings {
         return mVacuum && Config.MVacuum;
     }
 
+    public ResourceLocation getModelLocation() {
+        if (model)
+            if (modelPath == null) {
+                return new ResourceLocation(Ref.MODID, "textures/models/item." + getUnlocalizeName() + ".png");
+            } else return new ResourceLocation(modelPath);
+        return null;
+    }
+
+    public HammerSettings setModelPath(String modelPath) {
+        this.modelPath = modelPath;
+        return this;
+    }
+
     public static boolean isVacuum(ItemStack itemStack) {
         return itemStack.getItem() instanceof IModifiHammer ? ((IModifiHammer) itemStack.getItem()).getHammerSettings().getMVacuum() && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Vacuum") : itemStack.getItem() instanceof VacuumItem;
     }
@@ -176,7 +191,7 @@ public class HammerSettings {
         return this;
     }
 
-    public HammerSettings setRepir(boolean v) {
+    public HammerSettings setRepair(boolean v) {
         this.repair = v;
         return this;
     }
@@ -194,11 +209,12 @@ public class HammerSettings {
         this.mTrash = true;
         this.mVacuum = true;
         this.mSmelt = true;
+
     }
 
     public HammerSettings(String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity,
                           boolean repair, boolean isAchive, boolean mDiamond, boolean mAxe, boolean mShovel, boolean mTorch,
-                          boolean mTrash, boolean mVacuum, boolean mSmelt, int damageVsEntity, int enchantobility) {
+                          boolean mTrash, boolean mVacuum, boolean mSmelt, int damageVsEntity, int enchantobility, boolean model) {
         material = EnumHelper.addToolMaterial(name, harvestLevel, damage, speed, damageVsEntity, enchantobility);
         this.breakRadius = breakRadius;
         String repairMaterial;
@@ -219,6 +235,7 @@ public class HammerSettings {
         this.mTrash = mTrash;
         this.mVacuum = mVacuum;
         this.mSmelt = mSmelt;
+        this.model = model;
     }
 
 

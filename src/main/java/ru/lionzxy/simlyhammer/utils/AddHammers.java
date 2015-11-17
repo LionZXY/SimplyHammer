@@ -36,7 +36,8 @@ public class AddHammers {
     static void addVanilaHammers() {
 
         CustomHammers.addHammer("bronzeHammer", 1, 2, 6, 2250, 5, 5, "blockBronze", "ingotBronze", false, true, true, true,
-                true, true, true, true, true, true, "Bronze Hammer", "simplyhammer:bronzeHammer");
+                true, true, true, true, true, true, "Bronze Hammer", "simplyhammer:bronzeHammer",true,
+                Ref.MODID + ":textures/models/item.bronzeHammer.png");
         CustomHammers.addHammer("stoneHammer", 1, 1, 2, 131, "stone", "cobblestone", false);
         CustomHammers.addHammer("ironHammer", 1, 2, 6, 2250, "blockIron", "ingotIron", false);
         CustomHammers.addHammer("copperHammer", 1, 2, 6, 512, "blockCopper", "ingotCopper", false);

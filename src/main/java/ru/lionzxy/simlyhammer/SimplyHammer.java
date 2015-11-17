@@ -29,11 +29,15 @@ import java.util.List;
 /**
  * Created by nikit on 30.08.2015.
  */
-@Mod(modid = Ref.MODID, name = "Simply Hammers", version = "0.9.3")
+@Mod(modid = Ref.MODID, name = "Simply Hammers", version = Ref.VERSION)
 public class SimplyHammer {
     @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy", serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;
-
+    /*
+    * -Add models and models Configuration
+    * -Fix dupe with ductape
+    * -Remove debug log
+    * -Add update checker*/
     @Mod.Instance
     public static SimplyHammer instance;
 
@@ -44,6 +48,7 @@ public class SimplyHammer {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         Config.createConfig();
+
         HammerUtils.init();
         tabGeneral = new HammerTab("tabGeneral");
         AddItems.init();

@@ -31,12 +31,17 @@ public class Ductape extends Item {
 
     @Override
     public boolean doesContainerItemLeaveCraftingGrid(ItemStack is) {
-
         return false;
     }
 
     public ItemStack getContainerItem(ItemStack is) {
-        is.setItemDamage(is.getItemDamage() + 1);
+        if (is != null)
+            is.setItemDamage(is.getItemDamage() + 1);
         return is;
+    }
+
+    public boolean isRepairable()
+    {
+        return false;
     }
 }

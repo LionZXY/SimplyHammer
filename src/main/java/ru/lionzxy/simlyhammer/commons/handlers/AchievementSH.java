@@ -3,12 +3,17 @@ package ru.lionzxy.simlyhammer.commons.handlers;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
+import net.minecraft.client.Minecraft;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.stats.Achievement;
 import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import ru.lionzxy.simlyhammer.SimplyHammer;
@@ -21,6 +26,7 @@ import ru.lionzxy.simlyhammer.commons.items.AutoSmeltItem;
 import ru.lionzxy.simlyhammer.commons.items.TrashItem;
 import ru.lionzxy.simlyhammer.commons.items.VacuumItem;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 /**
  * Created by nikit on 03.09.2015.
@@ -37,14 +43,16 @@ public class AchievementSH {
 
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
-        if(event.crafting == null)
+        if (event.crafting == null)
             return;
         if (event.crafting.getItem() instanceof IModifiHammer && event.crafting.hasTagCompound()) {
             if (event.crafting.getTagCompound().getBoolean("Modif"))
-                event.player.addStat(firstUpgrade, 1);}
-        if (event.crafting.getItem() instanceof Aronil98Hammer && !Aronil98Hammer.isPlayerAutor(event.player)){
+                event.player.addStat(firstUpgrade, 1);
+        }
+        if (event.crafting.getItem() instanceof Aronil98Hammer && !Aronil98Hammer.isPlayerAutor(event.player)) {
             event.crafting.func_150996_a(Item.getItemFromBlock(Blocks.diamond_block));
-            event.player.addChatComponentMessage(new ChatComponentText("This can craft only author mod"));}
+            event.player.addChatComponentMessage(new ChatComponentText("This can craft only author mod"));
+        }
 
         for (int i = 0; i < SimplyHammer.hammers.size(); i++)
             if (event.crafting.getItem() == SimplyHammer.hammers.get(i)) {
@@ -100,6 +108,9 @@ public class AchievementSH {
 
     }
 
+    public static void onLoggin(PlayerEvent.PlayerLoggedInEvent event) {
+    }
+
 
     public static void addAchivement() {
         ItemStack thisItem;
@@ -138,6 +149,17 @@ public class AchievementSH {
         }
         Config.config.save();
 
+    }
+
+        public static boolean triedToWarnPlayer = false;
+
+    @SubscribeEvent
+    public void onTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().thePlayer != null && !triedToWarnPlayer) {
+            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+            HammerUtils.checkUpdate(player);
+            triedToWarnPlayer = true;
+        }
     }
 
 }

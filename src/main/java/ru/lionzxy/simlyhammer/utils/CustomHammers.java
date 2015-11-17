@@ -68,7 +68,9 @@ public class CustomHammers {
                                         obj.get("VacuumModif") == null || obj.get("VacuumModif").getAsBoolean(),
                                         obj.get("SmeltModif") == null || obj.get("SmeltModif").getAsBoolean(),
                                         obj.get("AttackDamage") == null ? 1 : obj.get("AttackDamage").getAsInt(),
-                                        obj.get("Enchant") == null ? (int) ((obj.get("Speed") == null ? 1.0 : obj.get("HarvestLevel").getAsFloat() * 10000) / (obj.get("Durability") == null ? 2000 : obj.get("Durability").getAsInt())) : obj.get("Enchant").getAsInt())));
+                                        obj.get("Enchant") == null ? (int) ((obj.get("Speed") == null ? 1.0 : obj.get("HarvestLevel").getAsFloat() * 10000) / (obj.get("Durability") == null ? 2000 : obj.get("Durability").getAsInt())) : obj.get("Enchant").getAsInt(),
+                                        obj.get("Model") == null || obj.get("Model").getAsBoolean()).setModelPath(
+                                        obj.get("ModelPath") == null ? null : obj.get("ModelPath").getAsString())));
                         int thisPos = SimplyHammer.hammers.size() - 1;
                         if (obj.get("LocalizeName") != null)
                             ((IModifiHammer) SimplyHammer.hammers.get(thisPos)).getHammerSettings().setLocalizeName(obj.get("LocalizeName").getAsString());
@@ -93,7 +95,7 @@ public class CustomHammers {
         obj.addProperty("HarvestLevel", harvestLevel);
         obj.addProperty("Speed", speed);
         obj.addProperty("Durability", damage);
-        obj.addProperty("AttackDamage", (harvestLevel * speed)/10);
+        obj.addProperty("AttackDamage", (harvestLevel * speed) / 10);
         obj.addProperty("RepairMaterial", repairMaterial);
         obj.addProperty("CraftMaterial", materialOreDict);
         obj.addProperty("CraftMaterial2", repairMaterial);
@@ -104,7 +106,8 @@ public class CustomHammers {
 
     static public void addHammer(String name, int breakRadius, int harvestLevel, float speed, int damage, int damageVsEntity, int enchant, String materialOreDict, String rm, boolean infinity,
                                  boolean repair, boolean isAchive, boolean mDiamond, boolean mAxe, boolean mShovel, boolean mTorch,
-                                 boolean mTrash, boolean mVacuum, boolean mSmelt, String localizeName, String texturepath) {
+                                 boolean mTrash, boolean mVacuum, boolean mSmelt, String localizeName, String texturepath
+            , boolean model, String modelPath) {
         JsonObject obj = new JsonObject();
         obj.addProperty("name", name);
         obj.addProperty("BreakRadius", breakRadius);
@@ -128,6 +131,8 @@ public class CustomHammers {
         obj.addProperty("Enchant", enchant);
         obj.addProperty("LocalizeName", localizeName);
         obj.addProperty("TexturePath", texturepath);
+        obj.addProperty("Model", model);
+        obj.addProperty("ModelPath", modelPath);
         mainJson.add(obj);
     }
 }

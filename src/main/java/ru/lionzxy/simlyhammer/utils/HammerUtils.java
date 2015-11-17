@@ -1,10 +1,19 @@
 package ru.lionzxy.simlyhammer.utils;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import cpw.mods.fml.common.registry.GameRegistry;
 import jdk.nashorn.internal.runtime.regexp.joni.EncodingHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ChatComponentTranslation;
+import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.IChatComponent;
 import net.minecraftforge.oredict.OreDictionary;
+import ru.lionzxy.simlyhammer.commons.config.Config;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -60,8 +69,53 @@ public class HammerUtils {
         return stringBuffer.toString();
     }
 
-    public static String checkUpdate(){
+    public static void checkUpdate(EntityPlayer player) {
+        if (Config.checkUpdate) {
+            try {
+                JsonObject object = new JsonParser().parse(getSite("https://widget.mcf.li/mc-mods/minecraft/237338-simply-hammers.json", "utf8")).getAsJsonObject().get("versions").getAsJsonObject().get(Ref.MINECRAFTVERSION).getAsJsonArray().get(0).getAsJsonObject();
+                if (findWord(object.get("name").getAsString(), Ref.VERSION, false) == -1) {
+                    player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.WHITE + "Update " + object.get("name") + " are available on "));
+                    IChatComponent component = IChatComponent.Serializer.func_150699_a("{\n" +
+                            "\"text\":\"Curse\",\n" +
+                            "\"color\":\"yellow\",\n" +
+                            "\"hoverEvent\":{\n" +
+                            "\"action\":\"show_text\",\n" +
+                            "\"value\":{\n" +
+                            "\"text\":\"Click this button for download latest version\",\n" +
+                            "\"color\":\"yellow\"\n" +
+                            "}\n" +
+                            "},\n" +
+                            "\"clickEvent\":{\n" +
+                            "\"action\":\"open_url\",\n" +
+                            "\"value\":\"" + object.get("url").getAsString() + "\"\n" +
+                            "}\n" +
+                            "}");
+                    player.addChatComponentMessage(component);
+                }
+            } catch (Exception e) {
+                player.addChatComponentMessage(new ChatComponentTranslation("[Simply Hammer] Update check aborted!"));
+            }
+        }
+    }
 
-        return null;
+    public static int findWord(String from, String word, boolean ignoreCase) {
+        for (int i = 0; i < from.length(); i++)
+            if (equalsChar(from.charAt(i), word.charAt(0), ignoreCase))
+                if (checkAllWord(from, i, word, ignoreCase))
+                    return i;
+        return -1;
+    }
+
+    static boolean equalsChar(char a, char b, boolean ignoreCase) {
+        return ignoreCase ? (Character.toLowerCase(a) == Character.toLowerCase(b)) || (Character.toTitleCase(a) == Character.toTitleCase(b)) : a == b;
+    }
+
+    static boolean checkAllWord(String from, int charp, String word, boolean ignoreCase) {
+        if (from.length() >= charp + word.length()) {
+            for (int i = 1; i < word.length(); i++)
+                if (!equalsChar(from.charAt(charp + i), word.charAt(i), ignoreCase))
+                    return false;
+        } else return false;
+        return true;
     }
 }

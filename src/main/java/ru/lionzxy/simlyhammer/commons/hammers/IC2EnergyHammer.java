@@ -25,7 +25,7 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
     public static int cost = 50;
 
     public IC2EnergyHammer() {
-        super(new HammerSettings("ic2hammer", 1, 2, 4F, 2024000, null, false).setRepir(false));
+        super(new HammerSettings("ic2hammer", 1, 2, 4F, 2024000, null, false).setRepair(false));
         //String name, int breakRadius, int harvestLevel, float speed, int damage, String rm, boolean infinity
         cost = JsonConfig.get("ic2hammer", "cost", 50).getInt();
         this.setUnlocalizedName("ic2hammer");
