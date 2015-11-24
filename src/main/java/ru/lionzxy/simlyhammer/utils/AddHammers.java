@@ -20,7 +20,7 @@ import ru.lionzxy.simlyhammer.commons.recipe.IC2DrillCrafting;
  */
 public class AddHammers {
 
-    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, ARHammer;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, ARHammer, IIEERRAAHammer;
 
     static public void addAllHammers() {
         addOreDictModHammers();
@@ -88,6 +88,7 @@ public class AddHammers {
         }
         new RFHammer();
         ARHammer = new Aronil98Hammer();
+        IIEERRAAHammer = new IIEERRAAHammer();
 
     }
 

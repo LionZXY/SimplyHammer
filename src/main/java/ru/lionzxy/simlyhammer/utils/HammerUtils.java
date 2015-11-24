@@ -73,7 +73,7 @@ public class HammerUtils {
         if (Config.checkUpdate) {
             try {
                 JsonObject object = new JsonParser().parse(getSite("https://widget.mcf.li/mc-mods/minecraft/237338-simply-hammers.json", "utf8")).getAsJsonObject().get("versions").getAsJsonObject().get(Ref.MINECRAFTVERSION).getAsJsonArray().get(0).getAsJsonObject();
-                if (findWord(object.get("name").getAsString(), Ref.VERSION, false) == -1) {
+                if (findWord(object.get("name").getAsString(), Ref.VERSION, false) == -1 && object.get("type").getAsString().equalsIgnoreCase("release")) {
                     player.addChatComponentMessage(new ChatComponentTranslation(EnumChatFormatting.WHITE + "Update " + object.get("name") + " are available on "));
                     IChatComponent component = IChatComponent.Serializer.func_150699_a("{\n" +
                             "\"text\":\"Curse\",\n" +
