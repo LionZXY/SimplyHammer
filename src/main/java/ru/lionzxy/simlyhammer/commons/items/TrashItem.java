@@ -52,17 +52,19 @@ public class TrashItem extends Item implements ITrash {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack itemStack, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
-        if (itemStack.hasTagCompound()) {
-            if (itemStack.getTagCompound().getBoolean("Invert"))
-                list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
-            list.add(StatCollector.translateToLocal("trash.IgnoreList"));
-            for (int i = 0; i < itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
-                NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
-                list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
-            }
-        }else {
-                list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
+        if (!itemStack.hasTagCompound()) {
+            itemStack.setTagCompound(new NBTTagCompound());
+            itemStack.getTagCompound().setBoolean("Trash", true);
+            itemStack.getTagCompound().setTag("Items", new NBTTagList());
         }
+        if (itemStack.getTagCompound().getBoolean("Invert"))
+            list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
+        list.add(StatCollector.translateToLocal("trash.IgnoreList"));
+        for (int i = 0; i < itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
+            NBTTagCompound item = /*(NBTTagCompound)*/ itemStack.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
+            list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
+        }
+
     }
 
 
@@ -92,15 +94,14 @@ public class TrashItem extends Item implements ITrash {
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIconIndex(ItemStack is)
-    {   if(!is.hasTagCompound() || !is.getTagCompound().getBoolean("Invert"))
-        return itemIcon;
+    public IIcon getIconIndex(ItemStack is) {
+        if (!is.hasTagCompound() || !is.getTagCompound().getBoolean("Invert"))
+            return itemIcon;
         else return invertIcon;
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister p_94581_1_)
-    {
+    public void registerIcons(IIconRegister p_94581_1_) {
         this.invertIcon = p_94581_1_.registerIcon("simplyhammer:trashitemInvert");
         this.itemIcon = p_94581_1_.registerIcon("simplyhammer:trashitem");
     }

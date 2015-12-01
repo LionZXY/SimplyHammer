@@ -8,6 +8,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
@@ -33,6 +34,6 @@ public class VacuumItem extends Item {
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack is, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
         if(!is.hasTagCompound())
-            list.add(EnumChatFormatting.RED + "PLACE ITEM IN CRAFT WINDOW!!!");
+            is.setTagCompound(new NBTTagCompound());
     }
 }

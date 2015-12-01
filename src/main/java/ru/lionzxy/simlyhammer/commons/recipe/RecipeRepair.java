@@ -7,6 +7,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
@@ -93,6 +94,7 @@ public class RecipeRepair implements IRecipe {
             if (!hammer.getTagCompound().getBoolean("Vacuum")) {
                 hammer.getTagCompound().setBoolean("Vacuum", true);
                 hammer.getTagCompound().setBoolean("Modif", true);
+                addItemStackToHammer(hammer,getItem(ic, AddItems.autosmelt));
             } else
                 hammer.getTagCompound().setBoolean("Vacuum", false);
 
@@ -102,6 +104,7 @@ public class RecipeRepair implements IRecipe {
                 hammer.getTagCompound().setTag("ItemsSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
                 hammer.getTagCompound().setBoolean("InvertSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getBoolean("Invert"));
                 hammer.getTagCompound().setBoolean("Modif", true);
+                addItemStackToHammer(hammer,getItem(ic, AddItems.autosmelt));
             } else
                 hammer.getTagCompound().setBoolean("Smelt", false);
 
@@ -190,6 +193,29 @@ public class RecipeRepair implements IRecipe {
                 || (itemStack.getItem() instanceof ItemBlock && (((ItemBlock) itemStack.getItem()).field_150939_a instanceof BlockTorch))))
             return true;
         return false;
+    }
+
+    public static void addItemStackToHammer(ItemStack is, ItemStack to) {
+        if (!is.hasTagCompound())
+            is.setTagCompound(new NBTTagCompound());
+        NBTTagList tag = is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND);
+        if (to == null)
+            return;
+        NBTTagCompound item = new NBTTagCompound();
+        to.writeToNBT(item);
+        tag.appendTag(item);
+        is.getTagCompound().setTag("ItemStacksInHammer",tag);
+    }
+
+    public static void removeItemStackToHammer(ItemStack is, Item to) {
+        /*
+        if (!is.hasTagCompound())
+            is.setTagCompound(new NBTTagCompound());
+        NBTTagList tag = is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND);
+        if (to == null)
+            return;
+        NBTTagList tag1 =
+        for()*/
     }
 
 }

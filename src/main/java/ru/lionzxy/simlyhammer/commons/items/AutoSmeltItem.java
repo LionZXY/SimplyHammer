@@ -4,6 +4,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
@@ -48,15 +49,19 @@ public class AutoSmeltItem extends Item {
 
     @SideOnly(Side.CLIENT)
     public void addInformation(ItemStack is, EntityPlayer p_77624_2_, List list, boolean p_77624_4_) {
-        if (is.hasTagCompound()) {
-            if (is.getTagCompound().getBoolean("Invert"))
-                list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
-            list.add(StatCollector.translateToLocal("trash.IgnoreList"));
-            for (int i = 0; i < is.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
-                NBTTagCompound item = /*(NBTTagCompound)*/ is.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
-                list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
-            }
+        if (!is.hasTagCompound()) {
+            is.setTagCompound(new NBTTagCompound());
+            is.getTagCompound().setBoolean("Smelt", true);
+            is.getTagCompound().setTag("Items", new NBTTagList());
         }
+        if (is.getTagCompound().getBoolean("Invert"))
+            list.add(EnumChatFormatting.RED + StatCollector.translateToLocal("trash.Inverted"));
+        list.add(StatCollector.translateToLocal("trash.IgnoreList"));
+        for (int i = 0; i < is.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).tagCount(); ++i) {
+            NBTTagCompound item = /*(NBTTagCompound)*/ is.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
+            list.add(ItemStack.loadItemStackFromNBT(item).getDisplayName());
+        }
+
     }
 
 
@@ -87,16 +92,16 @@ public class AutoSmeltItem extends Item {
     }
 
     @SideOnly(Side.CLIENT)
-    public IIcon getIconIndex(ItemStack is)
-    {   if(!is.hasTagCompound() || !is.getTagCompound().getBoolean("Invert"))
-        return itemIcon;
-    else return invertIcon;
+    public IIcon getIconIndex(ItemStack is) {
+        if (!is.hasTagCompound() || !is.getTagCompound().getBoolean("Invert"))
+            return itemIcon;
+        else return invertIcon;
     }
 
     @SideOnly(Side.CLIENT)
-    public void registerIcons(IIconRegister p_94581_1_)
-    {
+    public void registerIcons(IIconRegister p_94581_1_) {
         this.invertIcon = p_94581_1_.registerIcon("simplyhammer:smeltitemInvert");
         this.itemIcon = p_94581_1_.registerIcon("simplyhammer:smeltitem");
     }
+
 }
