@@ -26,6 +26,8 @@ item.itemHammer_1.name=Wedge
 item.ductape.name=Ductape
 itemGroup.tabGeneral=Simply Hammer
 
+tile.disassembler.name=Disassembler
+
 
 
 achievement.craft.item.boundHammer=Craft Bound Hammer!

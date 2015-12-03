@@ -4,11 +4,13 @@ import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.item.IC2Items;
+import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import ru.lionzxy.simlyhammer.commons.blocks.Disassembler;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.hammers.*;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
@@ -21,7 +23,7 @@ import ru.lionzxy.simlyhammer.commons.recipe.IC2DrillCrafting;
 public class AddHammers {
 
     public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, ARHammer, IIEERRAAHammer;
-
+    public static Block disassembler;
     static public void addAllHammers() {
         addOreDictModHammers();
         Config.config.save();
@@ -69,7 +71,7 @@ public class AddHammers {
                 OreDictionary.registerOre("drillEu", IC2Items.getItem("miningDrill").getItem());
                 OreDictionary.registerOre("drillEu", IC2Items.getItem("diamondDrill").getItem());
                 OreDictionary.registerOre("drillEu", IC2Items.getItem("iridiumDrill").getItem());
-               // OreDictionary.registerOre("ingotSteel", IC2Items.getItem("advIronIngot").getItem());
+               //OreDictionary.registerOre("ingotSteel", IC2Items.getItem("advIronIngot").getItem());
                 OreDictionary.registerOre("blockSteel", IC2Items.getItem("advironblock").getItem());
             } catch (NullPointerException e) {
                 FMLLog.bigWarning("[SimplyHammers] NOT FOUND SOME IC2 ITEMS. EU Hammer not crafting!!!");
@@ -87,8 +89,10 @@ public class AddHammers {
             GameRegistry.addRecipe(new IC2DrillCrafting());
         }
         new RFHammer();
+        disassembler = new Disassembler();
         ARHammer = new Aronil98Hammer();
         IIEERRAAHammer = new IIEERRAAHammer();
+
 
     }
 

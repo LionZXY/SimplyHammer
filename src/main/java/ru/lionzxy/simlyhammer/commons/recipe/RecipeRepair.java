@@ -4,8 +4,10 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
+import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
@@ -94,7 +96,6 @@ public class RecipeRepair implements IRecipe {
             if (!hammer.getTagCompound().getBoolean("Vacuum")) {
                 hammer.getTagCompound().setBoolean("Vacuum", true);
                 hammer.getTagCompound().setBoolean("Modif", true);
-                addItemStackToHammer(hammer,getItem(ic, AddItems.autosmelt));
             } else
                 hammer.getTagCompound().setBoolean("Vacuum", false);
 
@@ -104,13 +105,20 @@ public class RecipeRepair implements IRecipe {
                 hammer.getTagCompound().setTag("ItemsSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
                 hammer.getTagCompound().setBoolean("InvertSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getBoolean("Invert"));
                 hammer.getTagCompound().setBoolean("Modif", true);
-                addItemStackToHammer(hammer,getItem(ic, AddItems.autosmelt));
             } else
                 hammer.getTagCompound().setBoolean("Smelt", false);
 
         if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).getHammerSettings().isRepair())
             if (findItem(ic, hammer.getItem()))
                 hammer.setItemDamage(getDamage(hammer, findItems(ic, ((IModifiHammer) hammer.getItem()))));
+        if (hammer != null)
+            for (int i = 0; i < ic.getSizeInventory(); i++)
+                if (ic.getStackInSlot(i) != null && !(ic.getStackInSlot(i).getItem() instanceof IModifiHammer) && !((IModifiHammer) hammer.getItem()).checkMaterial(ic.getStackInSlot(i))
+                        && ic.getStackInSlot(i).getItem().doesContainerItemLeaveCraftingGrid(ic.getStackInSlot(i))) {
+                    ItemStack is1 = ic.getStackInSlot(i).copy();
+                    is1.stackSize = 1;
+                    addItemStackToHammer(hammer, is1);
+                }
         return hammer;
     }
 
@@ -201,10 +209,19 @@ public class RecipeRepair implements IRecipe {
         NBTTagList tag = is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND);
         if (to == null)
             return;
+        for (int i = 0; i < is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).tagCount(); i++) {
+            NBTTagCompound item = is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i);
+            if (item.getShort("id") == Item.getIdFromItem(to.getItem()) && item.getShort("Damage") == to.getItemDamage() &&
+                    (item.getByte("Count") + to.stackSize) <= to.getMaxStackSize()) {
+                item.setByte("Count", (byte) (item.getByte("Count") + to.stackSize));
+                is.getTagCompound().setTag("ItemStacksInHammer", tag);
+                return;
+            }
+        }
         NBTTagCompound item = new NBTTagCompound();
         to.writeToNBT(item);
         tag.appendTag(item);
-        is.getTagCompound().setTag("ItemStacksInHammer",tag);
+        is.getTagCompound().setTag("ItemStacksInHammer", tag);
     }
 
     public static void removeItemStackToHammer(ItemStack is, Item to) {

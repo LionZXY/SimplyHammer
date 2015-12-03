@@ -36,8 +36,12 @@ public class SimplyHammer {
     /*
     * -Add models and models Configuration
     * -Fix dupe with ductape
+    * -Add IIEERRAA Hammers
     * -Remove debug log
-    * -Add update checker*/
+    * -Add update checker
+    * -Fix oredict bug
+    * -Add in command item list
+    * -Add disassembler*/
     @Mod.Instance
     public static SimplyHammer instance;
 

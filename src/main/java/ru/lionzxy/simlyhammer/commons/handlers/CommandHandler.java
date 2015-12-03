@@ -6,7 +6,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
+import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 
 import java.util.List;
 
@@ -38,13 +40,24 @@ public class CommandHandler implements ICommand {
             if (args[0].equals("iteminfo")) {
                 if (sender instanceof EntityPlayer) {
                     ItemStack is = ((EntityPlayer) sender).getCurrentEquippedItem();
+                    if (is == null)
+                        return;
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("1. Name: " + is.getDisplayName()));
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("2. Item Path: " + Item.itemRegistry.getNameForObject(is.getItem())));
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("3. Damage: " + is.getItemDamage()));
                     ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("4. OreDict: "));
 
-                    for(int i : OreDictionary.getOreIDs(is))
+                    for (int i : OreDictionary.getOreIDs(is))
                         ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText(OreDictionary.getOreName(i)));
+
+                    ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("================"));
+
+                    if (is.hasTagCompound() && is.getItem() instanceof IModifiHammer) {
+                        ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("5. Item List: "));
+                        for (int i = 0; i < is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).tagCount(); i++)
+                            ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText(ItemStack.loadItemStackFromNBT(is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i)).getDisplayName() + " x" + ItemStack.loadItemStackFromNBT(is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i)).stackSize));
+                        ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("================"));
+                    }
 
                 }
             } else sender.addChatMessage(new ChatComponentText("Usage: sh <iteminfo>"));
