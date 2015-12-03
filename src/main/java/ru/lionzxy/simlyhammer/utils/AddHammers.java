@@ -69,7 +69,7 @@ public class AddHammers {
                 OreDictionary.registerOre("drillEu", IC2Items.getItem("miningDrill").getItem());
                 OreDictionary.registerOre("drillEu", IC2Items.getItem("diamondDrill").getItem());
                 OreDictionary.registerOre("drillEu", IC2Items.getItem("iridiumDrill").getItem());
-                OreDictionary.registerOre("ingotSteel", IC2Items.getItem("advIronIngot").getItem());
+               // OreDictionary.registerOre("ingotSteel", IC2Items.getItem("advIronIngot").getItem());
                 OreDictionary.registerOre("blockSteel", IC2Items.getItem("advironblock").getItem());
             } catch (NullPointerException e) {
                 FMLLog.bigWarning("[SimplyHammers] NOT FOUND SOME IC2 ITEMS. EU Hammer not crafting!!!");
@@ -93,6 +93,7 @@ public class AddHammers {
     }
 
     static public void addCraft(Item craftItem, String craftRodt, String material, String materialSimply) {
+
         GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(craftItem),
                 "zzz", "xpx", " y ",
                 'x', isOreDict(material) ? material : HammerUtils.getItemFromString(material),
