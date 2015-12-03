@@ -34,7 +34,7 @@ public class HammerSettings {
                 JsonConfig.get(name, "HarvestLevel", harvestLevel).getInt(),
                 JsonConfig.get(name, "Durability", damage).getInt(),
                 (float) JsonConfig.get(name, "Speed", (double) speed).getDouble(),
-                JsonConfig.get(name, "AttackDamage", (int) (harvestLevel * speed)).getInt(),
+                JsonConfig.get(name, "AttackDamage", (int) (harvestLevel * speed) / 10).getInt(),
                 JsonConfig.get(name, "Enchant", (int) (speed * 10000) / damage).getInt());
         this.breakRadius = JsonConfig.get(name, "BreakRadius", breakRadius).getInt();
         if (rm != null) {
