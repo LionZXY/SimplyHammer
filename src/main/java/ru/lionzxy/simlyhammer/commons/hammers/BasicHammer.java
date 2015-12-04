@@ -33,8 +33,11 @@ import ru.lionzxy.simlyhammer.interfaces.ISmelt;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.libs.HammerUpgrade;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
+import ru.lionzxy.simlyhammer.utils.Ref;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -42,6 +45,7 @@ import java.util.List;
  */
 public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVacuum, ISmelt {
     public HammerSettings hammerSettings;
+
 
     public BasicHammer(HammerSettings hammerSettings) {
         this(hammerSettings, "simplyhammer:" + hammerSettings.getUnlocalizeName());
@@ -500,4 +504,28 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         else return is.getTagCompound().getInteger("Color");
     }
 
+
+    public IIcon getIcon(ItemStack stack, int renPas) {
+        switch (renPas) {
+            case 0:
+                return this.getIconFromDamageForRenderPass(stack.getItemDamage(), renPas);
+            default:
+                return HammerUpgrade.getIcon(stack, renPas, this.getIconFromDamageForRenderPass(stack.getItemDamage(), renPas));
+        }
+    }
+
+    public int getRenderPasses(int metadata) {
+        return HammerUpgrade.RENDERPASS;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses() {
+        return true;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public void registerIcons(IIconRegister register) {
+        HammerUpgrade.registerIcon(register);
+        this.itemIcon = register.registerIcon(this.getIconString());
+    }
 }

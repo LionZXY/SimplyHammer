@@ -5,11 +5,15 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.commons.items.AddItems;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 
 /**
@@ -18,9 +22,14 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
  */
 public class Disassembler extends Block {
     public Disassembler() {
-        super(Material.wood);
+        super(Material.iron);
         this.setBlockName("disassembler");
         this.setCreativeTab(SimplyHammer.tabGeneral);
+        GameRegistry.addRecipe(new ItemStack(this), "xyx", "yzy", "xmx",
+                'x', new ItemStack(AddItems.stick, 1, 1),
+                'z', new ItemStack(AddItems.loupe),
+                'm', new ItemStack(AddItems.ductape),
+                'y', new ItemStack(Blocks.dropper));
         GameRegistry.registerBlock(this, "disassembler");
     }
 

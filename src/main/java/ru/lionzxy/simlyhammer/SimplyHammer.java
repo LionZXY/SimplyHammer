@@ -7,6 +7,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -41,7 +42,9 @@ public class SimplyHammer {
     * -Add update checker
     * -Fix oredict bug
     * -Add in command item list
-    * -Add disassembler*/
+    * -Add disassembler
+    * -Fix attack mod's hammers
+    * -Start add hammer icon upgrade system*/
     @Mod.Instance
     public static SimplyHammer instance;
 
@@ -52,7 +55,6 @@ public class SimplyHammer {
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
         Config.createConfig();
-
         HammerUtils.init();
         tabGeneral = new HammerTab("tabGeneral");
         AddItems.init();

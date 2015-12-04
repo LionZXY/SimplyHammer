@@ -32,7 +32,7 @@ public class Config {
         MSmelt = Config.config.get("modif", "SmeltModif", true).getBoolean();
         MDye = Config.config.get("modif", "SmeltModif", true).getBoolean();
         debugI = config.get("modif", "DyeUpgrade", true).getBoolean();
-        model = config.get("general", "Model", true).getBoolean();
+        model = config.get("general", "Model", false).getBoolean();
         checkUpdate = config.get("general", "CheckUpdate", true).getBoolean();
         config.save();
         config.load();
