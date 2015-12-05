@@ -11,9 +11,9 @@ import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.config.JsonConfig;
 import ru.lionzxy.simlyhammer.commons.hammers.BasicHammer;
-import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.commons.items.AutoSmeltItem;
 import ru.lionzxy.simlyhammer.commons.items.VacuumItem;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
 import ru.lionzxy.simlyhammer.utils.Ref;
 

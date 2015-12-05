@@ -1,11 +1,8 @@
 package ru.lionzxy.simlyhammer.commons.hammers;
 
-import com.mojang.authlib.GameProfile;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.FakePlayer;
 import net.minecraftforge.common.util.ForgeDirection;
 import ru.lionzxy.simlyhammer.client.renders.ColouredFX;
 import ru.lionzxy.simlyhammer.commons.config.JsonConfig;

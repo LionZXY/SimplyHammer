@@ -1,9 +1,7 @@
 package ru.lionzxy.simlyhammer.utils;
 
-import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.GameRegistry;
-import ic2.api.item.IC2Items;
 import net.minecraft.block.Block;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -14,7 +12,6 @@ import ru.lionzxy.simlyhammer.commons.blocks.Disassembler;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.hammers.*;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
-import ru.lionzxy.simlyhammer.commons.recipe.IC2DrillCrafting;
 
 /**
  * Created by LionZXY on 08.09.2015.
@@ -22,8 +19,9 @@ import ru.lionzxy.simlyhammer.commons.recipe.IC2DrillCrafting;
  */
 public class AddHammers {
 
-    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, ARHammer, IIEERRAAHammer;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, ARHammer, IIEERRAAHammer, RFHammerv;
     public static Block disassembler;
+
     static public void addAllHammers() {
         addOreDictModHammers();
         Config.config.save();
@@ -38,7 +36,7 @@ public class AddHammers {
     static void addVanilaHammers() {
 
         CustomHammers.addHammer("bronzeHammer", 1, 2, 6, 2250, 5, 5, "blockBronze", "ingotBronze", false, true, true, true,
-                true, true, true, true, true, true, "Bronze Hammer", "simplyhammer:bronzeHammer",true,
+                true, true, true, true, true, true, "Bronze Hammer", "simplyhammer:bronzeHammer", true,
                 Ref.MODID + ":textures/models/item.bronzeHammer.png");
         CustomHammers.addHammer("stoneHammer", 1, 1, 2, 131, "stone", "cobblestone", false);
         CustomHammers.addHammer("ironHammer", 1, 2, 6, 2250, "blockIron", "ingotIron", false);
@@ -66,29 +64,12 @@ public class AddHammers {
             ));
         }
         if (Loader.isModLoaded("IC2")) {
-            FMLLog.info("Register oredict drill");
-            try {
-                OreDictionary.registerOre("drillEu", IC2Items.getItem("miningDrill").getItem());
-                OreDictionary.registerOre("drillEu", IC2Items.getItem("diamondDrill").getItem());
-                OreDictionary.registerOre("drillEu", IC2Items.getItem("iridiumDrill").getItem());
-               //OreDictionary.registerOre("ingotSteel", IC2Items.getItem("advIronIngot").getItem());
-                OreDictionary.registerOre("blockSteel", IC2Items.getItem("advironblock").getItem());
-            } catch (NullPointerException e) {
-                FMLLog.bigWarning("[SimplyHammers] NOT FOUND SOME IC2 ITEMS. EU Hammer not crafting!!!");
-                e.printStackTrace();
-            }
-            IC2Hammer = new IC2EnergyHammer();
-            GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(IC2Hammer),
-                    "xyx", "zpz", " k ",
-                    'x', "blockSteel",
-                    'y', "drillEu",
-                    'z', "ingotSteel",
-                    'p', IC2Items.getItem("mfeUnit"),
-                    'k', new ItemStack(AddItems.stick, 1, 0)
-            ));
-            GameRegistry.addRecipe(new IC2DrillCrafting());
+            IC2EnergyHammer.init();
         }
-        new RFHammer();
+
+        if (Loader.isModLoaded("RedstoneArsenal") || Loader.isModLoaded("ThermalExpansion") || Loader.isModLoaded("EnderIO"))
+            RFHammer.init();
+
         disassembler = new Disassembler();
         ARHammer = new Aronil98Hammer();
         IIEERRAAHammer = new IIEERRAAHammer();

@@ -3,12 +3,9 @@ package ru.lionzxy.simlyhammer.utils;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import cpw.mods.fml.common.registry.GameRegistry;
-import jdk.nashorn.internal.runtime.regexp.joni.EncodingHelper;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
@@ -19,9 +16,6 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by LionZXY on 08.09.2015.

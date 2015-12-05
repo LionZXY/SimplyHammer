@@ -1,7 +1,9 @@
 package ru.lionzxy.simlyhammer.commons.hammers;
 
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.registry.GameRegistry;
 import ic2.api.item.IBoxable;
+import ic2.api.item.IC2Items;
 import ic2.api.item.IElectricItem;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,10 +13,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
+import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.config.JsonConfig;
 import ru.lionzxy.simlyhammer.commons.hammers.core.NBTHammer;
+import ru.lionzxy.simlyhammer.commons.items.AddItems;
+import ru.lionzxy.simlyhammer.commons.recipe.IC2DrillCrafting;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 import java.util.List;
 
@@ -120,6 +127,30 @@ public class IC2EnergyHammer extends NBTHammer implements IElectricItem, IBoxabl
         if (is.hasTagCompound() && is.getTagCompound().getDouble("HammerSpeed") != 0)
             return (int) (cost * (is.getTagCompound().getDouble("HammerSpeed") / 8) / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1));
         return cost / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1);
+    }
+
+    public static void init(){
+        FMLLog.info("Register oredict drill");
+        try {
+            OreDictionary.registerOre("drillEu", IC2Items.getItem("miningDrill").getItem());
+            OreDictionary.registerOre("drillEu", IC2Items.getItem("diamondDrill").getItem());
+            OreDictionary.registerOre("drillEu", IC2Items.getItem("iridiumDrill").getItem());
+            //OreDictionary.registerOre("ingotSteel", IC2Items.getItem("advIronIngot").getItem());
+            OreDictionary.registerOre("blockSteel", IC2Items.getItem("advironblock").getItem());
+        } catch (NullPointerException e) {
+            FMLLog.bigWarning("[SimplyHammers] NOT FOUND SOME IC2 ITEMS. EU Hammer not crafting!!!");
+            e.printStackTrace();
+        }
+        AddHammers.IC2Hammer = new IC2EnergyHammer();
+        GameRegistry.addRecipe(new ShapedOreRecipe(new ItemStack(AddHammers.IC2Hammer),
+                "xyx", "zpz", " k ",
+                'x', "blockSteel",
+                'y', "drillEu",
+                'z', "ingotSteel",
+                'p', IC2Items.getItem("mfeUnit"),
+                'k', new ItemStack(AddItems.stick, 1, 0)
+        ));
+        GameRegistry.addRecipe(new IC2DrillCrafting());
     }
 
 

@@ -35,9 +35,7 @@ import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.libs.HammerUpgrade;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
-import ru.lionzxy.simlyhammer.utils.Ref;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

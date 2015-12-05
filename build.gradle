@@ -32,6 +32,16 @@ dependencies {
 
 }
 
+jar {
+	exclude 'cofh/**'
+	exclude 'ic2/**'
+}
+
+compileJava {
+	sourceCompatibility = 1.7
+	targetCompatibility = 1.7
+}
+
 processResources
 {
     // this will ensure that this task is redone when the versions change.
@@ -51,4 +61,11 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
+task deobfJar(type: Jar) {
+	exclude 'cofh/**'
+	exclude 'ic2/**'
+	
+}
+
 idea.module.inheritOutputDirs = true

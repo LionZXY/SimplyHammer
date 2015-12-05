@@ -4,10 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockTorch;
 import net.minecraft.init.Items;
 import net.minecraft.inventory.InventoryCrafting;
-import net.minecraft.inventory.SlotCrafting;
 import net.minecraft.item.*;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.MathHelper;
@@ -15,8 +13,8 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import ru.lionzxy.simlyhammer.commons.config.Config;
-import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 
 /**
  * Created by LionZXY on 08.09.2015.

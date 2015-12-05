@@ -5,9 +5,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 import ru.lionzxy.simlyhammer.utils.Ref;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by LionZXY on 04.12.2015.

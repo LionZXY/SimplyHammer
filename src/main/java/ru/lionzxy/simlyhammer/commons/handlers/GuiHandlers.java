@@ -3,8 +3,8 @@ package ru.lionzxy.simlyhammer.commons.handlers;
 import cpw.mods.fml.common.network.IGuiHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
-import ru.lionzxy.simlyhammer.commons.containers.TrashContainer;
 import ru.lionzxy.simlyhammer.client.guis.TrashGui;
+import ru.lionzxy.simlyhammer.commons.containers.TrashContainer;
 
 /**
  * Created by nikit on 12.09.2015.

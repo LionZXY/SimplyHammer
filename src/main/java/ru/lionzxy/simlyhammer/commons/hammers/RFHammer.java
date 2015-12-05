@@ -42,14 +42,14 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
                     'x', ReflectionHelper.getItemStackRA("plateFlux"),
                     'p', ReflectionHelper.getItemStackRA("rodObsidianFlux"),
                     'z', ReflectionHelper.getItemStackRA("ingotElectrumFlux"));
-        else if(Loader.isModLoaded("ThermalExpansion"))
+        else if (Loader.isModLoaded("ThermalExpansion"))
             GameRegistry.addRecipe(new ItemStack(this),
                     "zzz", "dxd", " p ",
                     'x', HammerUtils.getItemFromString("ThermalExpansion:Cell:3"),
                     'p', new ItemStack(AddItems.stick, 1, 0),
                     'z', HammerUtils.getItemFromString("ThermalFoundation:material:74"),
                     'd', HammerUtils.getItemFromString("ThermalFoundation:Storage:10"));
-            else if (Loader.isModLoaded("EnderIO"))
+        else if (Loader.isModLoaded("EnderIO"))
             AddHammers.addCraft(this, null, "blockElectricalSteel", "ingotElectricalSteel");
     }
 
@@ -57,7 +57,7 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     @Override
     public int receiveEnergy(ItemStack container, int maxReceive, boolean simulate) {
         int receive = 8096 * 4;
-        if(simulate)
+        if (simulate)
             return receive;
         if (maxReceive < receive)
             receive = maxReceive;
@@ -72,7 +72,7 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     @Override
     public int extractEnergy(ItemStack container, int maxExtract, boolean simulate) {
         int extract = 8096 * 4;
-        if(simulate)
+        if (simulate)
             return extract;
         if (maxExtract < extract)
             extract = maxExtract;
@@ -184,5 +184,9 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     public int getCost(ItemStack is) {
 
         return cost / (EnchantmentHelper.getEnchantmentLevel(34, is) + 1);
+    }
+
+    public static void init() {
+            AddHammers.RFHammerv = new RFHammer();
     }
 }

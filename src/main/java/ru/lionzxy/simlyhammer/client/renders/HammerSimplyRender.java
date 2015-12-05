@@ -7,7 +7,6 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
 import org.lwjgl.opengl.GL11;
 import ru.lionzxy.simlyhammer.client.models.SimplyHammer;
-import ru.lionzxy.simlyhammer.utils.Ref;
 
 /**
  * Created by LionZXY on 13.11.2015.

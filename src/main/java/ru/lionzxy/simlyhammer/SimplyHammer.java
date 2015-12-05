@@ -7,7 +7,6 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
@@ -15,10 +14,10 @@ import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.commons.handlers.CommandHandler;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
-import ru.lionzxy.simlyhammer.proxy.CommonProxy;
 import ru.lionzxy.simlyhammer.commons.recipe.BindingRecipe;
 import ru.lionzxy.simlyhammer.commons.recipe.InvertRecipe;
 import ru.lionzxy.simlyhammer.commons.recipe.RecipeRepair;
+import ru.lionzxy.simlyhammer.proxy.CommonProxy;
 import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
@@ -44,7 +43,8 @@ public class SimplyHammer {
     * -Add in command item list
     * -Add disassembler
     * -Fix attack mod's hammers
-    * -Start add hammer icon upgrade system*/
+    * -Start add hammer icon upgrade system
+    * -Fix crash with computronics*/
     @Mod.Instance
     public static SimplyHammer instance;
 
