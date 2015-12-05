@@ -22,12 +22,13 @@ public class Disassembler extends Block {
         super(Material.iron);
         this.setBlockName("disassembler");
         this.setCreativeTab(SimplyHammer.tabGeneral);
+        GameRegistry.registerBlock(this, "disassembler");
+
         GameRegistry.addRecipe(new ItemStack(this), "xyx", "yzy", "xmx",
                 'x', new ItemStack(AddItems.stick, 1, 1),
                 'z', new ItemStack(AddItems.loupe),
                 'm', new ItemStack(AddItems.ductape),
                 'y', new ItemStack(Blocks.dropper));
-        GameRegistry.registerBlock(this, "disassembler");
     }
 
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int p_149727_6_, float p_149727_7_, float p_149727_8_, float p_149727_9_) {
