@@ -15,7 +15,7 @@ item.thaumiumHammer.name=Thaumium Hammer
 item.HSLAHammer.name=HSLA Hammer
 item.ic2hammer.name=EU Hammer
 item.rfhammer.name=RF Hammer
-item.IIEERRAAHammer.name=IIEERRAA's Hammer
+item.IIEERRAAHammer.name=[WIP] IIEERRAA's Hammer
 item.prospectorsPick.name=Prospector's Pick
 item.trashitem.name=Trash
 item.smeltitem.name=Auto-smelt Upgrade
@@ -26,7 +26,7 @@ item.itemHammer_1.name=Wedge
 item.ductape.name=Ductape
 itemGroup.tabGeneral=Simply Hammer
 
-tile.disassembler.name=Disassembler
+tile.disassembler.name=[WIP] Disassembler
 
 
 
