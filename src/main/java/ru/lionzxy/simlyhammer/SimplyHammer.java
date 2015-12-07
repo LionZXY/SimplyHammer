@@ -34,17 +34,8 @@ public class SimplyHammer {
     @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy", serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;
     /*
-    * -Add models and models Configuration
-    * -Fix dupe with ductape
-    * -Add IIEERRAA Hammers
-    * -Remove debug log
-    * -Add update checker
-    * -Fix oredict bug
-    * -Add in command item list
-    * -Add disassembler
-    * -Fix attack mod's hammers
-    * -Start add hammer icon upgrade system
-    * -Fix crash with computronics*/
+    -Fix check oredict crash.
+    * */
     @Mod.Instance
     public static SimplyHammer instance;
 
