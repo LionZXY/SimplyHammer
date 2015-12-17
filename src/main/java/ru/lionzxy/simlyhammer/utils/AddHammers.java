@@ -8,6 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import net.minecraftforge.oredict.ShapedOreRecipe;
+import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.blocks.Disassembler;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.hammers.*;
@@ -73,6 +74,9 @@ public class AddHammers {
         disassembler = new Disassembler();
         ARHammer = new Aronil98Hammer();
         IIEERRAAHammer = new IIEERRAAHammer();
+
+        SimplyHammer.hammers.add(IIEERRAAHammer);
+        SimplyHammer.hammers.add(ARHammer);
 
 
     }

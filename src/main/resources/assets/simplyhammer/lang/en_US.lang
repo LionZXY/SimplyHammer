@@ -89,6 +89,21 @@ information.modification=Modifications:
 information.NotHaveTagCompound=Item not have NBT tag. Place item in craft window!
 information.CtrlShiftDialog=-Hold Shift and Ctrl for trash details-
 
+information.loupe.NotFound.LocalizeName=Localize Name not found
+information.loupe.NotFound.UnLocalizeName=Unlocalize Name not found. O_o
+information.loupe.NotFound.TexturePath=TexturePath not found
+information.loupe.NotFound.HarvestLevel=Error
+information.loupe.NotFound.tick=0
+
+information.loupe.0===============
+information.loupe.1=Name: %localizeName%
+information.loupe.2=UnlocalizeName: %unlocalizeName%
+information.loupe.3=HarvestTool: %harvestTool%
+information.loupe.4=Update Time: %updateTickInNanosec% Nanoseconds per tick (%updateTickInMilisec% Ms)
+information.loupe.5=TexturePath: %texturepath%
+information.loupe.6===============
+
+
 modification.Diamond=Diamond
 modification.Axe=Axe:
 modification.AxeSpeed=, Speed:

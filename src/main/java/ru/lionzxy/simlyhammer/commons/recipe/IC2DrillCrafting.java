@@ -72,11 +72,10 @@ public class IC2DrillCrafting implements IRecipe {
 
     public static boolean containsOresDict(ItemStack is, String oredict) {
         int oreDictId = OreDictionary.getOreID(oredict);
-        if(is == null || is.getItem() == null)
-            return false;
-        for (int id : OreDictionary.getOreIDs(new ItemStack(is.getItem())))
-            if (id == oreDictId)
-                return true;
+        if (is != null)
+            for (int id : OreDictionary.getOreIDs(new ItemStack(is.getItem())))
+                if (id == oreDictId)
+                    return true;
         return false;
     }
 }

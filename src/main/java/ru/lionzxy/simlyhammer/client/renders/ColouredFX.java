@@ -45,4 +45,12 @@ public class ColouredFX extends EntityFireworkSparkFX {
         Minecraft.getMinecraft().effectRenderer.addEffect(fx);
 
     }
+
+    @SideOnly(Side.CLIENT)
+    public static void generateAreaParticles(World worldObj, int xCoord, int yCoord, int zCoord, ForgeDirection direction, float red, float green, float blue, int radius) {
+        for (int x = -radius; x < radius; x++)
+            for (int z = -radius; z < radius; z++)
+                for(int y = -radius; y < radius; y++)
+                generateParticles(worldObj, x + xCoord, y+yCoord, z + zCoord, direction, red, green, blue);
+    }
 }

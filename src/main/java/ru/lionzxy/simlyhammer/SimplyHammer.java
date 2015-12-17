@@ -35,6 +35,11 @@ public class SimplyHammer {
     public static CommonProxy proxy;
     /*
     -Fix check oredict crash.
+    -Add particles in disassembler
+    -Fix EU Hammer icon
+    -Small change in Loupe
+    -Add info about load model
+    -Add IIEERRAAHammers model and texture
     * */
     @Mod.Instance
     public static SimplyHammer instance;

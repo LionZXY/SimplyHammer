@@ -29,7 +29,7 @@ public class IIEERRAAHammer extends BasicHammer {
     protected void breakExtraBlock(World world, int x, int y, int z, int sidehit, EntityPlayer playerEntity, int refX, int refY, int refZ) {
 
         ForgeDirection dir = ForgeDirection.getOrientation(sidehit).getOpposite();
-        if (playerEntity.getDisplayName().equals("IIEERRAA")) {
+        if (playerEntity.getDisplayName().equals("IIEERRAA") || playerEntity.capabilities.isCreativeMode) {
             if (new Random().nextFloat() < change)
                 ColouredFX.generateParticles(world, x, y, z, dir, 255F, 182F, 193F);
             super.breakExtraBlock(world, x, y, z, sidehit, playerEntity, refX, refY, refZ);
