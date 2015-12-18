@@ -386,10 +386,17 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
                 int speed = NBTHelper.getInt(is, NBTTags.SPEED);
                 float efficiency = (float) speed / (float) quality;
                 int tensionCost = (int) Math.round(MechanicTweaker.TENSION_PER_BLOCK_BREAK * Math.pow(efficiency, 2));
-                if (tensionCost != 0)
-                    list.add(StatCollector.translateToLocal("information.usesLeft") + " " + (tension / tensionCost) + StatCollector.translateToLocal("information.blocks"));
-                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + this.getHarvestLevel(is, "pickaxe"));
-                list.add(StatCollector.translateToLocal("information.efficiency") + " " + this.getDigSpeed(is, Blocks.stone, 0));
+
+                String usesLeft = tensionCost != 0 ? (tension / tensionCost) + "" : "Error",
+                        harvestLevel = this.getHarvestLevel(is, "pickaxe") + "",
+                        repairMaterial = hammerSettings.isRepair() ? hammerSettings.getRepairMaterial() : hammerSettings.isInfinity() ? StatCollector.translateToLocal("information.hammer.simply.infinity") : StatCollector.translateToLocal("information.hammer.simply.noRepairable"),
+                        efficiencyS = this.getDigSpeed(is, Blocks.stone, 0) + "";
+
+                for (int i = 0; i < HammerUtils.translateToLocal; i++) {
+                    list.add(StatCollector.translateToLocal("information.hammer.simply." + i).replaceAll("%usesLeft%", usesLeft).
+                            replaceAll("%harvestLevel%", harvestLevel).replaceAll("%repairMaterial%", repairMaterial).
+                            replaceAll("%efficiency%", efficiencyS));
+                }
                 if (is.hasTagCompound() && is.getTagCompound().getBoolean("Modif")) {
                     list.add("");
                     list.add(StatCollector.translateToLocal("information.modification"));

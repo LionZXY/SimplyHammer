@@ -9,13 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
+import net.minecraft.util.StatCollector;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.commons.config.Config;
+import ru.lionzxy.simlyhammer.libs.HammerSettings;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.List;
 
 /**
  * Created by LionZXY on 08.09.2015.
@@ -23,6 +26,7 @@ import java.net.URL;
  */
 public class HammerUtils {
     public static Item openBlocksDevNull;
+    public static int translateToLocal = -1;
 
     public static void init() {
         openBlocksDevNull = GameRegistry.findItem("OpenBlocks", "devnull");
@@ -111,5 +115,27 @@ public class HammerUtils {
                     return false;
         } else return false;
         return true;
+    }
+
+    public static void addInformation(List list, HammerSettings hammerSettings, ItemStack itemStack){
+
+        if (translateToLocal == -1) {
+            int tmp = 0;
+            while (!StatCollector.translateToLocal("information.hammer.simply." + tmp).equalsIgnoreCase("information.hammer.simply." + tmp)) {
+                tmp += 1;
+            }
+            translateToLocal = tmp;
+        }
+
+        String usesLeft = (itemStack.getMaxDamage() - itemStack.getItemDamage()) + "",
+                harvestLevel = hammerSettings.getHarvestLevel() + "",
+                repairMaterial = hammerSettings.isRepair() ? hammerSettings.getRepairMaterial() : hammerSettings.isInfinity() ? StatCollector.translateToLocal("information.hammer.simply.infinity") : StatCollector.translateToLocal("information.hammer.simply.noRepairable"),
+                efficiency = hammerSettings.getEffiency() + "";
+
+        for (int i = 0; i < translateToLocal; i++) {
+            list.add(StatCollector.translateToLocal("information.hammer.simply." + i).replaceAll("%usesLeft%", usesLeft).
+                    replaceAll("%harvestLevel%", harvestLevel).replaceAll("%repairMaterial%", repairMaterial).
+                    replaceAll("%efficiency%", efficiency));
+        }
     }
 }

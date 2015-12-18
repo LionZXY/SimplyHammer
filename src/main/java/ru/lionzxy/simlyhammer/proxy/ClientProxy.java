@@ -10,7 +10,6 @@ import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.client.renders.HammerSimplyRender;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
-import ru.lionzxy.simlyhammer.utils.AddHammers;
 
 /**
  * Created by nikit on 12.09.2015.

@@ -82,26 +82,36 @@ information.LP=LP
 information.LPtoTick=(5 LP for break block and 20 LP every 200 tick)
 information.harvestLevel=Harvest Level:
 information.repairMaterial=Repair material:
-information.noRepairable=No Repairable
-information.infinity=Infinity
 information.efficiency=Efficiency:
 information.modification=Modifications:
 information.NotHaveTagCompound=Item not have NBT tag. Place item in craft window!
 information.CtrlShiftDialog=-Hold Shift and Ctrl for trash details-
 
+
+information.hammer.simply.noRepairable=No Repairable
+information.hammer.simply.infinity=Infinity
+
+information.hammer.simply.0=§8Uses Left: §f%usesLeft% §7Blocks
+information.hammer.simply.1=§8Harvest Level:§7 §c%harvestLevel%
+information.hammer.simply.2=§8Repair Material: §6%repairMaterial%
+information.hammer.simply.3=§8Efficiency:§7 §5%efficiency%
+
+
 information.loupe.NotFound.LocalizeName=Localize Name not found
 information.loupe.NotFound.UnLocalizeName=Unlocalize Name not found. O_o
 information.loupe.NotFound.TexturePath=TexturePath not found
-information.loupe.NotFound.HarvestLevel=Error
-information.loupe.NotFound.tick=0
+information.loupe.NotFound.HarvestLevel=§4Error
+information.loupe.NotFound.tick=§40
 
-information.loupe.0===============
-information.loupe.1=Name: %localizeName%
-information.loupe.2=UnlocalizeName: %unlocalizeName%
-information.loupe.3=HarvestTool: %harvestTool%
-information.loupe.4=Update Time: %updateTickInNanosec% Nanoseconds per tick (%updateTickInMilisec% Ms)
-information.loupe.5=TexturePath: %texturepath%
-information.loupe.6===============
+information.loupe.0=§3==============
+information.loupe.1=§8Name: §4%localizeName%
+information.loupe.2=§8Unlocalize Name: §7%unlocalizeName%
+information.loupe.3=§8Harvest Tool: §7%harvestTool%
+information.loupe.4=§8Update Time: §6%updateTickInNanosec%§7 Nanoseconds per tick (§8%updateTickInMilisec%§7 Ms)
+information.loupe.5=§8Texture Path: §e%texturepath%
+information.loupe.6=§3==============
+
+
 
 
 modification.Diamond=Diamond

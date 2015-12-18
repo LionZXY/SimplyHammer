@@ -8,7 +8,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumChatFormatting;
@@ -35,21 +34,7 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
         super(new HammerSettings("rfhammer", 1, 3, 24F, 2024000 * 4, null, false).setRepair(false));
         cost = JsonConfig.get("rfhammer", "cost", 200).getInt();
         GameRegistry.registerItem(this, "rfhammer");
-        if (Loader.isModLoaded("RedstoneArsenal"))
-            GameRegistry.addRecipe(new ItemStack(this),
-                    "zzz", "xpx", " p ",
-                    'x', ReflectionHelper.getItemStackRA("plateFlux"),
-                    'p', ReflectionHelper.getItemStackRA("rodObsidianFlux"),
-                    'z', ReflectionHelper.getItemStackRA("ingotElectrumFlux"));
-        else if (Loader.isModLoaded("ThermalExpansion"))
-            GameRegistry.addRecipe(new ItemStack(this),
-                    "zzz", "dxd", " p ",
-                    'x', HammerUtils.getItemFromString("ThermalExpansion:Cell:3"),
-                    'p', new ItemStack(AddItems.stick, 1, 0),
-                    'z', HammerUtils.getItemFromString("ThermalFoundation:material:74"),
-                    'd', HammerUtils.getItemFromString("ThermalFoundation:Storage:10"));
-        else if (Loader.isModLoaded("EnderIO"))
-            AddHammers.addCraft(this, null, "blockElectricalSteel", "ingotElectricalSteel");
+
     }
 
 
@@ -188,4 +173,24 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     public static void init() {
             AddHammers.RFHammerv = new RFHammer();
     }
+
+    public void addRecipe(){
+        //Redstone Arsenal, fuck you for item init in PostInit
+        if (Loader.isModLoaded("RedstoneArsenal"))
+            GameRegistry.addRecipe(new ItemStack(this),
+                    "zzz", "xpx", " p ",
+                    'x', ReflectionHelper.getItemStackRA("plateFlux"),
+                    'p', ReflectionHelper.getItemStackRA("rodObsidianFlux"),
+                    'z', ReflectionHelper.getItemStackRA("ingotElectrumFlux"));
+        else if (Loader.isModLoaded("ThermalExpansion"))
+            GameRegistry.addRecipe(new ItemStack(this),
+                    "zzz", "dxd", " p ",
+                    'x', HammerUtils.getItemFromString("ThermalExpansion:Cell:3"),
+                    'p', new ItemStack(AddItems.stick, 1, 0),
+                    'z', HammerUtils.getItemFromString("ThermalFoundation:material:74"),
+                    'd', HammerUtils.getItemFromString("ThermalFoundation:Storage:10"));
+        else if (Loader.isModLoaded("EnderIO"))
+            AddHammers.addCraft(this, null, "blockElectricalSteel", "ingotElectricalSteel");
+    }
+
 }

@@ -45,6 +45,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
     public HammerSettings hammerSettings;
 
 
+
     public BasicHammer(HammerSettings hammerSettings) {
         this(hammerSettings, "simplyhammer:" + hammerSettings.getUnlocalizeName());
     }
@@ -57,6 +58,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         this.setMaxStackSize(1);
         this.setUnlocalizedName(hammerSettings.getUnlocalizeName());
         this.setMaxDamage(this.getHammerSettings().getDurability());
+
     }
 
 
@@ -379,14 +381,8 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
                     }
                 }
             } else {
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + EnumChatFormatting.WHITE + (itemStack.getMaxDamage() - itemStack.getItemDamage()) + EnumChatFormatting.GRAY + StatCollector.translateToLocal("information.blocks"));
-                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + hammerSettings.getHarvestLevel());
-                if (hammerSettings.isRepair())
-                    list.add(StatCollector.translateToLocal("information.repairMaterial") + " " + hammerSettings.getRepairMaterial());
-                else if (hammerSettings.isInfinity())
-                    list.add(StatCollector.translateToLocal("information.infinity"));
-                else list.add(StatCollector.translateToLocal("information.noRepairable"));
-                list.add(StatCollector.translateToLocal("information.efficiency") + " " + hammerSettings.getEffiency());
+                HammerUtils.addInformation(list,hammerSettings,itemStack);
+
                 if (itemStack.hasTagCompound()) {
                     if (itemStack.getTagCompound().getBoolean("Modif")) {
                         list.add("");
@@ -526,4 +522,5 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
         HammerUpgrade.registerIcon(register);
         this.itemIcon = register.registerIcon(this.getIconString());
     }
+
 }

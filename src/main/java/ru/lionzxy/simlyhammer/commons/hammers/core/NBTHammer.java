@@ -10,6 +10,7 @@ import net.minecraft.world.World;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.commons.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
+import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 import java.util.List;
 
@@ -28,9 +29,7 @@ public abstract class NBTHammer extends BasicHammer {
         if (Keyboard.isKeyDown(Keyboard.KEY_RSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
             if (itemStack.hasTagCompound()) {
                 //if (!itemStack.getTagCompound().getString("ownerName").equals("") && itemStack.getTagCompound() != null)
-                list.add(StatCollector.translateToLocal("information.usesLeft") + " " + this.usesLeft(itemStack));
-                list.add(StatCollector.translateToLocal("information.harvestLevel") + " " + itemStack.getTagCompound().getInteger("HammerHarvestLevel"));
-                list.add(StatCollector.translateToLocal("information.efficiency") + " " + itemStack.getTagCompound().getDouble("HammerSpeed"));
+                HammerUtils.addInformation(list,hammerSettings,itemStack);
                 if (itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Modif")) {
                     list.add("");
                     list.add(StatCollector.translateToLocal("information.modification"));
