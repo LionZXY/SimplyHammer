@@ -29,12 +29,17 @@ public class ClientProxy extends CommonProxy {
                         } catch (Exception e) {
                             FMLLog.info("[SimplyHammers] Not found model for " + new ItemStack(item).getDisplayName());
                         }
-                    }
+                    } else FMLLog.info("[SimplyHammers] Not found model for " + new ItemStack(item).getDisplayName());
+
             }
     }
 
     public void registerProxies() {
         super.registerProxies();
         registerRender();
+    }
+
+    public void addGregTechIntegration(){
+        super.addGregTechIntegration();
     }
 }

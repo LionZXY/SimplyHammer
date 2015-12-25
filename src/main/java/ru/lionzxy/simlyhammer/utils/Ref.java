@@ -7,7 +7,7 @@ package ru.lionzxy.simlyhammer.utils;
 public class Ref {
     public static final String MODID = "simplyhammer";
     public static final String MINECRAFTVERSION = "1.7.10";
-    public static final String VERSION = "0.9.7";
+    public static final String VERSION = "0.9.8";
 
 
 }

@@ -210,6 +210,7 @@ public class HammerSettings {
         this.mTrash = true;
         this.mVacuum = true;
         this.mSmelt = true;
+        this.model = true;
 
     }
 

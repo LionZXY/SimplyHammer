@@ -20,7 +20,8 @@ import ru.lionzxy.simlyhammer.commons.items.AddItems;
  */
 public class AddHammers {
 
-    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer, IC2Hammer, ARHammer, IIEERRAAHammer, RFHammerv;
+    public static Item geologHammer = new ProspectorsPick(), BMHammer, CWPHammer, CWPTemporalHammer,
+            IC2Hammer, ARHammer, IIEERRAAHammer, RFHammerv;
     public static Block disassembler;
 
     static public void addAllHammers() {
@@ -72,11 +73,17 @@ public class AddHammers {
             RFHammer.init();
 
         disassembler = new Disassembler();
-        ARHammer = new Aronil98Hammer();
-        IIEERRAAHammer = new IIEERRAAHammer();
+        if (Config.config.get("Personal Hammer", "ARHammer", true).getBoolean()) {
+            ARHammer = new Aronil98Hammer();
+            SimplyHammer.hammers.add(ARHammer);
+        }
+        if (Config.config.get("Personal Hammer", "IIEERRAAHammer", true).getBoolean()) {
+            IIEERRAAHammer = new IIEERRAAHammer();
+            SimplyHammer.hammers.add(IIEERRAAHammer);
+        }
+        if (Config.config.get("Personal Hammer", "CiferotHammer", true).getBoolean())
+            SimplyHammer.hammers.add(new CiferotHammer());
 
-        SimplyHammer.hammers.add(IIEERRAAHammer);
-        SimplyHammer.hammers.add(ARHammer);
 
 
     }

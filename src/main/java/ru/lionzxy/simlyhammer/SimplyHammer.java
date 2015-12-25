@@ -33,8 +33,10 @@ public class SimplyHammer {
     @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy", serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;
     /*
-    -Move PreInit in PostInit
-    -Some change in lang file
+    -Add Ciferot Hammer
+    -Fix #21
+    -Change model for IIEERRAA Hammer
+    -Fix prospector pick gregtech found ore
     * */
     @Mod.Instance
     public static SimplyHammer instance;
@@ -63,6 +65,8 @@ public class SimplyHammer {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+        if(Loader.isModLoaded("gregapi"))
+        proxy.addGregTechIntegration();
         if (AddHammers.RFHammerv != null)
             ((RFHammer) AddHammers.RFHammerv).addRecipe();
     }

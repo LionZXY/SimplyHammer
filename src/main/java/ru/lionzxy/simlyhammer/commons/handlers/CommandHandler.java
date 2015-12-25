@@ -1,5 +1,6 @@
 package ru.lionzxy.simlyhammer.commons.handlers;
 
+import cpw.mods.fml.common.Loader;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -9,6 +10,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.utils.GregTechHelper;
 
 import java.util.List;
 
@@ -57,7 +59,10 @@ public class CommandHandler implements ICommand {
                         for (int i = 0; i < is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).tagCount(); i++)
                             ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText(ItemStack.loadItemStackFromNBT(is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i)).getDisplayName() + " x" + ItemStack.loadItemStackFromNBT(is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i)).stackSize));
                         ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("================"));
-                    }
+                         }
+                    if(Loader.isModLoaded("gregapi"))
+                        ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("5. Is Pickaxe: " + GregTechHelper.isPickaxe(is)));
+
 
                 }
             } else sender.addChatMessage(new ChatComponentText("Usage: sh <iteminfo>"));

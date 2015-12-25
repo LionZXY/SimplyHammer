@@ -34,6 +34,13 @@ public class Aronil98Hammer extends BasicHammer {
         return false;
     }
 
+    @Override
+    public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
+        if(isPlayerAutor(player))
+            super.onBlockStartBreak(itemstack, X, Y, Z, player);
+        return false;
+    }
+
 
 
 }
