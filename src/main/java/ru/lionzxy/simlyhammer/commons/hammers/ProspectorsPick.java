@@ -115,7 +115,7 @@ public class ProspectorsPick extends Item {
         for (int i : OreDictionary.getOreIDs(itemStack))
             if (OreDictionary.getOreName(i).substring(0, 3).equalsIgnoreCase("ore"))
                 return true;
-        if(Loader.isModLoaded("gregapi"))
+        if(Loader.isModLoaded("gregapi") && SimplyHammer.getModContainer("gregapi").getVersion().equalsIgnoreCase("GT6-MC1710"))
             return GregTechHelper.isOre(itemStack);
         return false;
 

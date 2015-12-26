@@ -10,7 +10,6 @@ import net.minecraft.util.ResourceLocation;
 import ru.lionzxy.simlyhammer.commons.config.GTJsonArray;
 import ru.lionzxy.simlyhammer.utils.Ref;
 
-import javax.annotation.Resource;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -41,17 +40,17 @@ public class ResourceLoader {
     }
 
     public static void addHammerResource(String hammerName, Color color) {
-        if (ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID,"icon/" + hammerName)) || ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID,"model/" + hammerName)))
+        if (ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID,"textures/items/" + hammerName + ".png")) || ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID,"textures/model/" + hammerName + ".png")))
             return;
         if (model_templare == null || icon_templare == null || templare_handle == null || templare_model_handle == null)
             new ResourceLoader();
         BufferedImage icon = icon_templare.addHead(templare_handle, 15, 1, color.getRGB());
         BufferedImage model = model_templare.addHead(templare_model_handle, 100, 216, color.getRGB());
         try {
-            new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/icon/", hammerName + ".png").createNewFile();
-            new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/model/", hammerName + ".png").createNewFile();
-            ImageIO.write(icon, "PNG", new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/icon/", hammerName + ".png"));
-            ImageIO.write(model, "PNG", new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/model", hammerName + ".png"));
+            new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/items/", hammerName + ".png").createNewFile();
+            new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/model/", hammerName + ".png").createNewFile();
+            ImageIO.write(icon, "PNG", new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/items/", hammerName + ".png"));
+            ImageIO.write(model, "PNG", new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/model/", hammerName + ".png"));
             FMLLog.fine("[SimplyHammer] Hammer " + hammerName + " icon and model generated!");
         } catch (Exception e) {
             FMLLog.bigWarning("[SimplyHammer] Error save generate image");
@@ -61,8 +60,8 @@ public class ResourceLoader {
     @SideOnly(Side.CLIENT)
     public static void init() {
         FMLLog.fine("[SimplyHammer] Start add icons for GregTech");
-        new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/icon/").mkdirs();
-        new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/model/").mkdirs();
+        new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/items/").mkdirs();
+        new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/model/").mkdirs();
         for (JsonElement json : GTJsonArray.gregtechJson)
             addHammerResource(json.getAsJsonObject().get("name").getAsString(), new Color(json.getAsJsonObject().get("Color").getAsInt()));
     }

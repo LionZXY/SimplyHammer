@@ -1,6 +1,5 @@
 package ru.lionzxy.simlyhammer.commons.handlers;
 
-import cpw.mods.fml.common.Loader;
 import net.minecraft.command.ICommand;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,7 +9,6 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
-import ru.lionzxy.simlyhammer.utils.GregTechHelper;
 
 import java.util.List;
 

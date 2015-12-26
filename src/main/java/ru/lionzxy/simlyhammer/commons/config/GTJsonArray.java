@@ -5,14 +5,19 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import gregapi.code.ItemStackContainer;
 import gregapi.data.OP;
-import gregapi.item.MultiItemTool;
 import gregapi.oredict.OreDictItemData;
 import gregapi.util.OM;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.oredict.OreDictionary;
+import ru.lionzxy.simlyhammer.client.renders.HammerSimplyRender;
 import ru.lionzxy.simlyhammer.commons.hammers.BasicHammer;
 import ru.lionzxy.simlyhammer.utils.CustomHammers;
 import ru.lionzxy.simlyhammer.utils.GregTechHelper;
@@ -20,7 +25,6 @@ import ru.lionzxy.simlyhammer.utils.Ref;
 
 import java.awt.*;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 
@@ -42,9 +46,9 @@ public class GTJsonArray {
             obj.addProperty("HarvestLevel", tData.mMaterial.mMaterial.mToolQuality);
             obj.addProperty("Speed", tData.mMaterial.mMaterial.mToolSpeed);
             obj.addProperty("Durability", tData.mMaterial.mMaterial.mToolDurability);
-            obj.addProperty("AttackDamage", (tData.mMaterial.mMaterial.mToolQuality * tData.mMaterial.mMaterial.mToolSpeed) / 10);
+            obj.addProperty("AttackDamage", (tData.mMaterial.mMaterial.mToolQuality * tData.mMaterial.mMaterial.mToolSpeed) / Config.attMinus);
             obj.addProperty("RepairMaterial", getNormalOreDict(tData.mMaterial.mMaterial.mNameInternal));
-            obj.addProperty("CraftMaterial", "block" + tData.mMaterial.mMaterial.mNameInternal);
+            obj.addProperty("CraftMaterial", getNormalBlockOreDict(tData.mMaterial.mMaterial.mNameInternal));
             obj.addProperty("CraftMaterial2", getNormalOreDict(tData.mMaterial.mMaterial.mNameInternal));
 
             obj.addProperty("Color", new Color(tData.mMaterial.mMaterial.mRGBaSolid[0],
@@ -87,9 +91,15 @@ public class GTJsonArray {
     public static void parseJsonArr() {
         for (int i = 0; i < gregtechJson.size(); i++) {
             BasicHammer hammer = CustomHammers.addHammerFromJsonObject(gregtechJson.get(i).getAsJsonObject());
-            hammer.setCreativeTab(GregTechHelper.gregTechTab).setTextureName(Ref.MODID + ":icon/" + hammer.getUnlocalizedName());
+            hammer.setCreativeTab(GregTechHelper.gregTechTab).setTextureName(Ref.MODID + ":" + hammer.getUnlocalizedName().substring(hammer.getUnlocalizedName().indexOf('.') + 1));
             hammer.getHammerSettings().setColor(new Color(gregtechJson.get(i).getAsJsonObject().get("Color").getAsInt()));
+            if(FMLCommonHandler.instance().getEffectiveSide().isClient())
+                addModel(hammer);
         }
+    }
+    @SideOnly(Side.CLIENT)
+    public static void addModel(BasicHammer hammer){
+        MinecraftForgeClient.registerItemRenderer(hammer,new HammerSimplyRender(new ResourceLocation(Ref.MODID + ":model/" + hammer.getUnlocalizedName().substring(hammer.getUnlocalizedName().indexOf('.') + 1) + ".png")));
     }
 
     public static String getNormalOreDict(String oreDict) {
@@ -99,6 +109,16 @@ public class GTJsonArray {
             return "ingot" + oreDict;
         if (OreDictionary.doesOreNameExist("gem" + oreDict) && OreDictionary.getOres("gem" + oreDict).size() > 0)
             return "gem" + oreDict;
+        return oreDict;
+    }
+
+    public static String getNormalBlockOreDict(String oreDict) {
+        if (OreDictionary.doesOreNameExist("block" + oreDict) && OreDictionary.getOres("block"  + oreDict).size() > 0)
+            return "block"  + oreDict;
+        if (OreDictionary.doesOreNameExist("blockIngot" + oreDict) && OreDictionary.getOres("blockIngot"  + oreDict).size() > 0)
+            return "blockIngot"  + oreDict;
+        if (OreDictionary.doesOreNameExist("blockGem" + oreDict) && OreDictionary.getOres("blockGem" + oreDict).size() > 0)
+            return "blockGem" + oreDict;
         return oreDict;
     }
 }

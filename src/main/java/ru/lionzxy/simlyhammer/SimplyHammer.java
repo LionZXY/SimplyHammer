@@ -1,20 +1,13 @@
 package ru.lionzxy.simlyhammer;
 
-import cpw.mods.fml.client.FMLClientHandler;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.SidedProxy;
+import cpw.mods.fml.common.*;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.ResourcePackRepository;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.RecipeSorter;
 import ru.lionzxy.simlyhammer.client.resource.ResourcePack;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.hammers.RFHammer;
@@ -26,7 +19,6 @@ import ru.lionzxy.simlyhammer.commons.recipe.InvertRecipe;
 import ru.lionzxy.simlyhammer.commons.recipe.RecipeRepair;
 import ru.lionzxy.simlyhammer.proxy.CommonProxy;
 import ru.lionzxy.simlyhammer.utils.*;
-import scala.collection.parallel.ParIterableLike;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +36,7 @@ public class SimplyHammer {
     -Change model for IIEERRAA Hammer
     -Fix prospector pick gregtech found ore
     -Add to RecipeSorter my custom recipe
+    -Add gregtech 6 support
     * */
     @Mod.Instance
     public static SimplyHammer instance;
@@ -73,8 +66,8 @@ public class SimplyHammer {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        if(Loader.isModLoaded("gregapi"))
-        proxy.addGregTechIntegration();
+        if (Loader.isModLoaded("gregapi") && getModContainer("gregapi").getVersion().equalsIgnoreCase("GT6-MC1710"))
+            proxy.addGregTechIntegration();
         if (AddHammers.RFHammerv != null)
             ((RFHammer) AddHammers.RFHammerv).addRecipe();
     }
@@ -82,5 +75,17 @@ public class SimplyHammer {
     @Mod.EventHandler
     public void serverLoad(FMLServerStartingEvent event) {
         event.registerServerCommand(new CommandHandler());
+    }
+
+    public static ModContainer getModContainer(String modId)
+    {
+        for (ModContainer mod : Loader.instance().getActiveModList())
+        {
+            if (mod.getModId().equalsIgnoreCase(modId))
+            {
+                return mod;
+            }
+        }
+        return getModContainer(Ref.MODID);
     }
 }

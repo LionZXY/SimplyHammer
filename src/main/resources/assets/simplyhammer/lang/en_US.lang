@@ -25,6 +25,7 @@ item.itemHammer_0.name=Handle
 item.itemHammer_1.name=Wedge
 item.ductape.name=Ductape
 itemGroup.tabGeneral=Simply Hammer
+itemGroup.GregTechHammer=GregTech Hammers
 
 tile.disassembler.name=[WIP] Disassembler
 

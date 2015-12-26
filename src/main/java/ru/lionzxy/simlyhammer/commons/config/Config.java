@@ -13,6 +13,7 @@ public class Config {
     public static Configuration config;
     public static boolean pick, MTorch, MDiamond, MAxe, MShovel, repair, MTrash, MVacuum,
             MCheckVacuum, MCheckTrash, MSmelt, debugI, MDye, model, checkUpdate;
+    public static int attMinus;
 
     public static void createConfig() {
         JsonConfig.load();
@@ -34,6 +35,7 @@ public class Config {
         debugI = config.get("modif", "DyeUpgrade", true).getBoolean();
         model = config.get("general", "Model", true).getBoolean();
         checkUpdate = config.get("general", "CheckUpdate", true).getBoolean();
+        attMinus = config.get("general", "Attack Factor", 10).getInt();
         config.save();
         config.load();
     }

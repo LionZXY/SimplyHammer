@@ -1,10 +1,8 @@
 package ru.lionzxy.simlyhammer.utils;
 
-import cpw.mods.fml.client.FMLClientHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.gen.structure.StructureStrongholdPieces;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

@@ -13,10 +13,12 @@ import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.config.JsonConfig;
 import ru.lionzxy.simlyhammer.commons.hammers.BasicHammer;
-import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Created by LionZXY on 08.09.2015.
@@ -63,7 +65,7 @@ public class CustomHammers {
         obj.addProperty("HarvestLevel", harvestLevel);
         obj.addProperty("Speed", speed);
         obj.addProperty("Durability", damage);
-        obj.addProperty("AttackDamage", (harvestLevel * speed) / 10);
+        obj.addProperty("AttackDamage", (harvestLevel * speed) / Config.attMinus);
         obj.addProperty("RepairMaterial", repairMaterial);
         obj.addProperty("CraftMaterial", materialOreDict);
         obj.addProperty("CraftMaterial2", repairMaterial);

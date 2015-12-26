@@ -12,7 +12,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -34,9 +33,9 @@ public class ResourcePack implements IResourcePack {
 
     @Override
     public boolean resourceExists(ResourceLocation rl) {
-        File fileRequested = new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/", rl.getResourcePath() + ".png");
+        File fileRequested = new File(Loader.instance().getConfigDir() + "\\SimplyHammers\\resource\\", rl.getResourcePath());
+        //System.out.println(Loader.instance().getConfigDir() + "\\SimplyHammers\\resource\\" + rl.getResourcePath());
         if (fileRequested.exists()) {
-            System.out.println(Loader.instance().getConfigDir() + "/SimplyHammers/resource/" + rl.getResourcePath() + ".png");
             return true;
         }
         return false;

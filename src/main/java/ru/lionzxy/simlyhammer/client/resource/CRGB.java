@@ -1,7 +1,5 @@
 package ru.lionzxy.simlyhammer.client.resource;
 
-import org.apache.commons.lang3.SerializationUtils;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 

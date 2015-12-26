@@ -4,13 +4,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
-import ru.lionzxy.simlyhammer.client.renders.ColouredFX;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
-
-import java.util.Random;
 
 /**
  * Created by LionZXY on 24.12.2015.
