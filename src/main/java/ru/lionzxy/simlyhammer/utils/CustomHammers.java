@@ -33,24 +33,23 @@ public class CustomHammers {
     static public void addCustomHammers() {
         try {
             try {
-                try {
-                    if (!jsonFile.canWrite()) {
-                        jsonFile.getParentFile().mkdirs();
-                        jsonFile.createNewFile();
-                        AddHammers.addVanilaHammers();
-                        FileOutputStream os = new FileOutputStream(jsonFile);
-                        os.write(JsonConfig.getFormatedText(mainJson.toString()).getBytes());
-                        os.close();
+                if (!jsonFile.canWrite()) {
+                    jsonFile.getParentFile().mkdirs();
+                    jsonFile.createNewFile();
+                    AddHammers.addVanilaHammers();
+                    FileOutputStream os = new FileOutputStream(jsonFile);
+                    os.write(JsonConfig.getFormatedText(mainJson.toString()).getBytes());
+                    os.close();
 
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } else {
+                    mainJson = new JsonParser().parse(new JsonReader(new FileReader(jsonFile))).getAsJsonArray();
                 }
-                mainJson = new JsonParser().parse(new JsonReader(new FileReader(jsonFile))).getAsJsonArray();
-                for (JsonElement obj2 : mainJson) {
-                    addHammerFromJsonObject(obj2.getAsJsonObject());
-                }
-            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            for (JsonElement obj2 : mainJson) {
+                SimplyHammer.hammers.add(addHammerFromJsonObject(obj2.getAsJsonObject()));
             }
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -105,9 +104,9 @@ public class CustomHammers {
         mainJson.add(obj);
     }
 
-    public static void addHammerFromJsonObject(JsonObject obj) {
-        if (obj.get("CraftMaterial") == null || AddHammers.checkToNotNull(obj.get("CraftMaterial").getAsString()) || Config.debugI) {
-            SimplyHammer.hammers.add(
+    public static BasicHammer addHammerFromJsonObject(JsonObject obj) {
+
+            BasicHammer basicHammer =
                     new BasicHammer(new HammerSettings(obj.get("name").getAsString(),
                             obj.get("BreakRadius") == null ? 1 : obj.get("BreakRadius").getAsInt(),
                             obj.get("HarvestLevel") == null ? 2 : obj.get("HarvestLevel").getAsInt(),
@@ -127,15 +126,15 @@ public class CustomHammers {
                             obj.get("AttackDamage") == null ? 1 : obj.get("AttackDamage").getAsInt(),
                             obj.get("Enchant") == null ? (int) ((obj.get("Speed") == null ? 1.0 : obj.get("HarvestLevel").getAsFloat() * 10000) / (obj.get("Durability") == null ? 2000 : obj.get("Durability").getAsInt())) : obj.get("Enchant").getAsInt(),
                             obj.get("Model") == null || obj.get("Model").getAsBoolean()).setModelPath(
-                            obj.get("ModelPath") == null ? null : obj.get("ModelPath").getAsString())));
-            int thisPos = SimplyHammer.hammers.size() - 1;
+                            obj.get("ModelPath") == null ? null : obj.get("ModelPath").getAsString()));
             if (obj.get("LocalizeName") != null)
-                ((IModifiHammer) SimplyHammer.hammers.get(thisPos)).getHammerSettings().setLocalizeName(obj.get("LocalizeName").getAsString());
+                basicHammer.getHammerSettings().setLocalizeName(obj.get("LocalizeName").getAsString());
             if (obj.get("TexturePath") != null)
-                SimplyHammer.hammers.get(thisPos).setTextureName(obj.get("TexturePath").getAsString());
-            AddHammers.addCraft(SimplyHammer.hammers.get(thisPos), "stickHammer", obj.get("CraftMaterial") == null ? "blockIron" : obj.get("CraftMaterial").getAsString(), obj.get("CraftMaterial2") == null ? obj.get("RepairMaterial") == null ? "ingotIron" : obj.get("RepairMaterial").getAsString() : obj.get("CraftMaterial2").getAsString());
-            GameRegistry.registerItem(SimplyHammer.hammers.get(thisPos), obj.get("name").getAsString());
-            FMLLog.fine("Add hammer!" + new ItemStack(SimplyHammer.hammers.get(thisPos)).getDisplayName());
+                basicHammer.setTextureName(obj.get("TexturePath").getAsString());
+            AddHammers.addCraft(basicHammer, "stickHammer", obj.get("CraftMaterial") == null ? "blockIron" : obj.get("CraftMaterial").getAsString(), obj.get("CraftMaterial2") == null ? obj.get("RepairMaterial") == null ? "ingotIron" : obj.get("RepairMaterial").getAsString() : obj.get("CraftMaterial2").getAsString());
+            GameRegistry.registerItem(basicHammer, obj.get("name").getAsString());
+            FMLLog.fine("Add hammer!" + new ItemStack(basicHammer).getDisplayName());
+            return basicHammer;
+
         }
     }
-}

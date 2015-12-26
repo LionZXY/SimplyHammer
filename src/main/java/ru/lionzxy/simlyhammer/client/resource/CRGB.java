@@ -25,9 +25,7 @@ public class CRGB {
                                 tmp.getGreen() - MAIN_COLOUR.getGreen(),
                                 tmp.getBlue() - MAIN_COLOUR.getBlue());
                     }
-                System.out.print(pic[x][y] + " ");
             }
-            System.out.println();
         }
     }
 

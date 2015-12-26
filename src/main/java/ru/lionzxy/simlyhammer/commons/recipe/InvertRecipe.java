@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.RecipeSorter;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
 
 /**
@@ -14,6 +15,10 @@ import ru.lionzxy.simlyhammer.commons.items.AddItems;
  * SimplyHammer v0.9
  */
 public class InvertRecipe implements IRecipe {
+    public InvertRecipe(){
+
+        RecipeSorter.setCategory(this.getClass(), RecipeSorter.Category.SHAPELESS);
+    }
     @Override
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)

@@ -60,8 +60,6 @@ public class CommandHandler implements ICommand {
                             ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText(ItemStack.loadItemStackFromNBT(is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i)).getDisplayName() + " x" + ItemStack.loadItemStackFromNBT(is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).getCompoundTagAt(i)).stackSize));
                         ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("================"));
                          }
-                    if(Loader.isModLoaded("gregapi"))
-                        ((EntityPlayer) sender).addChatComponentMessage(new ChatComponentText("5. Is Pickaxe: " + GregTechHelper.isPickaxe(is)));
 
 
                 }

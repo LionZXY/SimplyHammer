@@ -17,6 +17,8 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
 import ru.lionzxy.simlyhammer.utils.Ref;
 
+import java.awt.*;
+
 /**
  * Created by nikit on 08.09.2015.
  */
@@ -25,6 +27,7 @@ public class HammerSettings {
     private String localizeName, modelPath;
     private ItemStack repairItem;
     private int breakRadius, oreDictId;
+    private Color color;
     private boolean repair, isAchive, mDiamond, mAxe, mShovel, mTorch, infinity, mTrash, mVacuum, mSmelt, model;
 
 
@@ -100,6 +103,10 @@ public class HammerSettings {
         return this.getMaterial().getDamageVsEntity();
     }
 
+    public Color getColor() {
+        return this.color;
+    }
+
     public float getEffiency() {
         return this.getMaterial().getEfficiencyOnProperMaterial();
     }
@@ -166,6 +173,11 @@ public class HammerSettings {
 
     public HammerSettings setModelPath(String modelPath) {
         this.modelPath = modelPath;
+        return this;
+    }
+
+    public HammerSettings setColor(Color color) {
+        this.color = color;
         return this;
     }
 

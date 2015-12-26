@@ -5,6 +5,7 @@ import net.minecraft.client.resources.IResourcePack;
 import net.minecraft.client.resources.data.IMetadataSection;
 import net.minecraft.client.resources.data.IMetadataSerializer;
 import net.minecraft.util.ResourceLocation;
+import ru.lionzxy.simlyhammer.utils.Ref;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -21,20 +22,21 @@ import java.util.Set;
  */
 public class ResourcePack implements IResourcePack {
 
-    public static HashMap<String,BufferedImage> res = new HashMap<>();
+    public static ResourcePack INSTANCE = new ResourcePack();
 
     @Override
     public InputStream getInputStream(ResourceLocation rl) throws IOException {
         if (!resourceExists(rl)) {
             return null;
         }
-        return new FileInputStream(new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/" + rl.getResourceDomain(), rl.getResourcePath()));
+        return new FileInputStream(new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/", rl.getResourcePath()));
     }
 
     @Override
     public boolean resourceExists(ResourceLocation rl) {
-        File fileRequested = new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/" + rl.getResourceDomain(), rl.getResourcePath());
+        File fileRequested = new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/", rl.getResourcePath() + ".png");
         if (fileRequested.exists()) {
+            System.out.println(Loader.instance().getConfigDir() + "/SimplyHammers/resource/" + rl.getResourcePath() + ".png");
             return true;
         }
         return false;
@@ -42,20 +44,8 @@ public class ResourcePack implements IResourcePack {
 
     @Override
     public Set getResourceDomains() {
-        File folder = new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource");
-        if (!folder.exists()) {
-            folder.mkdir();
-        }
-        String[] content = folder.list();
-
         HashSet<String> folders = new HashSet();
-        for (String s : content)
-        {
-            File f = new File(folder, s);
-            if ((f.exists()) && (f.isDirectory())) {
-                folders.add(f.getName());
-            }
-        }
+        folders.add(Ref.MODID);
         return folders;
     }
 
@@ -71,7 +61,7 @@ public class ResourcePack implements IResourcePack {
 
     @Override
     public String getPackName() {
-        return "SimplyHammersResource";
+        return Ref.MODID;
     }
 
 

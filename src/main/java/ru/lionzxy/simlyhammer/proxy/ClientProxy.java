@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.MinecraftForgeClient;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.client.renders.HammerSimplyRender;
+import ru.lionzxy.simlyhammer.client.resource.ResourceLoader;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 
@@ -41,5 +42,6 @@ public class ClientProxy extends CommonProxy {
 
     public void addGregTechIntegration(){
         super.addGregTechIntegration();
+        ResourceLoader.init();
     }
 }

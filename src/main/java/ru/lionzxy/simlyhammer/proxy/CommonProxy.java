@@ -21,6 +21,6 @@ public class CommonProxy {
 
     public void addGregTechIntegration(){
         GregTechHelper.gregTechTab = new HammerTab("GregTechHammer");
-        GregTechHelper.addHammers();
+        GregTechHelper.addHammerServer();
     }
 }

@@ -5,6 +5,7 @@ import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import net.minecraftforge.oredict.RecipeSorter;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
 import ru.lionzxy.simlyhammer.commons.items.Ductape;
 import ru.lionzxy.simlyhammer.utils.HammerUtils;
@@ -15,6 +16,9 @@ import ru.lionzxy.simlyhammer.utils.HammerUtils;
  */
 public class DuctapeRecipe implements IRecipe {
 
+    public DuctapeRecipe(){
+        RecipeSorter.setCategory(this.getClass(), RecipeSorter.Category.SHAPED);
+    }
     @Override
     public boolean matches(InventoryCrafting ic, World world) {
         if (ic.getSizeInventory() == 9) {

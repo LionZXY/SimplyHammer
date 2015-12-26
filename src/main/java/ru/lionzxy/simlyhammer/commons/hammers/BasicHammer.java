@@ -44,8 +44,6 @@ import java.util.List;
 public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVacuum, ISmelt {
     public HammerSettings hammerSettings;
 
-
-
     public BasicHammer(HammerSettings hammerSettings) {
         this(hammerSettings, "simplyhammer:" + hammerSettings.getUnlocalizeName());
     }

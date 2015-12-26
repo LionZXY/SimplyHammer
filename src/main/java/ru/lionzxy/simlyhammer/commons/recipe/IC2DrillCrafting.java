@@ -8,6 +8,7 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
+import net.minecraftforge.oredict.RecipeSorter;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
 import ru.lionzxy.simlyhammer.utils.AddHammers;
 
@@ -16,6 +17,9 @@ import ru.lionzxy.simlyhammer.utils.AddHammers;
  * SimplyHammer v0.9
  */
 public class IC2DrillCrafting implements IRecipe {
+    public IC2DrillCrafting(){
+        RecipeSorter.setCategory(this.getClass(), RecipeSorter.Category.SHAPED);
+    }
     @Override
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)

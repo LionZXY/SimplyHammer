@@ -12,6 +12,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
+import net.minecraftforge.oredict.RecipeSorter;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
@@ -22,6 +23,9 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
  */
 public class RecipeRepair implements IRecipe {
 
+    public RecipeRepair(){
+        RecipeSorter.setCategory(RecipeRepair.class, RecipeSorter.Category.SHAPELESS);
+    }
     @Override
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)

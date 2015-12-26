@@ -106,9 +106,6 @@ public class AchievementSH {
 
     }
 
-    public static void onLoggin(PlayerEvent.PlayerLoggedInEvent event) {
-    }
-
 
     public static void addAchivement() {
         ItemStack thisItem;
