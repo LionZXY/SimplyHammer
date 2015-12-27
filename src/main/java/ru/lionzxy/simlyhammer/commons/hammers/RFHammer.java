@@ -14,6 +14,7 @@ import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 import net.minecraftforge.common.util.Constants;
 import org.lwjgl.input.Keyboard;
+import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.config.JsonConfig;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
@@ -171,10 +172,11 @@ public class RFHammer extends BasicHammer implements IEnergyContainerItem {
     }
 
     public static void init() {
-            AddHammers.RFHammerv = new RFHammer();
+        AddHammers.RFHammerv = new RFHammer();
+        SimplyHammer.hammers.add(AddHammers.RFHammerv);
     }
 
-    public void addRecipe(){
+    public void addRecipe() {
         //Redstone Arsenal, fuck you for item init in PostInit
         if (Loader.isModLoaded("RedstoneArsenal"))
             GameRegistry.addRecipe(new ItemStack(this),

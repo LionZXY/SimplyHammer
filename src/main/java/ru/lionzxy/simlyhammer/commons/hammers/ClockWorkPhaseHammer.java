@@ -455,6 +455,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
             AddHammers.CWPTemporalHammer = new ClockWorkPhaseTemporalHammer(((IModifiHammer) AddHammers.CWPHammer).getHammerSettings().getMaterial());
             GameRegistry.registerItem(AddHammers.CWPTemporalHammer, "cwpTemporalHammer");
             AddHammers.addCraft(AddHammers.CWPHammer, "ingotIron", "clockworkphase:brassBlock", "ingotBronze");
+            SimplyHammer.hammers.add(AddHammers.CWPHammer);
         }
     }
 }
