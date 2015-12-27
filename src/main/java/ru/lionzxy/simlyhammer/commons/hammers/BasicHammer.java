@@ -27,7 +27,7 @@ import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.SimplyHammer;
-import ru.lionzxy.simlyhammer.commons.handlers.AchievementSH;
+import ru.lionzxy.simlyhammer.commons.handlers.CommonHandlerSH;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ISmelt;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
@@ -101,7 +101,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
 
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
         if (hammerSettings.isAchive())
-            player.addStat(AchievementSH.firstDig, 1);
+            player.addStat(CommonHandlerSH.firstDig, 1);
         if (!player.isSneaking()) {
             MovingObjectPosition mop = raytraceFromEntity(player.worldObj, player, false, 4.5d);
             if (mop == null)
@@ -146,7 +146,7 @@ public class BasicHammer extends ItemTool implements IModifiHammer, ITrash, IVac
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if (hammerSettings.isAchive())
-            player.addStat(AchievementSH.placeBlock, 1);
+            player.addStat(CommonHandlerSH.placeBlock, 1);
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;

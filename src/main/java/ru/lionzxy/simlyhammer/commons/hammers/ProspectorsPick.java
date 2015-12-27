@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.config.Config;
-import ru.lionzxy.simlyhammer.commons.handlers.AchievementSH;
+import ru.lionzxy.simlyhammer.commons.handlers.CommonHandlerSH;
 import ru.lionzxy.simlyhammer.utils.GregTechHelper;
 
 /**
@@ -32,7 +32,7 @@ public class ProspectorsPick extends Item {
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float clickX, float clickY, float clickZ) {
         if (!world.isRemote) {
             if (Config.config.get("prospectorsPick", "Achievement", true).getBoolean())
-                player.addStat(AchievementSH.firstResearch, 1);
+                player.addStat(CommonHandlerSH.firstResearch, 1);
             int radius = radiusPP;
             stack.damageItem(1, player);
             ItemStack itemStack;

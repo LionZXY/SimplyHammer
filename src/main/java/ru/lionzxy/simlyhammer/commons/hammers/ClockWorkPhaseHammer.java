@@ -30,7 +30,7 @@ import net.minecraftforge.event.world.BlockEvent;
 import org.lwjgl.input.Keyboard;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.config.Config;
-import ru.lionzxy.simlyhammer.commons.handlers.AchievementSH;
+import ru.lionzxy.simlyhammer.commons.handlers.CommonHandlerSH;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
@@ -78,7 +78,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
     public boolean onBlockStartBreak(ItemStack itemstack, int X, int Y, int Z, EntityPlayer player) {
         super.onBlockStartBreak(itemstack, X, Y, Z, player);
         if (hammerSettings.isAchive())
-            player.addStat(AchievementSH.firstDig, 1);
+            player.addStat(CommonHandlerSH.firstDig, 1);
         MovingObjectPosition mop = BasicHammer.raytraceFromEntity(player.worldObj, player, false, 4.5d);
         if (mop == null)
             return false;
@@ -123,7 +123,7 @@ public class ClockWorkPhaseHammer extends ItemClockworkPickaxe implements IModif
         if (world.isRemote)
             return true;
         if (hammerSettings.isAchive())
-            player.addStat(AchievementSH.placeBlock, 1);
+            player.addStat(CommonHandlerSH.placeBlock, 1);
         boolean used = false;
         int hotbarSlot = player.inventory.currentItem;
         int itemSlot = hotbarSlot == 0 ? 8 : hotbarSlot + 1;

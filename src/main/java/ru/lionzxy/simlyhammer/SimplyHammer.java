@@ -1,18 +1,19 @@
 package ru.lionzxy.simlyhammer;
 
-import cpw.mods.fml.common.*;
+import cpw.mods.fml.common.Loader;
+import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
-import net.minecraftforge.common.MinecraftForge;
-import ru.lionzxy.simlyhammer.client.resource.ResourcePack;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.hammers.RFHammer;
-import ru.lionzxy.simlyhammer.commons.handlers.AchievementSH;
 import ru.lionzxy.simlyhammer.commons.handlers.CommandHandler;
+import ru.lionzxy.simlyhammer.commons.handlers.CommonHandlerSH;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
 import ru.lionzxy.simlyhammer.commons.recipe.BindingRecipe;
 import ru.lionzxy.simlyhammer.commons.recipe.InvertRecipe;
@@ -31,12 +32,7 @@ public class SimplyHammer {
     @SidedProxy(clientSide = "ru.lionzxy.simlyhammer.proxy.ClientProxy", serverSide = "ru.lionzxy.simlyhammer.proxy.CommonProxy")
     public static CommonProxy proxy;
     /*
-    -Add Ciferot Hammer
-    -Fix #21
-    -Change model for IIEERRAA Hammer
-    -Fix prospector pick gregtech found ore
-    -Add to RecipeSorter my custom recipe
-    -Add gregtech 6 support
+    -Add durability coficient
     * */
     @Mod.Instance
     public static SimplyHammer instance;
@@ -48,7 +44,6 @@ public class SimplyHammer {
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         Config.createConfig();
-        ReflectionHelper.getResourceList().add(ResourcePack.INSTANCE);
         HammerUtils.init();
         tabGeneral = new HammerTab("tabGeneral");
         AddItems.init();
@@ -57,9 +52,7 @@ public class SimplyHammer {
         GameRegistry.addRecipe(new InvertRecipe());
         if (Loader.isModLoaded("AWWayofTime"))
             new BindingRecipe(null, null);
-        MinecraftForge.EVENT_BUS.register(new AchievementSH());
-        FMLCommonHandler.instance().bus().register(new AchievementSH());
-        AchievementSH.addAchivement();
+        CommonHandlerSH.addAchivement();
         proxy.registerProxies();
         Config.saveConfig();
     }

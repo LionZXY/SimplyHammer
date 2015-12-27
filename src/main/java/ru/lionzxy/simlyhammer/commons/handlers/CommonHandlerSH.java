@@ -3,9 +3,6 @@ package ru.lionzxy.simlyhammer.commons.handlers;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.PlayerEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
-import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -24,12 +21,11 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
 import ru.lionzxy.simlyhammer.interfaces.IVacuum;
 import ru.lionzxy.simlyhammer.libs.HammerSettings;
-import ru.lionzxy.simlyhammer.utils.HammerUtils;
 
 /**
  * Created by nikit on 03.09.2015.
  */
-public class AchievementSH {
+public class CommonHandlerSH {
     public static Achievement firstDig, placeBlock, firstResearch, firstUpgrade;
 
     @SubscribeEvent
@@ -39,13 +35,25 @@ public class AchievementSH {
                 event.newSpeed = 0.0F;
     }
 
+
+    @SubscribeEvent
+    public void onPickUp(EntityItemPickupEvent event) {
+        if (Config.MCheckTrash)
+            for (int i = 0; i < event.entityPlayer.inventory.getSizeInventory(); i++)
+                if (event.entityPlayer.inventory.getStackInSlot(i) != null && (event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof TrashItem)) {
+                    if (event.item != null && TrashItem.isTrash(event.item.getEntityItem(), event.entityPlayer.inventory.getStackInSlot(i)))
+                        event.item.getEntityItem().stackSize = 0;
+                }
+
+    }
+
     @SubscribeEvent
     public void onCrafting(PlayerEvent.ItemCraftedEvent event) {
         if (event.crafting == null)
             return;
         if (event.crafting.getItem() instanceof IModifiHammer && event.crafting.hasTagCompound()) {
             if (event.crafting.getTagCompound().getBoolean("Modif"))
-                event.player.addStat(firstUpgrade, 1);
+                event.player.addStat(CommonHandlerSH.firstUpgrade, 1);
         }
         if (event.crafting.getItem() instanceof Aronil98Hammer && !Aronil98Hammer.isPlayerAutor(event.player)) {
             event.crafting.func_150996_a(Item.getItemFromBlock(Blocks.diamond_block));
@@ -57,17 +65,6 @@ public class AchievementSH {
                 event.player.addStat(SimplyHammer.achievements.get(i), 1);
                 return;
             }
-    }
-
-    @SubscribeEvent
-    public void onPickUp(EntityItemPickupEvent event) {
-        if (Config.MCheckTrash)
-            for (int i = 0; i < event.entityPlayer.inventory.getSizeInventory(); i++)
-                if (event.entityPlayer.inventory.getStackInSlot(i) != null && (event.entityPlayer.inventory.getStackInSlot(i).getItem() instanceof TrashItem)) {
-                    if (event.item != null && TrashItem.isTrash(event.item.getEntityItem(), event.entityPlayer.inventory.getStackInSlot(i)))
-                        event.item.getEntityItem().stackSize = 0;
-                }
-
     }
 
     @SubscribeEvent
@@ -105,8 +102,6 @@ public class AchievementSH {
         }
 
     }
-
-
     public static void addAchivement() {
         ItemStack thisItem;
         for (int i = 0; i < SimplyHammer.hammers.size(); i++) {
@@ -146,15 +141,8 @@ public class AchievementSH {
 
     }
 
-        public static boolean triedToWarnPlayer = false;
 
-    @SubscribeEvent
-    public void onTick(TickEvent.ClientTickEvent event) {
-        if (event.phase == TickEvent.Phase.END && Minecraft.getMinecraft().thePlayer != null && !triedToWarnPlayer) {
-            EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-            HammerUtils.checkUpdate(player);
-            triedToWarnPlayer = true;
-        }
-    }
+
+
 
 }

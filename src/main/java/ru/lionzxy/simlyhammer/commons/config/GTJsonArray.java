@@ -45,7 +45,7 @@ public class GTJsonArray {
             obj.addProperty("UniqId", itemStack.getItemDamage());
             obj.addProperty("HarvestLevel", tData.mMaterial.mMaterial.mToolQuality);
             obj.addProperty("Speed", tData.mMaterial.mMaterial.mToolSpeed);
-            obj.addProperty("Durability", tData.mMaterial.mMaterial.mToolDurability);
+            obj.addProperty("Durability", tData.mMaterial.mMaterial.mToolDurability * Config.config.get("general","DurabilityCofic",4).getInt());
             obj.addProperty("AttackDamage", (tData.mMaterial.mMaterial.mToolQuality * tData.mMaterial.mMaterial.mToolSpeed) / Config.attMinus);
             obj.addProperty("RepairMaterial", getNormalOreDict(tData.mMaterial.mMaterial.mNameInternal));
             obj.addProperty("CraftMaterial", getNormalBlockOreDict(tData.mMaterial.mMaterial.mNameInternal));
