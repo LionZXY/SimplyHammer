@@ -99,7 +99,7 @@ public class GTJsonArray {
     }
     @SideOnly(Side.CLIENT)
     public static void addModel(BasicHammer hammer){
-        MinecraftForgeClient.registerItemRenderer(hammer,new HammerSimplyRender(new ResourceLocation(Ref.MODID + ":model/" + hammer.getUnlocalizedName().substring(hammer.getUnlocalizedName().indexOf('.') + 1) + ".png")));
+        MinecraftForgeClient.registerItemRenderer(hammer,new HammerSimplyRender(new ResourceLocation(Ref.MODID + ":textures/model/" + hammer.getUnlocalizedName().substring(hammer.getUnlocalizedName().indexOf('.') + 1) + ".png")));
     }
 
     public static String getNormalOreDict(String oreDict) {
