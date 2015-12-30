@@ -1,6 +1,8 @@
 package ru.lionzxy.simlyhammer.commons.blocks;
 
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.item.EntityItem;
@@ -39,7 +41,7 @@ public class Disassembler extends Block {
         if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() instanceof IModifiHammer && player.getCurrentEquippedItem().hasTagCompound()) {
             ItemStack is = player.getCurrentEquippedItem();
             if (is.hasTagCompound() && is.getItem() instanceof IModifiHammer) {
-                ColouredFX.generateAreaParticles(world, x, y + 1, z, ForgeDirection.EAST, 50F, 205F, 50F, 2);
+                generateAreaParticles(world, x, y + 1, z, ForgeDirection.EAST, 50F, 205F, 50F, 2);
 
                 if (!world.isRemote)
                     for (int i = 0; i < is.getTagCompound().getTagList("ItemStacksInHammer", Constants.NBT.TAG_COMPOUND).tagCount(); i++)
@@ -51,8 +53,12 @@ public class Disassembler extends Block {
                     new ItemStack(player.getCurrentEquippedItem().getItem(), player.getCurrentEquippedItem().stackSize, player.getCurrentEquippedItem().getItemDamage()));
 
             return true;
-        } else ColouredFX.generateAreaParticles(world, x, y + 1, z, ForgeDirection.EAST, 255F, 0F, 0F, 2);
+        } else generateAreaParticles(world, x, y + 1, z, ForgeDirection.EAST, 255F, 0F, 0F, 2);
         return false;
+    }
+    @SideOnly(Side.CLIENT)
+    public static void generateAreaParticles(World worldObj, int xCoord, int yCoord, int zCoord, ForgeDirection direction, float red, float green, float blue,int radius){
+        ColouredFX.generateAreaParticles(worldObj,xCoord,yCoord,zCoord,direction,red,green,blue,radius);
     }
 
 }

@@ -49,6 +49,7 @@ public class Loupe extends Item {
                         updateTickInMilisec = StatCollector.translateToLocal("information.loupe.NotFound.tick"),
                         texturePath = StatCollector.translateToLocal("information.loupe.NotFound.TexturePath"),
                         harvestTool = StatCollector.translateToLocal("information.loupe.NotFound.HarvestLevel");
+                boolean updateCheck = false;
 
                 if (blockop.getHarvestTool(world.getBlockMetadata(x, y, z)) != null)
                     harvestTool = blockop.getHarvestTool(world.getBlockMetadata(x, y, z));
@@ -62,7 +63,7 @@ public class Loupe extends Item {
                 if (world.getTileEntity(x, y, z) != null) {
                     TileEntity te = world.getTileEntity(x, y, z);
                     //GameRegistry
-
+                    updateCheck = te.canUpdate();
                     long startTime = System.nanoTime();
                     te.updateEntity();
                     long endTime = System.nanoTime();
@@ -74,7 +75,7 @@ public class Loupe extends Item {
                             StatCollector.translateToLocal("information.loupe." + i).replaceAll("%localizeName%", localizeName).
                                     replaceAll("%unlocalizeName%", unlocalizeName).replaceAll("%harvestTool%", harvestTool)
                                     .replaceAll("%updateTickInNanosec%", updateTickInNanosec).replaceAll("%updateTickInMilisec%", updateTickInMilisec)
-                                    .replaceAll("%texturepath%", texturePath)
+                                    .replaceAll("%texturepath%", texturePath).replaceAll("%updateCheck%",updateCheck + "")
                     ));
                 }
             }

@@ -109,8 +109,9 @@ information.loupe.1=§8Name: §4%localizeName%
 information.loupe.2=§8Unlocalize Name: §7%unlocalizeName%
 information.loupe.3=§8Harvest Tool: §7%harvestTool%
 information.loupe.4=§8Update Time: §6%updateTickInNanosec%§7 Nanoseconds per tick (§8%updateTickInMilisec%§7 Ms)
-information.loupe.5=§8Texture Path: §e%texturepath%
-information.loupe.6=§3==============
+information.loupe.5=§8Is Update: §6%updateCheck%
+information.loupe.6=§8Texture Path: §e%texturepath%
+information.loupe.7=§3==============
 
 
 

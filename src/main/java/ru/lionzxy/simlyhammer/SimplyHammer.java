@@ -33,6 +33,7 @@ public class SimplyHammer {
     public static CommonProxy proxy;
     /*
     -Add durability coficient
+    -Fix Dissambler crash on server
     * */
     @Mod.Instance
     public static SimplyHammer instance;
