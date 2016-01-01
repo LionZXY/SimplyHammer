@@ -11,7 +11,7 @@ import net.minecraftforge.oredict.OreDictionary;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.handlers.CommonHandlerSH;
-import ru.lionzxy.simlyhammer.utils.GregTechHelper;
+import ru.lionzxy.simlyhammer.utils.gregtech.GregTechHelper;
 
 /**
  * Created by nikit on 31.08.2015.
@@ -115,7 +115,7 @@ public class ProspectorsPick extends Item {
         for (int i : OreDictionary.getOreIDs(itemStack))
             if (OreDictionary.getOreName(i).substring(0, 3).equalsIgnoreCase("ore"))
                 return true;
-        if(Loader.isModLoaded("gregapi") && SimplyHammer.getModContainer("gregapi").getVersion().equalsIgnoreCase("GT6-MC1710"))
+        if(Loader.isModLoaded("gregtech"))
             return GregTechHelper.isOre(itemStack);
         return false;
 

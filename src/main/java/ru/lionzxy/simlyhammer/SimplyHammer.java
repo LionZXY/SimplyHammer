@@ -34,6 +34,7 @@ public class SimplyHammer {
     /*
     -Add durability coficient
     -Fix Dissambler crash on server
+    -Add GT5 support
     * */
     @Mod.Instance
     public static SimplyHammer instance;
@@ -60,7 +61,7 @@ public class SimplyHammer {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        if (Loader.isModLoaded("gregapi") && getModContainer("gregapi").getVersion().equalsIgnoreCase("GT6-MC1710"))
+        if (Loader.isModLoaded("gregtech"))
             proxy.addGregTechIntegration();
         if (AddHammers.RFHammerv != null)
             ((RFHammer) AddHammers.RFHammerv).addRecipe();

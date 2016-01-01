@@ -6,8 +6,8 @@ import net.minecraftforge.common.MinecraftForge;
 import ru.lionzxy.simlyhammer.SimplyHammer;
 import ru.lionzxy.simlyhammer.commons.handlers.CommonHandlerSH;
 import ru.lionzxy.simlyhammer.commons.handlers.GuiHandlers;
-import ru.lionzxy.simlyhammer.utils.GregTechHelper;
 import ru.lionzxy.simlyhammer.utils.HammerTab;
+import ru.lionzxy.simlyhammer.utils.gregtech.GregTechHelper;
 
 /**
  * Created by nikit on 12.09.2015.

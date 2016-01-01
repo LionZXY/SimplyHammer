@@ -38,6 +38,7 @@ public class Config {
         attMinus = config.get("general", "Attack Factor", 10).getInt();
         config.save();
         config.load();
+
     }
 
     public static void saveConfig(){
