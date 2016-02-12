@@ -1,0 +1,130 @@
+item.ironHammer.name=Железный молот
+item.stoneHammer.name=Каменный молот
+item.bronzeHammer.name=Бронзовый молот
+item.copperHammer.name=Медный молот
+item.steelHammer.name=Стальной молот
+item.tungstenHammer.name=Вольфрамовый молот
+item.aronil98Hammer.name=Aronil98's Молот (Только для создателей модов)
+item.clockworkHammer.name=Часовой молот
+item.cwpTemporalHammer.name=TEmPOraL МоЛоТ
+item.boundHammer.name=Привязанный молот
+item.unstableHammer.name=Нестабильный молот
+item.manaSteelHammer.name=Манастальной молот
+item.terraSteelHammer.name=Террастальной молот
+item.thaumiumHammer.name=Таумиевый молот
+item.HSLAHammer.name=HSLA молот
+item.ic2hammer.name=EU молот
+item.rfhammer.name=RF молот
+item.IIEERRAAHammer.name=[WIP] IIEERRAA's молот
+item.prospectorsPick.name=Кирка старателя
+item.trashitem.name=Мусор
+item.smeltitem.name=Апгрейд автоплавки
+item.vacumitem.name=Вакуумный апгрейд
+item.loupe.name=Лупа
+item.itemHammer_0.name=Ручка
+item.itemHammer_1.name=Винт
+item.ductape.name=Лента
+itemGroup.tabGeneral=Простые Молоты
+itemGroup.GregTechHammer=GregTech Молоты
+
+tile.disassembler.name=[WIP] Дизассемблер
+
+
+
+achievement.craft.item.boundHammer=Создайте призванный молот!
+achievement.craft.item.unstableHammer=Создайте нестабильный молот!
+achievement.craft.item.manaSteelHammer=Создайте маностальной молот!
+achievement.craft.item.terraSteelHammer=Создайте террастальной молот!
+achievement.craft.item.thaumiumHammer=Создайте таумиевый молот!
+achievement.craft.item.ironHammer=Создайте железный молот!
+achievement.craft.item.stoneHammer=Создайте каменный молот!
+achievement.craft.item.bronzeHammer=Создайте бронзовый молот!
+achievement.craft.item.copperHammer=Создайте медный молот!
+achievement.craft.item.steelHammer=Создайте стальной молот!
+achievement.craft.item.tungstenHammer=Создайте вольфрамовый молот!
+achievement.craft.item.HSLAHammer=Создайте HSLA молот!
+achievement.craft.item.prospectorsPick=Создайте кирку старателя!
+
+achievement.firstResearch=Первое исследование с киркой старателя!
+achievement.placeBlock=Первый поставленный молотом блок!
+achievement.firstBreak=Первый сломанный молотом блок!
+achievement.Modification=Первая модификация!
+
+
+achievement.craft.item.boundHammer.desc=Создание призванного молота из Simply Hammer!
+achievement.craft.item.unstableHammer.desc=Создание нестабильного молота из Simply Hammer!
+achievement.craft.item.manaSteelHammer.desc=Создание манастального молота из Simply Hammer!
+achievement.craft.item.terraSteelHammer.desc=Создание террастального молота из Simply Hammer!
+achievement.craft.item.thaumiumHammer.desc=Создание таумиевого молота из Simply Hammer!
+achievement.craft.item.ironHammer.desc=Создание железного молота из Simply Hammer!
+achievement.craft.item.stoneHammer.desc=Создание каменного молота из Simply Hammer!
+achievement.craft.item.bronzeHammer.desc=Создание бронзового молота из Simply Hammer!
+achievement.craft.item.copperHammer.desc=Создание медного молота из Simply Hammer!
+achievement.craft.item.steelHammer.desc=Создание стального молота из Simply Hammer!
+achievement.craft.item.tungstenHammer.desc=Создание вольфрамового молота из Simply Hammer!
+achievement.craft.item.HSLAHammer.desc=Создание HLSA молота изSimply Hammer!
+achievement.craft.item.prospectorsPick.desc=Зоздание кирки старателя изSimply Hammer!
+
+achievement.firstResearch.desc=Первое исследование киркой старателя!
+achievement.placeBlock.desc=Первый поставленный молотом блок!
+achievement.firstBreak.desc=Первый сломанный молотом блок!
+achievement.Modification.desc=Первый модифицированный блок Simply Hammer!
+
+prospectorPick.Found=Найдено
+prospectorPick.NotFoundOre=Не найдено руды...
+
+information.ShiftDialog=-Зажать SHIFT для деталей-
+information.LCONTROL=-Зажать SHIFT и CTRL для деталнй-
+information.placeBlock=ПКМ чтобы поставить блок
+information.line==================================
+information.usesLeft=Использований осталось:
+information.blocks=блоков
+information.LP=LP
+information.LPtoTick=(5 LP для сбора блока и 20 LP каждые 200 тиков)
+information.harvestLevel=Уровень копания:
+information.repairMaterial=Материал восстановления:
+information.efficiency=Эффективность:
+information.modification=Модификации:
+information.NotHaveTagCompound=Предмет не имеет NBT тегов. Поместите его в окно крафта!
+information.CtrlShiftDialog=-Зажмите SHIFT и CTRL для деталей мусора-
+
+
+information.hammer.simply.noRepairable=Не восстановимо
+information.hammer.simply.infinity=Бесконечно
+
+information.hammer.simply.0=§8Использвоаний осталось: §f%usesLeft% §7Блоков
+information.hammer.simply.1=§8Уровень копаня:§7 §c%harvestLevel%
+information.hammer.simply.2=§8Материал восстановления: §6%repairMaterial%
+information.hammer.simply.3=§8Эффективность:§7 §5%efficiency%
+
+
+information.loupe.NotFound.LocalizeName=Локализованное имя не найдено
+information.loupe.NotFound.UnLocalizeName=Нелокализованное имя не найдено. O_o
+information.loupe.NotFound.TexturePath=Путь текстур не найден
+information.loupe.NotFound.HarvestLevel=§4Ошибка
+information.loupe.NotFound.tick=§40
+
+information.loupe.0=§3==============
+information.loupe.1=§8Имя: §4%localizeName%
+information.loupe.2=§8Нелокализованное имя: §7%unlocalizeName%
+information.loupe.3=§8Инструмент сбора: §7%harvestTool%
+information.loupe.4=§8Время обновления: §6%updateTickInNanosec%§7 Наносекунд в тик (§8%updateTickInMilisec%§7 Ms)
+information.loupe.5=§8Обновлено?: §6%updateCheck%
+information.loupe.6=§8Путь до текстуры: §e%texturepath%
+information.loupe.7=§3==============
+
+
+
+
+modification.Diamond=Алмаз
+modification.Axe=Топор:
+modification.AxeSpeed=, Скорость:
+modification.Shovel=Лопата:
+modification.ShovelSpeed=, Скорость:
+modification.Torch=Факел
+modification.Trash=Мусор
+modification.Smelt=Авто-плавка
+modification.Vacuum=Вакуум
+
+trash.Inverted=Инвертировано
+trash.IgnoreList=Черный список:
