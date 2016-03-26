@@ -53,7 +53,7 @@ public class JsonConfig {
                 e.printStackTrace();
             }
         }
-
+        System.out.println(jsonFile.getAbsoluteFile());
         try {
             mainJson = new JsonParser().parse(new FileReader(jsonFile)).getAsJsonObject();
         } catch (Exception e) {

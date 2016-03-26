@@ -45,7 +45,7 @@ public class ResourceLoader {
         if (model_templare == null || icon_templare == null || templare_handle == null || templare_model_handle == null)
             new ResourceLoader();
         BufferedImage icon = icon_templare.addHead(templare_handle, 15, 1, color.getRGB());
-        BufferedImage model = model_templare.addHead(templare_model_handle, 100, 216, color.getRGB());
+        BufferedImage model = model_templare.addHead(templare_model_handle, 0, 0, color.getRGB());
         try {
             new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/items/", hammerName + ".png").createNewFile();
             new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/model/", hammerName + ".png").createNewFile();

@@ -11,6 +11,7 @@ import ru.lionzxy.simlyhammer.client.models.SimplyHammer;
 /**
  * Created by LionZXY on 13.11.2015.
  * BetterWorkbench
+ * Big Thank QuImUfu
  */
 public class HammerSimplyRender implements IItemRenderer {
     boolean handRender = true;
@@ -44,6 +45,8 @@ public class HammerSimplyRender implements IItemRenderer {
     public void renderItem(ItemRenderType type, ItemStack item, Object... data) {
         float scale = 0.8F;
         GL11.glPushMatrix();
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDisable(GL11.GL_LIGHTING);
         switch (type) {
             case EQUIPPED_FIRST_PERSON:
@@ -60,6 +63,7 @@ public class HammerSimplyRender implements IItemRenderer {
         }
         Minecraft.getMinecraft().renderEngine.bindTexture(res);
         model.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.07F);
+        GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_LIGHTING);
         GL11.glPopMatrix();
     }

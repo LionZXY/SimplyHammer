@@ -16,6 +16,7 @@ import net.minecraftforge.oredict.RecipeSorter;
 import ru.lionzxy.simlyhammer.commons.config.Config;
 import ru.lionzxy.simlyhammer.commons.items.AddItems;
 import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
+import ru.lionzxy.simlyhammer.interfaces.IUpgradeHammer;
 
 /**
  * Created by LionZXY on 08.09.2015.
@@ -23,9 +24,10 @@ import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
  */
 public class RecipeRepair implements IRecipe {
 
-    public RecipeRepair(){
+    public RecipeRepair() {
         RecipeSorter.setCategory(RecipeRepair.class, RecipeSorter.Category.SHAPELESS);
     }
+
     @Override
     public boolean matches(InventoryCrafting ic, World p_77569_2_) {
         for (int i = 0; i < ic.getSizeInventory(); i++)
@@ -84,31 +86,10 @@ public class RecipeRepair implements IRecipe {
             hammer.getTagCompound().setBoolean("Modif", true);
         }
 
-        if (findItem(ic, AddItems.trash) && getItem(ic, AddItems.trash) != null && getItem(ic, AddItems.trash).hasTagCompound() && hammer != null && hammer.hasTagCompound() && Config.MTrash && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTrash())
-            if (!hammer.getTagCompound().getBoolean("Trash")) {
-                hammer.getTagCompound().setBoolean("Trash", true);
-                hammer.getTagCompound().setTag("Items", getItem(ic, AddItems.trash).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
-                hammer.getTagCompound().setBoolean("Invert", getItem(ic, AddItems.trash).getTagCompound().getBoolean("Invert"));
-                hammer.getTagCompound().setBoolean("Modif", true);
-            } else
-                hammer.getTagCompound().setBoolean("Trash", false);
+        for (int i = 0; i < ic.getSizeInventory(); i++)
+            if (ic.getStackInSlot(i) != null &&  ic.getStackInSlot(i).getItem() instanceof IUpgradeHammer)
+                ((IUpgradeHammer) ic.getStackInSlot(i).getItem()).upgradeHammer(ic, hammer, ic.getStackInSlot(i));
 
-
-        if (findItem(ic, AddItems.vacuum) && hammer != null && hammer.hasTagCompound() && Config.MVacuum && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMVacuum())
-            if (!hammer.getTagCompound().getBoolean("Vacuum")) {
-                hammer.getTagCompound().setBoolean("Vacuum", true);
-                hammer.getTagCompound().setBoolean("Modif", true);
-            } else
-                hammer.getTagCompound().setBoolean("Vacuum", false);
-
-        if (findItem(ic, AddItems.autosmelt) && hammer != null && hammer.hasTagCompound() && Config.MSmelt && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMSmelt())
-            if (!hammer.getTagCompound().getBoolean("Smelt")) {
-                hammer.getTagCompound().setBoolean("Smelt", true);
-                hammer.getTagCompound().setTag("ItemsSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
-                hammer.getTagCompound().setBoolean("InvertSmelt", getItem(ic, AddItems.autosmelt).getTagCompound().getBoolean("Invert"));
-                hammer.getTagCompound().setBoolean("Modif", true);
-            } else
-                hammer.getTagCompound().setBoolean("Smelt", false);
 
         if (hammer != null && Config.repair && ((IModifiHammer) hammer.getItem()).getHammerSettings().isRepair())
             if (findItem(ic, hammer.getItem()))

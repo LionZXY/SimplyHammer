@@ -6,6 +6,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -17,7 +18,10 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import ru.lionzxy.simlyhammer.SimplyHammer;
+import ru.lionzxy.simlyhammer.commons.config.Config;
+import ru.lionzxy.simlyhammer.interfaces.IModifiHammer;
 import ru.lionzxy.simlyhammer.interfaces.ITrash;
+import ru.lionzxy.simlyhammer.interfaces.IUpgradeHammer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +29,7 @@ import java.util.List;
 /**
  * Created by nikit on 12.09.2015.
  */
-public class TrashItem extends Item implements ITrash {
+public class TrashItem extends Item implements ITrash, IUpgradeHammer{
 
     @SideOnly(Side.CLIENT)
     protected IIcon invertIcon;
@@ -106,4 +110,17 @@ public class TrashItem extends Item implements ITrash {
         this.itemIcon = p_94581_1_.registerIcon("simplyhammer:trashitem");
     }
 
+    @Override
+    public void upgradeHammer(InventoryCrafting ic, ItemStack hammer, ItemStack itemFound) {
+        if (itemFound != null && itemFound.hasTagCompound() && hammer != null && hammer.hasTagCompound() && Config.MTrash && ((IModifiHammer) hammer.getItem()).getHammerSettings().getMTrash())
+            if (!hammer.getTagCompound().getBoolean("Trash")) {
+                hammer.getTagCompound().setBoolean("Trash", true);
+                hammer.getTagCompound().setTag("Items", itemFound.getTagCompound().getTagList("Items", Constants.NBT.TAG_COMPOUND));
+                hammer.getTagCompound().setBoolean("Invert", itemFound.getTagCompound().getBoolean("Invert"));
+                hammer.getTagCompound().setBoolean("Modif", true);
+            } else
+                hammer.getTagCompound().setBoolean("Trash", false);
+
+
+    }
 }

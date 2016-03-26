@@ -87,7 +87,7 @@ public class ProspectorsPick extends Item {
                 y = 0;
                 z = 0;
         }
-        return new ItemStack(world.getBlock(x, y, z), world.getBlockMetadata(x, y, z));
+        return new ItemStack(world.getBlock(x, y, z),1, world.getBlockMetadata(x, y, z));
     }
 
     ItemStack checkRadius(World world, int radius, int side, int x, int y, int z, int lentgh) {

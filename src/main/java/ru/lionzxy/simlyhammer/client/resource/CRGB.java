@@ -35,10 +35,9 @@ public class CRGB {
         for (int x = 0; x < pic.length; x++)
             for (int y = 0; y < pic[x].length; y++)
                 if (pic[x][y] != null)
-                    if (pic[x][y].equals(Color.black))
-                        image.setRGB(startX + x, startY + y, Color.BLACK.getRGB());
-                    else image.setRGB(startX + x, startY + y,
-                            new Color((pic[x][y].getRed() + red) / 2, (pic[x][y].getGreen() + green) / 2, (pic[x][y].getBlue() + blue) / 2).getRGB());
+                    if (!pic[x][y].equals(Color.black))
+                        image.setRGB(startX + x, startY + y,
+                                new Color((pic[x][y].getRed() + red) / 2, (pic[x][y].getGreen() + green) / 2, (pic[x][y].getBlue() + blue) / 2).getRGB());
         return image;
     }
 

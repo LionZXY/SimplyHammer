@@ -14,7 +14,7 @@ import java.util.HashMap;
 public class HammerUpgrade {
 
     public static final int RENDERPASS = 5;
-    public static HashMap<String, IIcon> upgrades = new HashMap<>();
+    public static HashMap<String, IIcon> upgrades = new HashMap<String, IIcon>();
 
     public static void registerIcon(IIconRegister register) {
         if (upgrades.size() == 0) {

@@ -57,7 +57,7 @@ public class HammerSettings {
         this.mTrash = JsonConfig.get(name, "TrashModif", true).getBoolean();
         this.mVacuum = JsonConfig.get(name, "VacuumModif", true).getBoolean();
         this.mSmelt = JsonConfig.get(name, "SmeltModif", true).getBoolean();
-        this.model = JsonConfig.get(name, "Model",true).getBoolean();
+        this.model = JsonConfig.get(name, "Model", true).getBoolean();
     }
 
     public HammerSettings registerHammer(boolean inlist) {

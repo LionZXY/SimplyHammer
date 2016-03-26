@@ -33,8 +33,8 @@ public class ResourcePack implements IResourcePack {
 
     @Override
     public boolean resourceExists(ResourceLocation rl) {
-        File fileRequested = new File(Loader.instance().getConfigDir() + "\\SimplyHammers\\resource\\", rl.getResourcePath());
-        //System.out.println(Loader.instance().getConfigDir() + "\\SimplyHammers\\resource\\" + rl.getResourcePath());
+        File fileRequested = new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/", rl.getResourcePath());
+        //System.out.println(Loader.instance().getConfigDir() + "/" + "SimplyHammers/resource/" + rl.getResourcePath());
         if (fileRequested.exists()) {
             return true;
         }
