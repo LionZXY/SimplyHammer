@@ -20,10 +20,10 @@ import java.io.File;
  */
 public class ResourceLoader {
 
-    static BufferedImage templare_handle, templare_model_handle;
-    static CRGB model_templare, icon_templare;
+    BufferedImage templare_handle, templare_model_handle;
+    CRGB model_templare, icon_templare;
     BufferedImage templare_head, templare_model_head;
-
+    private static ResourceLoader resourceLoader;
     public ResourceLoader() {
         try {
             templare_head = ImageIO.read(Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation(Ref.MODID, "textures/templare/templare_head.png")).getInputStream());
@@ -39,11 +39,19 @@ public class ResourceLoader {
         }
     }
 
-    public static void addHammerResource(String hammerName, Color color) {
-        if (ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID,"textures/items/" + hammerName + ".png")) || ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID,"textures/model/" + hammerName + ".png")))
+    public static ResourceLoader getInstance(){
+        if(resourceLoader == null)
+            resourceLoader = new ResourceLoader();
+        return resourceLoader;
+    }
+
+    public void addHammerResource(String hammerName, Color color) {
+        if (ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID, "textures/items/" + hammerName + ".png")) || ResourcePack.INSTANCE.resourceExists(new ResourceLocation(Ref.MODID, "textures/model/" + hammerName + ".png")))
             return;
         if (model_templare == null || icon_templare == null || templare_handle == null || templare_model_handle == null)
             new ResourceLoader();
+        if (color == null)
+            return;
         BufferedImage icon = icon_templare.addHead(templare_handle, 15, 1, color.getRGB());
         BufferedImage model = model_templare.addHead(templare_model_handle, 0, 0, color.getRGB());
         try {
@@ -63,6 +71,6 @@ public class ResourceLoader {
         new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/items/").mkdirs();
         new File(Loader.instance().getConfigDir() + "/SimplyHammers/resource/textures/model/").mkdirs();
         for (JsonElement json : GTJsonArray.gregtechJson)
-            addHammerResource(json.getAsJsonObject().get("name").getAsString(), new Color(json.getAsJsonObject().get("Color").getAsInt()));
+            getInstance().addHammerResource(json.getAsJsonObject().get("name").getAsString(), new Color(json.getAsJsonObject().get("Color").getAsInt()));
     }
 }
